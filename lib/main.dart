@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'app/routes/app_pages.dart';
 
 
-//Sua tren main
+//Sua tren main 1
 void main() {
   runApp(
     GetMaterialApp(
