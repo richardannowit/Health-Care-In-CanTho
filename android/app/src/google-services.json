@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1016535917722",
+    "project_id": "healthcare-5f5e6",
+    "storage_bucket": "healthcare-5f5e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016535917722:android:f84bd8a204fa733ef0ab23",
+        "android_client_info": {
+          "package_name": "com.example.flutter_healthcare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016535917722-sps6co4eso0ribfeotbgis28ao34m557.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPN2KOLoBb365PRmawDQkVg1M2U5M7Pa4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016535917722-sps6co4eso0ribfeotbgis28ao34m557.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
