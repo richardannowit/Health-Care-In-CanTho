@@ -7,10 +7,12 @@ class SignupController extends GetxController {
 
   late TextEditingController nameController,
       emailController,
+      phoneController,
       passwordController,
       confirmPasswordController;
   var name = '';
   var email = '';
+  var phone = '';
   var password = '';
   var confirmPassword = '';
 
@@ -19,6 +21,7 @@ class SignupController extends GetxController {
     super.onInit();
     nameController = TextEditingController();
     emailController = TextEditingController();
+    phoneController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
   }
@@ -44,6 +47,16 @@ class SignupController extends GetxController {
     }
     if (name.length < 1) {
       return 'Your name is not empty';
+    }
+    return null;
+  }
+
+  String? validatePhone(String phone) {
+    if (phone.length < 1) {
+      return 'Your name is not empty';
+    }
+    if (!GetUtils.isPhoneNumber(phone)) {
+      return 'Please enter valid phone number';
     }
     return null;
   }
@@ -75,6 +88,7 @@ class SignupController extends GetxController {
     signupFormKey.currentState!.save();
     print("name = " + name);
     print('email = ' + email);
+    print('email = ' + phone);
     print('password = ' + password);
   }
 

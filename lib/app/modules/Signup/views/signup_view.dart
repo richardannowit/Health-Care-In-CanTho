@@ -8,6 +8,7 @@ import '../controllers/signup_controller.dart';
 class SignupView extends GetView<SignupController> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -18,15 +19,13 @@ class SignupView extends GetView<SignupController> {
                 CircleAvatar(
                   child: Image.asset(
                     'assets/avt_doctor.png',
-                    width: 500,
-                    height: 500,
                   ),
                   minRadius: 70,
                   maxRadius: 70,
                   backgroundColor: Colors.transparent,
                 ),
                 SizedBox(
-                  height: 20,
+                  height: size.height * 0.04,
                 ),
                 Text(
                   'Create An Account',
@@ -36,7 +35,7 @@ class SignupView extends GetView<SignupController> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: size.height * 0.04,
                 ),
                 SignUpForm(controller: controller),
               ],
