@@ -10,9 +10,9 @@ final formStyle = BoxDecoration(
   ),
   boxShadow: [
     BoxShadow(
-      offset: Offset(0, 10),
-      blurRadius: 50,
-      color: Color(0xFF0C9869).withOpacity(0.23),
+      offset: Offset(0, 7),
+      blurRadius: 20,
+      color: Colors.grey.withOpacity(0.23),
     ),
   ],
 );

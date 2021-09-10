@@ -19,7 +19,7 @@ class SignUpForm extends StatelessWidget {
       key: controller.signupFormKey,
       // autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
         decoration: formStyle,
         child: Column(
           children: [

@@ -53,7 +53,7 @@ class SignupController extends GetxController {
 
   String? validatePhone(String phone) {
     if (phone.length < 1) {
-      return 'Your name is not empty';
+      return 'Phone number is not empty';
     }
     if (!GetUtils.isPhoneNumber(phone)) {
       return 'Please enter valid phone number';
@@ -74,7 +74,7 @@ class SignupController extends GetxController {
   String? validateConfirmPassword(String confirmPassword) {
     var password = passKey.currentState!.value;
     if (confirmPassword != password) {
-      return "The password confirmation does not match.";
+      return "Password do not match.";
     }
     return null;
   }

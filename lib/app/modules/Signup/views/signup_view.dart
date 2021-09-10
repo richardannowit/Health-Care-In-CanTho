@@ -13,15 +13,15 @@ class SignupView extends GetView<SignupController> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             child: Column(
               children: [
                 CircleAvatar(
                   child: Image.asset(
-                    'assets/avt_doctor.png',
+                    'assets/images/avt_doctor.png',
                   ),
-                  minRadius: 70,
-                  maxRadius: 70,
+                  minRadius: 60,
+                  maxRadius: 60,
                   backgroundColor: Colors.transparent,
                 ),
                 SizedBox(
@@ -31,7 +31,7 @@ class SignupView extends GetView<SignupController> {
                   'Create An Account',
                   style: TextStyle(
                     fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 SizedBox(
