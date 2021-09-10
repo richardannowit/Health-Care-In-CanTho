@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import 'package:flutter_healthcare/app/modules/home/bindings/home_binding.dart';
 import 'package:flutter_healthcare/app/modules/home/views/home_view.dart';
 
