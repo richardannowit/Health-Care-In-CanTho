@@ -91,6 +91,7 @@ class SignupController extends GetxController {
     }
     signupFormKey.currentState!.save();
     createUser();
+    // print("Sign up successfully");
   }
 
   void createUser() async {
@@ -114,9 +115,12 @@ class SignupController extends GetxController {
       print("Sign up successfully");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        Get.snackbar("Sign up error!", "The password provided is too weak.",
+            snackPosition: SnackPosition.BOTTOM);
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        Get.snackbar(
+            "Sign up error!", "The account already exists for that email.",
+            snackPosition: SnackPosition.BOTTOM);
       }
     }
   }
