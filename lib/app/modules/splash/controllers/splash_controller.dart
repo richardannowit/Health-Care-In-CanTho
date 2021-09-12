@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 class SplashController extends GetxController {
   final controller = CarouselController();
   int activeIndex = 0;
+  String textButton = 'SKIP';
   final urlImages = [
     'assets/images/first_start_image_1.png',
     'assets/images/first_start_image_2.png',

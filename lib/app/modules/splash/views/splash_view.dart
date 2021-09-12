@@ -21,7 +21,6 @@ class _SplashViewState extends State<SplashView> {
           RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
               side: BorderSide(color: Colors.blueAccent))));
-  String textButton = 'SKIP';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +58,7 @@ class _SplashViewState extends State<SplashView> {
           child: TextButton(
             onPressed: splashController.next,
             child: Text(
-              textButton,
+              splashController.textButton,
               style: TextStyle(fontSize: 20),
             ),
             style: buttonStyle,
@@ -96,7 +95,7 @@ class _SplashViewState extends State<SplashView> {
     setState(() {
       if (splashController.activeIndex ==
           splashController.urlImages.length - 1) {
-        textButton = 'NEXT';
+        splashController.textButton = 'NEXT';
         buttonStyle = ButtonStyle(
             backgroundColor:
                 MaterialStateProperty.all<Color>(Colors.blueAccent),
@@ -106,7 +105,7 @@ class _SplashViewState extends State<SplashView> {
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: Colors.blueAccent))));
       } else {
-        textButton = 'SKIP';
+        splashController.textButton = 'SKIP';
         buttonStyle = ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
             foregroundColor:
