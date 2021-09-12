@@ -27,7 +27,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    'United Healthcare',
+                    'Healthcare',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w500,
@@ -53,7 +53,7 @@ class LoginView extends GetView<LoginController> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.fromLTRB(24, 80, 24, 0),
+              padding: EdgeInsets.fromLTRB(24, 60, 24, 0),
               child: PhysicalModel(
                 color: Colors.white,
                 elevation: 6,
@@ -67,7 +67,9 @@ class LoginView extends GetView<LoginController> {
                         padding: const EdgeInsets.only(
                             left: 8.0, top: 8.0, right: 40),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
+                            hintText: 'Email...',
                             icon: Icon(
                               Icons.email,
                               color: primaryColor(),
@@ -78,12 +80,21 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            return RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value!)
+                                ? null
+                                : "Please enter a valid email";
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 40),
                         child: TextFormField(
+                          obscureText: true,
                           decoration: InputDecoration(
+                            hintText: 'Password...',
                             icon: Icon(
                               Icons.lock,
                               color: primaryColor(),
@@ -94,10 +105,18 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.length < 6) {
+                              return 'Please enter the correct password!';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       SizedBox(height: 24),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {},
                         child: Container(
                           alignment: Alignment.centerRight,
@@ -115,8 +134,8 @@ class LoginView extends GetView<LoginController> {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(32, 20, 32, 8),
-                        child: GestureDetector(
-                          onTap: () {},
+                        child: InkWell(
+                          onTap: () => controller.handleSignIn(),
                           child: Container(
                             alignment: Alignment.center,
                             padding: EdgeInsets.symmetric(vertical: 14),
@@ -124,6 +143,7 @@ class LoginView extends GetView<LoginController> {
                               borderRadius: BorderRadius.circular(30),
                               border: Border.all(
                                 color: primaryColor(),
+                                width: 2,
                               ),
                             ),
                             child: Text(
@@ -145,8 +165,8 @@ class LoginView extends GetView<LoginController> {
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.only(left: 40, right: 40, top: 16),
-              child: GestureDetector(
-                onTap: () {},
+              child: InkWell(
+                onTap: () => controller.signInWithGoogle(),
                 child: PhysicalModel(
                   color: Colors.grey,
                   elevation: 4,
@@ -177,7 +197,7 @@ class LoginView extends GetView<LoginController> {
                 Text(
                   "Don't have an Account? ",
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: () {},
                   child: Text(
                     'Register now',
