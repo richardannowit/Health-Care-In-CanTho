@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/home_view.dart';
 import 'package:get/get.dart';
 
-class FirstStartController extends GetxController {
+class SplashController extends GetxController {
   final controller = CarouselController();
   int activeIndex = 0;
   final urlImages = [
@@ -24,7 +24,6 @@ class FirstStartController extends GetxController {
   next() {
     if (activeIndex == urlImages.length - 1) {
       Get.to(HomeView());
-      print('Chuyen sang trang dang nhap');
     } else
       controller.nextPage();
   }

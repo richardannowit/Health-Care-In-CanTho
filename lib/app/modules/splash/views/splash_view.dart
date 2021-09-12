@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_healthcare/app/modules/home/controllers/first_start_controller.dart';
+import 'package:flutter_healthcare/app/modules/splash/controllers/splash_controller.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class FirstStartView extends StatefulWidget {
-  const FirstStartView({Key? key}) : super(key: key);
+class SplashView extends StatefulWidget {
+  const SplashView({Key? key}) : super(key: key);
 
   @override
-  _FirstStartViewState createState() => _FirstStartViewState();
+  _SplashViewState createState() => _SplashViewState();
 }
 
-class _FirstStartViewState extends State<FirstStartView> {
-  final FirstStartController firstStartController =
-      Get.put(FirstStartController());
+class _SplashViewState extends State<SplashView> {
+  final SplashController splashController = Get.put(SplashController());
   var buttonStyle = ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
@@ -36,21 +35,20 @@ class _FirstStartViewState extends State<FirstStartView> {
               width: 186,
               height: 100),
           CarouselSlider.builder(
-            carouselController: firstStartController.controller,
+            carouselController: splashController.controller,
             options: CarouselOptions(
               height: MediaQuery.of(context).size.width + 50,
               viewportFraction: 1,
               initialPage: 0,
               enableInfiniteScroll: false,
               onPageChanged: (index, reason) =>
-                  setState(() => firstStartController.activeIndex = index),
+                  setState(() => splashController.activeIndex = index),
             ),
-            itemCount: firstStartController.urlImages.length,
+            itemCount: splashController.urlImages.length,
             itemBuilder: (context, index, realIndex) {
-              final urlImage = firstStartController.urlImages[index];
-              final textBelowImage =
-                  firstStartController.textBelowImages[index];
-              final note = firstStartController.notes[index];
+              final urlImage = splashController.urlImages[index];
+              final textBelowImage = splashController.textBelowImages[index];
+              final note = splashController.notes[index];
               return buildImage(urlImage, textBelowImage, note, index);
             },
           ),
@@ -59,10 +57,10 @@ class _FirstStartViewState extends State<FirstStartView> {
         ConstrainedBox(
           constraints: BoxConstraints(minWidth: 100, minHeight: 50),
           child: TextButton(
-            onPressed: firstStartController.next,
+            onPressed: splashController.next,
             child: Text(
               textButton,
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 20),
             ),
             style: buttonStyle,
           ),
@@ -73,27 +71,31 @@ class _FirstStartViewState extends State<FirstStartView> {
 
   Widget buildImage(
           String urlImage, String textBelowImage, String note, int index) =>
-      Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.fitWidth,
-                image: AssetImage(urlImage),
-              ),
-            ),
-          ),
-        ),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(textBelowImage, style: TextStyle(fontSize: 24)),
-          Text(note)
-        ])
-      ]);
+      Container(
+          padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.fitWidth,
+                        image: AssetImage(urlImage),
+                      ),
+                    ),
+                  ),
+                ),
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(textBelowImage, style: TextStyle(fontSize: 20)),
+                  Text(note)
+                ])
+              ]));
 
   Widget buildIndicator() {
     setState(() {
-      if (firstStartController.activeIndex ==
-          firstStartController.urlImages.length - 1) {
+      if (splashController.activeIndex ==
+          splashController.urlImages.length - 1) {
         textButton = 'NEXT';
         buttonStyle = ButtonStyle(
             backgroundColor:
@@ -116,7 +118,7 @@ class _FirstStartViewState extends State<FirstStartView> {
       }
     });
     return AnimatedSmoothIndicator(
-        activeIndex: firstStartController.activeIndex,
-        count: firstStartController.urlImages.length);
+        activeIndex: splashController.activeIndex,
+        count: splashController.urlImages.length);
   }
 }
