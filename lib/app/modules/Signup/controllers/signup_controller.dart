@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_healthcare/app/modules/home/views/home_view.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
   final GlobalKey<FormState> signupFormKey = new GlobalKey<FormState>();
   final GlobalKey<FormFieldState> passKey = GlobalKey<FormFieldState>();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   late TextEditingController nameController,
       emailController,
@@ -86,10 +90,39 @@ class SignupController extends GetxController {
       return;
     }
     signupFormKey.currentState!.save();
-    print("name = " + name);
-    print('email = ' + email);
-    print('email = ' + phone);
-    print('password = ' + password);
+    createUser();
+    // print("Sign up successfully");
+  }
+
+  void createUser() async {
+    try {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection('users');
+
+      Map<String, dynamic> userData = {
+        'name': this.name,
+        'email': this.email,
+        'phone': this.phone,
+      };
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+              email: this.email, password: this.password);
+
+      reference
+          .doc(userCredential.user!.uid)
+          .set(userData)
+          .then((value) => Get.offAll(HomeView()));
+      print("Sign up successfully");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        Get.snackbar("Sign up error!", "The password provided is too weak.",
+            snackPosition: SnackPosition.BOTTOM);
+      } else if (e.code == 'email-already-in-use') {
+        Get.snackbar(
+            "Sign up error!", "The account already exists for that email.",
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    }
   }
 
   @override
