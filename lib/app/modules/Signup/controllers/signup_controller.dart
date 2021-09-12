@@ -9,11 +9,6 @@ class SignupController extends GetxController {
   final GlobalKey<FormFieldState> passKey = GlobalKey<FormFieldState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  late TextEditingController nameController,
-      emailController,
-      phoneController,
-      passwordController,
-      confirmPasswordController;
   var name = '';
   var email = '';
   var phone = '';
@@ -23,11 +18,6 @@ class SignupController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    nameController = TextEditingController();
-    emailController = TextEditingController();
-    phoneController = TextEditingController();
-    passwordController = TextEditingController();
-    confirmPasswordController = TextEditingController();
   }
 
   @override
@@ -127,9 +117,6 @@ class SignupController extends GetxController {
 
   @override
   void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    //
   }
 }

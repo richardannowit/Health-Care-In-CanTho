@@ -78,7 +78,6 @@ class SignUpForm extends StatelessWidget {
         ),
       ),
       keyboardType: TextInputType.name,
-      controller: controller.nameController,
       onSaved: (value) {
         controller.name = value!;
       },
@@ -97,7 +96,6 @@ class SignUpForm extends StatelessWidget {
         ),
       ),
       keyboardType: TextInputType.emailAddress,
-      controller: controller.emailController,
       onSaved: (value) {
         controller.email = value!;
       },
@@ -116,7 +114,6 @@ class SignUpForm extends StatelessWidget {
         ),
       ),
       keyboardType: TextInputType.phone,
-      controller: controller.phoneController,
       onSaved: (value) {
         controller.phone = value!;
       },
@@ -136,7 +133,6 @@ class SignUpForm extends StatelessWidget {
         ),
       ),
       keyboardType: TextInputType.visiblePassword,
-      controller: controller.passwordController,
       onSaved: (value) {
         controller.password = value!;
       },
@@ -156,7 +152,6 @@ class SignUpForm extends StatelessWidget {
         ),
       ),
       keyboardType: TextInputType.visiblePassword,
-      controller: controller.confirmPasswordController,
       onSaved: (value) {
         controller.confirmPassword = value!;
       },
