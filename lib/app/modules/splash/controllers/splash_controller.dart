@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:flutter_healthcare/app/modules/home/views/home_view.dart';
+import 'package:flutter_healthcare/app/modules/login/views/login_view.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
-  final controller = CarouselController();
+  final controller = Get.put(CarouselController());
   int activeIndex = 0;
   final urlImages = [
     'assets/images/first_start_image_1.png',
@@ -23,7 +23,7 @@ class SplashController extends GetxController {
 
   next() {
     if (activeIndex == urlImages.length - 1) {
-      Get.to(HomeView());
+      Get.to(LoginView());
     } else
       controller.nextPage();
   }
