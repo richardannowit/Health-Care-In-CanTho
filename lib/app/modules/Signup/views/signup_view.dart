@@ -37,7 +37,7 @@ class SignupView extends GetView<SignupController> {
                 SizedBox(
                   height: size.height * 0.04,
                 ),
-                SignUpForm(controller: controller),
+                SignUpForm(),
               ],
             ),
           ),

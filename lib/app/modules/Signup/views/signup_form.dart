@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/Signup/views/constants.dart';
+import 'package:flutter_healthcare/app/modules/login/views/login_view.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 import '../controllers/signup_controller.dart';
 
 class SignUpForm extends StatelessWidget {
-  const SignUpForm({
+  SignUpForm({
     Key? key,
-    required this.controller,
   }) : super(key: key);
 
-  final SignupController controller;
+  final SignupController controller = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,9 @@ class SignUpForm extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                 ),
                 GestureDetector(
-                  onTap: null,
+                  onTap: () {
+                    Get.offAllNamed(Routes.LOGIN);
+                  },
                   child: Text(
                     "Login",
                     style: TextStyle(fontSize: 14, color: Colors.blue),
