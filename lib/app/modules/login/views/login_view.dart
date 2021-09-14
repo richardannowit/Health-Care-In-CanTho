@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/modules/Signup/views/signup_view.dart';
 
 import 'package:get/get.dart';
 
@@ -204,7 +205,9 @@ class LoginView extends GetView<LoginController> {
                   "Don't have an Account? ",
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(SignupView());
+                  },
                   child: Text(
                     'Register now',
                     style: TextStyle(
