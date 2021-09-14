@@ -5,68 +5,65 @@ import 'package:flutter_healthcare/app/modules/splash/controllers/splash_control
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class SplashView extends StatefulWidget {
-  const SplashView({Key? key}) : super(key: key);
-
-  @override
-  _SplashViewState createState() => _SplashViewState();
-}
-
-class _SplashViewState extends State<SplashView> {
-  final SplashController splashController = Get.put(SplashController());
-  var buttonStyle = ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-      foregroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              side: BorderSide(color: Colors.blueAccent))));
-  String textButton = 'SKIP';
+class SplashView extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-            child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Image(
-              image: AssetImage('assets/images/first_start_icon.png'),
-              width: 186,
-              height: 100),
-          CarouselSlider.builder(
-            carouselController: splashController.controller,
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.width + 50,
-              viewportFraction: 1,
-              initialPage: 0,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, reason) =>
-                  setState(() => splashController.activeIndex = index),
-            ),
-            itemCount: splashController.urlImages.length,
-            itemBuilder: (context, index, realIndex) {
-              final urlImage = splashController.urlImages[index];
-              final textBelowImage = splashController.textBelowImages[index];
-              final note = splashController.notes[index];
-              return buildImage(urlImage, textBelowImage, note, index);
-            },
-          ),
-        ]),
-        buildIndicator(),
-        ConstrainedBox(
-          constraints: BoxConstraints(minWidth: 100, minHeight: 50),
-          child: TextButton(
-            onPressed: splashController.next,
-            child: Text(
-              textButton,
-              style: TextStyle(fontSize: 20),
-            ),
-            style: buttonStyle,
-          ),
-        )
-      ],
-    )));
+            child: Obx(() => Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(
+                              image: AssetImage(
+                                  'assets/images/first_start_icon.png'),
+                              width: 186,
+                              height: 100),
+                          CarouselSlider.builder(
+                            carouselController: controller.carouselController,
+                            options: CarouselOptions(
+                                height: MediaQuery.of(context).size.width + 50,
+                                viewportFraction: 1,
+                                initialPage: 0,
+                                enableInfiniteScroll: false,
+                                onPageChanged: (index, reason) {
+                                  controller.activeIndex.value = index;
+                                  controller.changeButton(index);
+                                }),
+                            itemCount: controller.urlImages.length,
+                            itemBuilder: (context, index, realIndex) {
+                              final urlImage = controller.urlImages[index];
+                              final textBelowImage =
+                                  controller.textBelowImages[index];
+                              final note = controller.notes[index];
+                              return buildImage(
+                                  urlImage, textBelowImage, note, index);
+                            },
+                          ),
+                        ]),
+                    buildIndicator(),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(minWidth: 100, minHeight: 50),
+                      child: TextButton(
+                          onPressed: controller.next,
+                          child: Text(
+                            controller.textButton,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor: controller.bgColor.value,
+                              foregroundColor: controller.fgColor.value,
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      side: BorderSide(
+                                          color: Colors.blueAccent))))),
+                    )
+                  ],
+                ))));
   }
 
   Widget buildImage(
@@ -93,32 +90,8 @@ class _SplashViewState extends State<SplashView> {
               ]));
 
   Widget buildIndicator() {
-    setState(() {
-      if (splashController.activeIndex ==
-          splashController.urlImages.length - 1) {
-        textButton = 'NEXT';
-        buttonStyle = ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.blueAccent),
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Colors.blueAccent))));
-      } else {
-        textButton = 'SKIP';
-        buttonStyle = ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            foregroundColor:
-                MaterialStateProperty.all<Color>(Colors.blueAccent),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Colors.blueAccent))));
-      }
-    });
     return AnimatedSmoothIndicator(
-        activeIndex: splashController.activeIndex,
-        count: splashController.urlImages.length);
+        activeIndex: controller.activeIndex.value,
+        count: controller.urlImages.length);
   }
 }
