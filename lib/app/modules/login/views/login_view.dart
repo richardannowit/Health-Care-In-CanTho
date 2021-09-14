@@ -87,8 +87,8 @@ class LoginView extends GetView<LoginController> {
                                 ? null
                                 : "Please enter a valid email";
                           },
-                          onChanged: (value) {
-                            controller.email = value;
+                          onSaved: (value) {
+                            controller.email = value!;
                           },
                         ),
                       ),
@@ -116,8 +116,8 @@ class LoginView extends GetView<LoginController> {
                             }
                             return null;
                           },
-                          onChanged: (value) {
-                            controller.password = value;
+                          onSaved: (value) {
+                            controller.password = value!;
                           },
                         ),
                       ),

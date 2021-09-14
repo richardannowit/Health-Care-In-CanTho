@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/data/helper/helperfunctions.dart';
+import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/data/services/auth.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
-import 'package:flutter_healthcare/app/modules/login/views/dialog.dart';
+import 'package:flutter_healthcare/app/modules/login/views/processing_dialog.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -82,14 +82,6 @@ class LoginController extends GetxController {
     if (isValid != null && isValid) {
       formKey.currentState?.save();
 
-      HelperFunctions.saveUserEmailSharedPreference(email.toString());
-
-      databaseMethods.getUserByUserEmail(email.toString()).then((value) {
-        snapshotUserInfo = value;
-        HelperFunctions.saveUserNameSharedPreference(
-            snapshotUserInfo!.docs[0]["name"]);
-      });
-
       // isLoading = true;
 
       authMethods
@@ -98,6 +90,15 @@ class LoginController extends GetxController {
         if (value != null) {
           databaseMethods.getUserByUserEmail(email.toString());
           HelperFunctions.saveUserLoggedInSharedPreference(true);
+
+          HelperFunctions.saveUserEmailSharedPreference(email.toString());
+
+          databaseMethods.getUserByUserEmail(email).then((valueGet) {
+            snapshotUserInfo = valueGet;
+            HelperFunctions.saveUserNameSharedPreference(
+                snapshotUserInfo!.docs[0]["name"]);
+          });
+          // print("alo: " + snapshotUserInfo.toString());
 
           Get.offAllNamed(Routes.HOME);
         } else {
@@ -111,7 +112,6 @@ class LoginController extends GetxController {
               ),
             ),
           );
-
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       });

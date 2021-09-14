@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/data/helper/helperfunctions.dart';
+import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/data/services/auth.dart';
 import 'package:flutter_healthcare/app/modules/login/controllers/login_controller.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -25,7 +25,7 @@ class HomeView extends GetView<HomeController> {
               'HomeView is working',
               style: TextStyle(fontSize: 20),
             ),
-            Text(FirebaseAuth.instance.currentUser!.displayName.toString()),
+            Text(FirebaseAuth.instance.currentUser!.email.toString()),
             InkWell(
               onTap: () {
                 AuthMethods().signOut();
