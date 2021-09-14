@@ -36,7 +36,7 @@ class LoginView extends GetView<LoginController> {
                 ],
               ),
             ),
-            _buildLoginForm()
+            _buildLoginForm(context),
           ],
         ),
       ),
@@ -47,7 +47,7 @@ class LoginView extends GetView<LoginController> {
     return Color.fromARGB(255, 252, 217, 133);
   }
 
-  Form _buildLoginForm() {
+  Form _buildLoginForm(BuildContext context) {
     return Form(
         key: controller.formKey,
         child: Column(
@@ -87,6 +87,9 @@ class LoginView extends GetView<LoginController> {
                                 ? null
                                 : "Please enter a valid email";
                           },
+                          onChanged: (value) {
+                            controller.email = value;
+                          },
                         ),
                       ),
                       Padding(
@@ -113,6 +116,9 @@ class LoginView extends GetView<LoginController> {
                             }
                             return null;
                           },
+                          onChanged: (value) {
+                            controller.password = value;
+                          },
                         ),
                       ),
                       SizedBox(height: 24),
@@ -135,7 +141,7 @@ class LoginView extends GetView<LoginController> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(32, 20, 32, 8),
                         child: InkWell(
-                          onTap: () => controller.handleSignIn(),
+                          onTap: () => controller.handleSignIn(context),
                           child: Container(
                             alignment: Alignment.center,
                             padding: EdgeInsets.symmetric(vertical: 14),
