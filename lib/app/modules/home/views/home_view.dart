@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/data/services/auth.dart';
-import 'package:flutter_healthcare/app/modules/login/controllers/login_controller.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';

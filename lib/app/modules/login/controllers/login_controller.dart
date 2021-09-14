@@ -82,7 +82,15 @@ class LoginController extends GetxController {
     if (isValid != null && isValid) {
       formKey.currentState?.save();
 
-      // isLoading = true;
+      HelperFunctions.saveUserEmailSharedPreference(email.toString());
+
+      databaseMethods.getUserByUserEmail(email).then((valueGet) {
+        snapshotUserInfo = valueGet;
+        HelperFunctions.saveUserNameSharedPreference(
+            snapshotUserInfo?.docs[0]["name"]);
+      });
+
+      isLoading = true;
 
       authMethods
           .signInWithEmailAndPassword(email.toString(), password.toString())
@@ -90,15 +98,6 @@ class LoginController extends GetxController {
         if (value != null) {
           databaseMethods.getUserByUserEmail(email.toString());
           HelperFunctions.saveUserLoggedInSharedPreference(true);
-
-          HelperFunctions.saveUserEmailSharedPreference(email.toString());
-
-          databaseMethods.getUserByUserEmail(email).then((valueGet) {
-            snapshotUserInfo = valueGet;
-            HelperFunctions.saveUserNameSharedPreference(
-                snapshotUserInfo!.docs[0]["name"]);
-          });
-          // print("alo: " + snapshotUserInfo.toString());
 
           Get.offAllNamed(Routes.HOME);
         } else {
@@ -124,7 +123,7 @@ class LoginController extends GetxController {
 
     if (googleUser == null) {
       CustomFullScreenDialog.cancelDialog();
-      Get.toNamed(Routes.LOGIN);
+      Get.offAllNamed(Routes.LOGIN);
     } else {
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 

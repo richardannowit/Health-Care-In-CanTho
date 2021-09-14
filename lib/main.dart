@@ -14,7 +14,7 @@ Future<void> main() async {
       title: "HealthCare",
       initialRoute: FirebaseAuth.instance.currentUser != null
           ? Routes.HOME
-          : Routes.LOGIN,
+          : Routes.SPLASH,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
     ),
