@@ -17,6 +17,14 @@ class DatabaseMethods {
         .get();
   }
 
+  Future<Map<String, dynamic>> getUserByUID(String uid) async {
+    var snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+    return data;
+  }
+
   uploadUserInfo(userMap) {
     FirebaseFirestore.instance.collection('users').add(userMap);
   }

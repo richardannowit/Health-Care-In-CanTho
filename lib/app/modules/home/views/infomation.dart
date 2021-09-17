@@ -4,9 +4,12 @@ class InfomationUser extends StatelessWidget {
   const InfomationUser({
     Key? key,
     required this.size,
+    required this.name,
+    required this.bmi,
   }) : super(key: key);
 
   final Size size;
+  final String name, bmi;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class InfomationUser extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  'Hi, John',
+                  'Hi, ' + name,
                   style: TextStyle(
                     color: Color(0xff363636),
                     fontSize: 25,
@@ -39,7 +42,7 @@ class InfomationUser extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Text(
-                  'BMI: 37.5',
+                  'BMI: ' + bmi,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

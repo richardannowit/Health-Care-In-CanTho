@@ -57,7 +57,7 @@ class DoctorCard extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          name,
+                          speciality,
                           style: TextStyle(
                             color: Color(0xffababab),
                             fontFamily: 'Roboto',
