@@ -13,6 +13,7 @@ class HomeView extends GetView<HomeController> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         body: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.only(top: 20, left: 20),

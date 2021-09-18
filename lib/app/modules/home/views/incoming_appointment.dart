@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/appointment_cart.dart';
+import 'package:get/get.dart';
 
 class IncomingAppointment extends StatelessWidget {
-  const IncomingAppointment({
+  IncomingAppointment({
     Key? key,
     required this.size,
   }) : super(key: key);
 
   final Size size;
+
+  final HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -55,50 +60,32 @@ class IncomingAppointment extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(top: 40),
-          height: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              AppointmentCard(
-                image: 'assets/images/tooth.png',
-                name: 'Tooth',
-                drCount: '10 Doctors',
-              ),
-              AppointmentCard(
-                image: 'assets/images/brain.png',
-                name: 'Brain',
-                drCount: '10 Doctors',
-              ),
-              AppointmentCard(
-                image: 'assets/images/bone.png',
-                name: 'Bone',
-                drCount: '10 Doctors',
-              ),
-              AppointmentCard(
-                image: 'assets/images/heart.png',
-                name: 'Heart',
-                drCount: '10 Doctors',
-              ),
-              AppointmentCard(
-                image: 'assets/images/heart.png',
-                name: 'Heart',
-                drCount: '10 Doctors',
-              ),
-              AppointmentCard(
-                image: 'assets/images/heart.png',
-                name: 'Heart',
-                drCount: '10 Doctors',
-              ),
-              AppointmentCard(
-                image: 'assets/images/heart.png',
-                name: 'Heart',
-                drCount: '10 Doctors',
-              ),
-            ],
-          ),
-        ),
+        Obx(() {
+          if (controller.appointments.length == 0) {
+            return CircularProgressIndicator();
+          }
+          return Container(
+            margin: EdgeInsets.only(top: 30),
+            height: size.height * 0.22,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: controller.appointments.length,
+              itemBuilder: (_, index) {
+                return AppointmentCard(
+                  //TODO: Get doctor name, specialist, image from email
+                  //TODO: calc time slot and convert to time
+                  doctor_image: 'assets/images/avt_doctor.png',
+                  doctor_name: controller.appointments[index].doctor,
+                  specialist: 'Tooth',
+                  date: DateTimeHelpers.timestampsToDate(
+                      controller.appointments[index].appointment_date!),
+                  time: "10:30 AM",
+                  status: "Active",
+                );
+              },
+            ),
+          );
+        })
       ],
     );
   }

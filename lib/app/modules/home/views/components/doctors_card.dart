@@ -22,7 +22,7 @@ class DoctorCard extends StatelessWidget {
         margin: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

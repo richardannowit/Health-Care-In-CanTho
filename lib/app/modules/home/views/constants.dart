@@ -12,7 +12,7 @@ const mediumTextStyle = TextStyle(
 const largeTextStyle = TextStyle(
   fontSize: 18,
   fontFamily: 'Roboto',
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w700,
 );
 
 final buttonStyle = ButtonStyle(

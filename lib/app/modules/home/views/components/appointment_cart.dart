@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/home/views/constants.dart';
 
 class AppointmentCard extends StatelessWidget {
-  AppointmentCard({Key? key, this.image, this.name, this.drCount})
-      : super(key: key);
+  AppointmentCard({
+    Key? key,
+    this.doctor_image,
+    this.doctor_name,
+    this.specialist,
+    this.date,
+    this.time,
+    this.status,
+  }) : super(key: key);
 
-  final String? image, name, drCount;
+  final String? doctor_image, doctor_name, specialist, date, time, status;
 
   @override
   Widget build(BuildContext context) {
@@ -29,25 +36,22 @@ class AppointmentCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Dr. Chris Frazier',
+                      doctor_name!,
                       style: largeTextStyle.copyWith(color: Colors.white),
                     ),
                     Text(
-                      name!,
+                      specialist!,
                       style: mediumTextStyle.copyWith(color: Colors.white),
                     ),
                   ],
                 ),
                 CircleAvatar(
                   child: Image(
-                    image: AssetImage('assets/images/avt_doctor.png'),
+                    image: AssetImage(doctor_image!),
                   ),
                 )
               ],
             ),
-          ),
-          Divider(
-            thickness: 1,
           ),
           Container(
             child: Row(
@@ -61,7 +65,7 @@ class AppointmentCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        '12/03/2021',
+                        date!,
                         style: smallTextStyle.copyWith(color: Colors.white),
                       )
                     ],
@@ -75,7 +79,7 @@ class AppointmentCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        '10:30 AM',
+                        time!,
                         style: smallTextStyle.copyWith(color: Colors.white),
                       )
                     ],
@@ -89,7 +93,7 @@ class AppointmentCard extends StatelessWidget {
                         color: Colors.green,
                       ),
                       Text(
-                        'Active',
+                        status!,
                         style: smallTextStyle.copyWith(color: Colors.white),
                       )
                     ],

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_healthcare/app/data/models/appointment.dart';
 
 class DatabaseMethods {
   getUserByUsername(String username) async {
@@ -27,5 +28,21 @@ class DatabaseMethods {
 
   uploadUserInfo(userMap) {
     FirebaseFirestore.instance.collection('users').add(userMap);
+  }
+
+  Stream<List<AppointmentModel>> appointmentStream() {
+    return FirebaseFirestore.instance
+        .collection('appointments')
+        .orderBy('appointment_date')
+        .limit(4)
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<AppointmentModel> _appointmentsList = [];
+      query.docs.forEach((appointment) {
+        _appointmentsList
+            .add(AppointmentModel.fromDocumentSnapshot(appointment));
+      });
+      return _appointmentsList;
+    });
   }
 }

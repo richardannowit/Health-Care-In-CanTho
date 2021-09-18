@@ -54,7 +54,7 @@ class DoctorsList extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: 10, right: 20),
           child: Column(
             children: [
               DoctorCard(

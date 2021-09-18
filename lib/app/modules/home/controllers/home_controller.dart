@@ -1,7 +1,9 @@
-import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_healthcare/app/data/helper/calculate_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
+import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/services/auth.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -11,9 +13,11 @@ class HomeController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
   RxString bmi = "".obs;
+  RxList<AppointmentModel> _appointmentList = RxList<AppointmentModel>();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  List<AppointmentModel> get appointments => _appointmentList;
 
   Future<void> _getUserInfo() async {
-    DatabaseMethods databaseMethods = new DatabaseMethods();
     user = _auth.currentUser;
     if (user != null) {
       Map<String, dynamic> data = await databaseMethods.getUserByUID(user!.uid);
@@ -36,9 +40,10 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     _getUserInfo();
+    _appointmentList.bindStream(databaseMethods.appointmentStream());
   }
 
   @override
