@@ -1,6 +1,10 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_healthcare/app/data/helper/calculate_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
+import 'package:flutter_healthcare/app/data/services/auth.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -16,17 +20,19 @@ class HomeController extends GetxController {
       user?.updateDisplayName(data['name']);
       user?.updateEmail(data['email']);
 
-      if (data.containsKey('height') && data.containsKey('weight')) {
-        double height = data['height'];
-        double weight = data['weight'];
-        bmi.value = calculateBMI(weight, height);
+      if (data.containsKey('height') == true &&
+          data.containsKey('weight') == true) {
+        dynamic height = data['height'];
+        dynamic weight = data['weight'];
+        bmi.value = CalculateHelpers.calculateBMI(weight, height);
       }
     }
   }
 
-  String calculateBMI(double weight, double height) {
-    var _bmi = weight / pow(height / 100, 2);
-    return _bmi.toStringAsFixed(1);
+  void signOut() {
+    AuthMethods().signOut();
+    HelperFunctions.saveUserLoggedInSharedPreference(false);
+    Get.offAllNamed(Routes.LOGIN);
   }
 
   @override

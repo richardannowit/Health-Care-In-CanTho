@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
+import 'package:get/get.dart';
 
 class InfomationUser extends StatelessWidget {
-  const InfomationUser({
+  InfomationUser({
     Key? key,
     required this.size,
     required this.name,
@@ -10,6 +12,8 @@ class InfomationUser extends StatelessWidget {
 
   final Size size;
   final String name, bmi;
+
+  HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,9 @@ class InfomationUser extends StatelessWidget {
             ],
           ),
           GestureDetector(
+            onTap: () {
+              controller.signOut();
+            },
             child: Container(
               margin: EdgeInsets.only(right: 20),
               child: Align(

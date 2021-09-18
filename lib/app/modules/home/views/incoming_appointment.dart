@@ -34,7 +34,9 @@ class IncomingAppointment extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      //
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
@@ -55,7 +57,7 @@ class IncomingAppointment extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(top: 40),
-          height: 120,
+          height: 200,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
