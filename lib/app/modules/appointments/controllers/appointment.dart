@@ -3,6 +3,8 @@ class Appointment {
   late String doctorName;
   late String status;
   late DateTime dateTime;
+  late String specialist;
+
   Appointment(String doc, String status) {
     doctor = doc;
     this.status = status;
@@ -13,6 +15,10 @@ class Appointment {
 
   setDateTime(DateTime dateTime) {
     this.dateTime = dateTime;
+  }
+
+  setSpecialist(String specialist) {
+    this.specialist = specialist;
   }
 
   String getDate() {
@@ -31,5 +37,9 @@ class Appointment {
     else
       time = dateTime.hour.toString() + ":" + dateTime.minute.toString();
     return time;
+  }
+
+  String getStatus() {
+    return status;
   }
 }

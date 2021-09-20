@@ -10,14 +10,16 @@ class AppointmentCard extends StatelessWidget {
 
   final String? image, name, drCount;
   final Appointment? appointment;
+  Color? backgroundColor, recordColor;
 
   @override
   Widget build(BuildContext context) {
+    initColor(appointment!.status);
     return Container(
       width: 350,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Color(0xff107163),
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -89,10 +91,10 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.fiber_manual_record,
-                        color: Colors.green,
+                        color: recordColor,
                       ),
                       Text(
-                        'Active',
+                        appointment!.getStatus(),
                         style: smallTextStyle.copyWith(color: Colors.white),
                       )
                     ],
@@ -101,26 +103,25 @@ class AppointmentCard extends StatelessWidget {
               ],
             ),
           ),
-          Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints.tightFor(
-                width: 200,
-                height: 30,
-              ),
-              child: ElevatedButton(
-                style: buttonStyle,
-                child: Text(
-                  "Cancel appointment",
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                ),
-                onPressed: () {
-                  //
-                },
-              ),
-            ),
-          ),
         ],
       ),
     );
+  }
+
+  initColor(String status) {
+    switch (status) {
+      case "active":
+        recordColor = Colors.green[300];
+        backgroundColor = Colors.green[700];
+        break;
+      case "waiting":
+        recordColor = Colors.amber[300];
+        backgroundColor = Colors.amber[700];
+        break;
+
+      default:
+        recordColor = Colors.blue[300];
+        backgroundColor = Colors.blue[700];
+    }
   }
 }
