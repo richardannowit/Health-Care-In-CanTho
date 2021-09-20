@@ -26,8 +26,7 @@ class AppointmentsController extends GetxController {
       appointments.clear();
       for (var appointmentDoc in appointmentSnapshot.docs) {
         Appointment appointment;
-        appointment = new Appointment(
-            appointmentDoc['doctor'].toString(), appointmentDoc['status']);
+        appointment = new Appointment(appointmentDoc['status']);
         Timestamp timeStamp = appointmentDoc['appointment_date'];
         appointment.setDateTime(DateTime.fromMicrosecondsSinceEpoch(
             timeStamp.microsecondsSinceEpoch));

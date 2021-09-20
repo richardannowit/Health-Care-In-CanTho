@@ -110,11 +110,11 @@ class AppointmentCard extends StatelessWidget {
 
   initColor(String status) {
     switch (status) {
-      case "active":
+      case "Active":
         recordColor = Colors.green[300];
         backgroundColor = Colors.green[700];
         break;
-      case "waiting":
+      case "Waiting":
         recordColor = Colors.amber[300];
         backgroundColor = Colors.amber[700];
         break;

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 const smallTextStyle = TextStyle(
   fontSize: 12,
 );
+
+const Color fgColor = Colors.blueAccent;
+
 const mediumTextStyle = TextStyle(
   fontSize: 14,
   fontFamily: 'Roboto',

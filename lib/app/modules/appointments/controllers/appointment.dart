@@ -1,13 +1,20 @@
 class Appointment {
-  late String doctor;
   late String doctorName;
   late String status;
   late DateTime dateTime;
   late String specialist;
 
-  Appointment(String doc, String status) {
-    doctor = doc;
-    this.status = status;
+  Appointment(String status) {
+    switch (status) {
+      case "active":
+        this.status = "Active";
+        break;
+      case "waiting":
+        this.status = "Waiting";
+        break;
+      default:
+        this.status = "Done";
+    }
   }
   setDoctorName(String name) {
     doctorName = name;
