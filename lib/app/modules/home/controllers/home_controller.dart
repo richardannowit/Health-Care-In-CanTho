@@ -13,9 +13,7 @@ class HomeController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
   RxString bmi = "".obs;
-  RxList<AppointmentModel> _appointmentList = RxList<AppointmentModel>();
   DatabaseMethods databaseMethods = new DatabaseMethods();
-  List<AppointmentModel> get appointments => _appointmentList;
 
   Future<void> _getUserInfo() async {
     user = _auth.currentUser;
@@ -43,7 +41,6 @@ class HomeController extends GetxController {
   void onInit() async {
     super.onInit();
     _getUserInfo();
-    _appointmentList.bindStream(databaseMethods.appointmentStream());
   }
 
   @override

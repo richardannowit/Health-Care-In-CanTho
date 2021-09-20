@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
+import 'package:flutter_healthcare/app/data/models/doctor.dart';
 
 class DatabaseMethods {
   getUserByUsername(String username) async {
@@ -30,19 +31,38 @@ class DatabaseMethods {
     FirebaseFirestore.instance.collection('users').add(userMap);
   }
 
-  Stream<List<AppointmentModel>> appointmentStream() {
-    return FirebaseFirestore.instance
-        .collection('appointments')
-        .orderBy('appointment_date')
-        .limit(4)
-        .snapshots()
-        .map((QuerySnapshot query) {
-      List<AppointmentModel> _appointmentsList = [];
-      query.docs.forEach((appointment) {
-        _appointmentsList
-            .add(AppointmentModel.fromDocumentSnapshot(appointment));
-      });
-      return _appointmentsList;
-    });
+  static Future<DoctorModel> getDoctorProfiles(String doctorId) async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(doctorId)
+        .get();
+    if (snapshot.exists) {
+      var doctorModel =
+          DoctorModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      return doctorModel;
+    }
+    return DoctorModel();
+  }
+
+  static Future<List<AppointmentModel>> getAppointments(
+      String patientEmail) async {
+    CollectionReference appointmentRef =
+        FirebaseFirestore.instance.collection('appointments');
+    QuerySnapshot snapshot = await appointmentRef
+        .where('patient', isEqualTo: patientEmail)
+        // .where('appointment_date', isGreaterThanOrEqualTo: new DateTime.now())
+        .get();
+    List<AppointmentModel> appointmentList = [];
+    for (var element in snapshot.docs) {
+      var appointment = element.data() as Map<String, dynamic>;
+      DocumentSnapshot doctorRef = await appointment['doctor'].get();
+      var doctorModel =
+          DoctorModel.fromJson(doctorRef.data() as Map<String, dynamic>);
+      print(doctorRef.data());
+      appointment['doctor'] = doctorModel;
+      appointmentList.add(AppointmentModel.fromJson(appointment));
+    }
+
+    return appointmentList;
   }
 }

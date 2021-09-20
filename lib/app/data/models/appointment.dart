@@ -1,23 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_healthcare/app/data/models/doctor.dart';
 
 class AppointmentModel {
-  String? doctor, patient, status;
+  String? patient, status;
   Timestamp? appointment_date;
+  DocumentReference? doctorRef;
+  DoctorModel? doctor;
 
-  AppointmentModel(
-    this.doctor,
+  AppointmentModel({
+    this.doctorRef,
     this.patient,
     this.status,
     this.appointment_date,
-  );
+  });
 
-  AppointmentModel.fromDocumentSnapshot(
-    DocumentSnapshot documentSnapshot,
-  ) {
-    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-    doctor = data["doctor"];
-    patient = data["patient"];
-    status = data["status"];
-    appointment_date = data["appointment_date"];
+  AppointmentModel.fromJson(Map<String, dynamic> json) {
+    this.doctor = json['doctor'];
+    this.patient = json['patient'];
+    this.status = json['status'];
+    this.appointment_date = json['appointment_date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['doctor'] = this.doctorRef;
+    data['patient'] = this.patient;
+    data['status'] = this.status;
+    data['appointment_date'] = this.appointment_date;
+    return data;
   }
 }
