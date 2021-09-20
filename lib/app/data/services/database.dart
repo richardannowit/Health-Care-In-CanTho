@@ -47,17 +47,22 @@ class DatabaseMethods {
   static Future<List<AppointmentModel>> getAppointments(
       String patientEmail) async {
     CollectionReference appointmentRef =
-        FirebaseFirestore.instance.collection('appointments');
+        FirebaseFirestore.instance.collection('appointments_test');
     QuerySnapshot snapshot = await appointmentRef
+        .orderBy('appointment_date')
         .where('patient', isEqualTo: patientEmail)
-        // .where('appointment_date', isGreaterThanOrEqualTo: new DateTime.now())
+        .where('appointment_date', isGreaterThanOrEqualTo: new DateTime.now())
         .get();
     List<AppointmentModel> appointmentList = [];
     for (var element in snapshot.docs) {
       var appointment = element.data() as Map<String, dynamic>;
       DocumentSnapshot doctorRef = await appointment['doctor'].get();
-      var doctorModel =
-          DoctorModel.fromJson(doctorRef.data() as Map<String, dynamic>);
+      var doctorModel = new DoctorModel();
+      if (doctorRef.exists) {
+        doctorModel =
+            DoctorModel.fromJson(doctorRef.data() as Map<String, dynamic>);
+      }
+
       print(doctorRef.data());
       appointment['doctor'] = doctorModel;
       appointmentList.add(AppointmentModel.fromJson(appointment));
