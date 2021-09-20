@@ -31,8 +31,9 @@ class DatabaseMethods {
       if (user.containsKey('address')) {
         DocumentSnapshot addressRef = await user['address'].get();
         if (addressRef.exists) {
-          addressModel =
-              AddressModel.fromJson(addressRef.data() as Map<String, dynamic>);
+          final addressJson = addressRef.data() as Map<String, dynamic>;
+          addressJson['reference'] = addressRef.reference;
+          addressModel = AddressModel.fromJson(addressJson);
         }
       }
       user['address'] = addressModel;
@@ -77,30 +78,30 @@ class DatabaseMethods {
             DoctorModel.fromJson(doctorRef.data() as Map<String, dynamic>);
       }
       appointment['doctor'] = doctorModel;
+      // print(appointment);
       appointmentList.add(AppointmentModel.fromJson(appointment));
     }
 
     return appointmentList;
   }
 
-  static Future<List<DoctorModel>> getDoctors() async {
-    CollectionReference doctorRef = _firestore.collection('doctors');
-    QuerySnapshot snapshot = await doctorRef
-        // .orderBy('appointment_date')
-        // .where('patient', isEqualTo: patientEmail)
-        // .where('appointment_date', isGreaterThanOrEqualTo: new DateTime.now())
-        .get();
+  static Future<List<DoctorModel>> getDoctors(
+      DocumentReference userAddressRef) async {
+    CollectionReference doctorRef =
+        FirebaseFirestore.instance.collection('doctors');
+    QuerySnapshot snapshot =
+        await doctorRef.where('address', isEqualTo: userAddressRef).get();
     List<DoctorModel> doctorList = [];
     for (var element in snapshot.docs) {
-      var doctor = element.data() as Map<String, dynamic>;
-      var addressModel = new AddressModel(name: "NULL");
+      final doctor = element.data() as Map<String, dynamic>;
       DocumentSnapshot addressRef = await doctor['address'].get();
+      dynamic addressModel = new AddressModel(name: "NULL");
       if (addressRef.exists) {
-        addressModel =
-            AddressModel.fromJson(addressRef.data() as Map<String, dynamic>);
+        final addressJson = addressRef.data() as Map<String, dynamic>;
+        addressJson['reference'] = addressRef.reference;
+        addressModel = AddressModel.fromJson(addressJson);
       }
       doctor['address'] = addressModel;
-      print(doctor['address'].name);
       doctorList.add(DoctorModel.fromJson(doctor));
     }
 

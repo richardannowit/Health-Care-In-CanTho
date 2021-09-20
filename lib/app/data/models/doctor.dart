@@ -5,7 +5,8 @@ class DoctorModel {
   String? email, name, specialist, phone;
   double? rating;
   DocumentReference? addressRef;
-  AddressModel? address;
+  dynamic address;
+  DocumentReference? reference;
 
   DoctorModel({
     this.email,
@@ -14,15 +15,17 @@ class DoctorModel {
     this.phone,
     this.rating,
     this.addressRef,
+    this.reference,
   });
 
   DoctorModel.fromJson(Map<String, dynamic> json) {
     this.email = json['email'];
     this.name = json['name'];
-    // this.address = json['address'] as AddressModel;
+    this.address = json['address'];
     this.specialist = json['specialist'];
     this.phone = json['phone'];
     this.rating = json['rating'];
+    this.reference = json['reference'];
   }
 
   Map<String, dynamic> toJson() {

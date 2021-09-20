@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
+import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/doctors_card.dart';
@@ -9,9 +10,11 @@ class DoctorsList extends StatelessWidget {
   DoctorsList({
     Key? key,
     required this.size,
+    required this.user,
   }) : super(key: key);
 
   final Size size;
+  final UserModel user;
 
   final HomeController controller = Get.find();
 
@@ -63,7 +66,7 @@ class DoctorsList extends StatelessWidget {
           margin: EdgeInsets.only(top: 10, right: 20),
           height: size.height,
           child: FutureBuilder(
-            future: DatabaseMethods.getDoctors(),
+            future: DatabaseMethods.getDoctors(user.address!.reference!),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -71,7 +74,7 @@ class DoctorsList extends StatelessWidget {
               var doctorList = snapshot.data as List<DoctorModel>;
               print(doctorList);
               if (doctorList.length == 0) {
-                return Text("No appointment yet");
+                return Text("No doctor yet");
               }
 
               return ListView.builder(

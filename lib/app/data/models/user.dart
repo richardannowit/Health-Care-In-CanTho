@@ -6,14 +6,15 @@ class UserModel {
   dynamic height, weight;
   DocumentReference? addressRef;
   AddressModel? address;
+  DocumentReference? reference;
 
-  UserModel({
-    this.uid,
-    this.email,
-    this.name,
-    this.phone,
-    this.addressRef,
-  });
+  UserModel(
+      {this.uid,
+      this.email,
+      this.name,
+      this.phone,
+      this.addressRef,
+      this.reference});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     this.email = json['email'];
@@ -22,6 +23,7 @@ class UserModel {
     this.address = json['address'];
     this.height = json['height'];
     this.weight = json['weight'];
+    this.reference = json['reference'];
   }
 
   Map<String, dynamic> toJson() {
