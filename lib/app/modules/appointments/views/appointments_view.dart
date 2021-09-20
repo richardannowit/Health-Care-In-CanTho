@@ -8,8 +8,16 @@ import 'package:get/get.dart';
 
 import '../controllers/appointments_controller.dart';
 
-class AppointmentsView extends GetView<AppointmentsController> {
+class AppointmentsView extends StatefulWidget {
+  const AppointmentsView({Key? key}) : super(key: key);
+
+  @override
+  _AppointmentsViewState createState() => _AppointmentsViewState();
+}
+
+class _AppointmentsViewState extends State<AppointmentsView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final AppointmentsController controller = Get.put(AppointmentsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +85,10 @@ class AppointmentsView extends GetView<AppointmentsController> {
         child: ListView(
           children: <Widget>[
             buildMenuItem(
+                text: 'All',
+                icon: Icons.all_out_outlined,
+                iconColor: Colors.red[300]),
+            buildMenuItem(
                 text: 'Active',
                 icon: Icons.fiber_manual_record,
                 iconColor: Colors.green[300]),
@@ -106,7 +118,18 @@ class AppointmentsView extends GetView<AppointmentsController> {
       title: Text(text),
       hoverColor: hoverColor,
       onTap: () {
-        print(text);
+        if (controller.statusFilter != text) {
+          setState(() {
+            if (text == "All") {
+              controller.less = "z";
+              controller.greater = "a";
+            } else {
+              controller.less = text.toLowerCase();
+              controller.greater = text.toLowerCase();
+            }
+            controller.statusFilter = text;
+          });
+        }
       },
     );
   }
