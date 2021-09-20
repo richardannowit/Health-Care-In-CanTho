@@ -38,7 +38,12 @@ class HomeView extends GetView<HomeController> {
                   color: Colors.red,
                 ),
               ),
-            )
+            ),
+            TextButton(
+                onPressed: () {
+                  Get.offAllNamed(Routes.APPOINTMENTS);
+                },
+                child: Text('Appointment list'))
           ],
         ),
       ),
