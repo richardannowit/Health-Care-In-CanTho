@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/models/doctor.dart';
+import 'package:flutter_healthcare/app/data/services/database.dart';
+import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/doctors_card.dart';
+import 'package:get/get.dart';
 
 class DoctorsList extends StatelessWidget {
-  const DoctorsList({
+  DoctorsList({
     Key? key,
     required this.size,
   }) : super(key: key);
 
   final Size size;
+
+  final HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -55,45 +61,31 @@ class DoctorsList extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(top: 10, right: 20),
-          child: Column(
-            children: [
-              DoctorCard(
-                img: 'assets/images/dr_1.png',
-                name: 'Dr. Fred Mask',
-                speciality: 'Heart surgen',
-                rating: '4.1',
-              ),
-              DoctorCard(
-                img: 'assets/images/dr_1.png',
-                name: 'Dr. Fred Mask',
-                speciality: 'Heart surgen',
-                rating: '4.1',
-              ),
-              DoctorCard(
-                img: 'assets/images/dr_1.png',
-                name: 'Dr. Fred Mask',
-                speciality: 'Heart surgen',
-                rating: '4.1',
-              ),
-              DoctorCard(
-                img: 'assets/images/dr_1.png',
-                name: 'Dr. Fred Mask',
-                speciality: 'Heart surgen',
-                rating: '4.1',
-              ),
-              DoctorCard(
-                img: 'assets/images/dr_1.png',
-                name: 'Dr. Fred Mask',
-                speciality: 'Heart surgen',
-                rating: '4.1',
-              ),
-              DoctorCard(
-                img: 'assets/images/dr_1.png',
-                name: 'Dr. Fred Mask',
-                speciality: 'Heart surgen',
-                rating: '4.1',
-              ),
-            ],
+          height: size.height,
+          child: FutureBuilder(
+            future: DatabaseMethods.getDoctors(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              var doctorList = snapshot.data as List<DoctorModel>;
+              print(doctorList);
+              if (doctorList.length == 0) {
+                return Text("No appointment yet");
+              }
+
+              return ListView.builder(
+                itemCount: doctorList.length,
+                itemBuilder: (_, index) {
+                  return DoctorCard(
+                    img: 'assets/images/dr_1.png',
+                    name: doctorList[index].name!,
+                    speciality: doctorList[index].specialist!,
+                    rating: doctorList[index].rating.toString(),
+                  );
+                },
+              );
+            },
           ),
         ),
       ],

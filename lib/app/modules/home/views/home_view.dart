@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/modules/home/views/doctors_list.dart';
 import 'package:flutter_healthcare/app/modules/home/views/incoming_appointment.dart';
 import 'package:flutter_healthcare/app/modules/home/views/infomation.dart';
@@ -24,13 +25,20 @@ class HomeView extends GetView<HomeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx(() {
-                  return InfomationUser(
-                    size: size,
-                    name: controller.user!.displayName!,
-                    bmi: controller.bmi.value,
-                  );
-                }),
+                FutureBuilder(
+                  future: controller.getUserInfo(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    var user = snapshot.data as UserModel;
+                    return InfomationUser(
+                      size: size,
+                      name: user.name!,
+                      bmi: controller.bmi.value,
+                    );
+                  },
+                ),
                 IncomingAppointment(size: size),
                 DoctorsList(size: size),
               ],

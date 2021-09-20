@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_healthcare/app/data/helper/calculate_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
-import 'package:flutter_healthcare/app/data/models/appointment.dart';
+import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/data/services/auth.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -15,20 +13,21 @@ class HomeController extends GetxController {
   RxString bmi = "".obs;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  Future<void> _getUserInfo() async {
+  Future<UserModel> getUserInfo() async {
     user = _auth.currentUser;
     if (user != null) {
-      Map<String, dynamic> data = await databaseMethods.getUserByUID(user!.uid);
-      user?.updateDisplayName(data['name']);
-      user?.updateEmail(data['email']);
+      UserModel data = await databaseMethods.getUserByUID(user!.uid);
+      user?.updateDisplayName(data.name);
+      user?.updateEmail(data.email!);
 
-      if (data.containsKey('height') == true &&
-          data.containsKey('weight') == true) {
-        dynamic height = data['height'];
-        dynamic weight = data['weight'];
+      if (data.height != null && data.weight != null) {
+        dynamic height = data.height;
+        dynamic weight = data.weight;
         bmi.value = CalculateHelpers.calculateBMI(weight, height);
       }
+      return data;
     }
+    return new UserModel();
   }
 
   void signOut() {
@@ -40,7 +39,6 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    _getUserInfo();
   }
 
   @override

@@ -13,7 +13,7 @@ class InfomationUser extends StatelessWidget {
   final Size size;
   final String name, bmi;
 
-  HomeController controller = Get.find();
+  final HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
