@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
-import 'package:flutter_healthcare/app/modules/appointments/controllers/appointment.dart';
-
-import '../constants.dart';
+import 'package:flutter_healthcare/app/modules/home/views/constants.dart';
 
 class AppointmentCard extends StatelessWidget {
-  AppointmentCard(
-      {Key? key, this.image, this.name, this.drCount, this.appointment})
-      : super(key: key);
+  AppointmentCard({
+    Key? key,
+    this.doctor_image,
+    this.doctor_name,
+    this.specialist,
+    this.date,
+    this.time,
+    this.status,
+  }) : super(key: key);
 
-  final String? image, name, drCount;
-  final Appointment? appointment;
-  Color? backgroundColor, recordColor;
+  final String? doctor_image, doctor_name, specialist, date, time, status;
 
   @override
   Widget build(BuildContext context) {
-    initColor(appointment!.status);
     return Container(
       width: 350,
+      margin: EdgeInsets.only(right: 15),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: Color(0xff107163),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -35,25 +36,22 @@ class AppointmentCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      appointment!.doctorName,
+                      doctor_name!,
                       style: largeTextStyle.copyWith(color: Colors.white),
                     ),
                     Text(
-                      name!,
+                      specialist!,
                       style: mediumTextStyle.copyWith(color: Colors.white),
                     ),
                   ],
                 ),
                 CircleAvatar(
                   child: Image(
-                    image: AssetImage('assets/images/avt_doctor.png'),
+                    image: AssetImage(doctor_image!),
                   ),
                 )
               ],
             ),
-          ),
-          Divider(
-            thickness: 1,
           ),
           Container(
             child: Row(
@@ -67,7 +65,7 @@ class AppointmentCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        DateTimeHelpers.timestampsToDate(appointment!.dateTime),
+                        date!,
                         style: smallTextStyle.copyWith(color: Colors.white),
                       )
                     ],
@@ -81,7 +79,7 @@ class AppointmentCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        DateTimeHelpers.timestampsToTime(appointment!.dateTime),
+                        time!,
                         style: smallTextStyle.copyWith(color: Colors.white),
                       )
                     ],
@@ -92,10 +90,10 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.fiber_manual_record,
-                        color: recordColor,
+                        color: Colors.green,
                       ),
                       Text(
-                        appointment!.getStatus(),
+                        status!,
                         style: smallTextStyle.copyWith(color: Colors.white),
                       )
                     ],
@@ -104,25 +102,26 @@ class AppointmentCard extends StatelessWidget {
               ],
             ),
           ),
+          Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints.tightFor(
+                width: 200,
+                height: 30,
+              ),
+              child: ElevatedButton(
+                style: buttonStyle,
+                child: Text(
+                  "Cancel appointment",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                onPressed: () {
+                  //
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
-  }
-
-  initColor(String status) {
-    switch (status) {
-      case "Active":
-        recordColor = Colors.green[300];
-        backgroundColor = Colors.green[700];
-        break;
-      case "Waiting":
-        recordColor = Colors.amber[300];
-        backgroundColor = Colors.amber[700];
-        break;
-
-      default:
-        recordColor = Colors.blue[300];
-        backgroundColor = Colors.blue[700];
-    }
   }
 }

@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Appointment {
   late String doctorName;
   late String status;
-  late DateTime dateTime;
+  late Timestamp dateTime;
   late String specialist;
 
   Appointment(String status) {
@@ -20,30 +22,12 @@ class Appointment {
     doctorName = name;
   }
 
-  setDateTime(DateTime dateTime) {
+  setDateTime(Timestamp dateTime) {
     this.dateTime = dateTime;
   }
 
   setSpecialist(String specialist) {
     this.specialist = specialist;
-  }
-
-  String getDate() {
-    String date = dateTime.day.toString() +
-        "/" +
-        dateTime.month.toString() +
-        "/" +
-        dateTime.year.toString();
-    return date;
-  }
-
-  String getTime() {
-    late String time;
-    if (dateTime.minute < 10)
-      time = dateTime.hour.toString() + ":" + "0" + dateTime.minute.toString();
-    else
-      time = dateTime.hour.toString() + ":" + dateTime.minute.toString();
-    return time;
   }
 
   String getStatus() {

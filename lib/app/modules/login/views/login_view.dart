@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/Signup/views/signup_view.dart';
+import 'package:flutter_healthcare/app/modules/forgotpassword/views/forgotpassword_view.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 
@@ -129,13 +131,16 @@ class LoginView extends GetView<LoginController> {
                           alignment: Alignment.centerRight,
                           padding:
                               EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey,
-                            ),
+                          child: TextButton(
+                            onPressed: () {
+                              Get.offAllNamed(Routes.FORGOTPASSWORD);
+                            },
+                            child: Text('Forgot Password?',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey,
+                                )),
                           ),
                         ),
                       ),

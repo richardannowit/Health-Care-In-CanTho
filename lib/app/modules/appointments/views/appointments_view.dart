@@ -9,50 +9,47 @@ import 'package:get/get.dart';
 
 import '../controllers/appointments_controller.dart';
 
-class AppointmentsView extends StatefulWidget {
-  const AppointmentsView({Key? key}) : super(key: key);
-
-  @override
-  _AppointmentsViewState createState() => _AppointmentsViewState();
-}
-
-class _AppointmentsViewState extends State<AppointmentsView> {
+class AppointmentsView extends GetView<AppointmentsController> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final AppointmentsController controller = Get.put(AppointmentsController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Text('Appointments', style: TextStyle(color: fgColor)),
-            centerTitle: true,
-            actions: <Widget>[
-              new IconButton(
-                  onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
-                  icon: new Icon(
-                    Icons.filter_list_alt,
+    return SafeArea(
+      child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+              backgroundColor: Colors.white,
+              title: Text('Appointments', style: TextStyle(color: fgColor)),
+              centerTitle: true,
+              actions: <Widget>[
+                new IconButton(
+                    onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+                    icon: new Icon(
+                      Icons.filter_list_alt,
+                      color: fgColor,
+                    ))
+              ],
+              leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
                     color: fgColor,
-                  ))
-            ],
-            leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: fgColor,
-                ),
-                onPressed: () {
-                  Get.offAllNamed(Routes.HOME);
-                })),
-        endDrawer: buildDrawer(context),
-        body: Container(
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: buildList(context),
-        ));
+                  ),
+                  onPressed: () {
+                    Get.offAllNamed(Routes.HOME);
+                  })),
+          endDrawer: buildDrawer(context),
+          body: Container(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Obx(() {
+              return buildList(context);
+            }),
+          )),
+    );
   }
 
   Widget buildList(BuildContext context) {
     var streamBuilder = StreamBuilder<List<Appointment>>(
-        stream: controller.getData(),
+        stream:
+            controller.getData(controller.less.value, controller.greater.value),
         builder: (BuildContext context,
             AsyncSnapshot<List<Appointment>> appointmentsSnapshot) {
           if (appointmentsSnapshot.hasError)
@@ -92,7 +89,7 @@ class _AppointmentsViewState extends State<AppointmentsView> {
   Widget buildDrawer(BuildContext context) {
     return Column(children: [
       Container(
-          margin: const EdgeInsets.only(top: 24),
+          // margin: const EdgeInsets.only(top: 24),
           width: 200,
           height: 300,
           child: Drawer(
@@ -134,18 +131,16 @@ class _AppointmentsViewState extends State<AppointmentsView> {
       hoverColor: hoverColor,
       onTap: () {
         if (controller.statusFilter != text) {
-          setState(() {
-            if (text == "All") {
-              controller.less = "z";
-              controller.greater = "a";
-            } else {
-              controller.less = text.toLowerCase();
-              controller.greater = text.toLowerCase();
-            }
-            controller.statusFilter = text;
-          });
+          if (text == "All") {
+            controller.less.value = "z";
+            controller.greater.value = "a";
+          } else {
+            controller.less.value = text.toLowerCase();
+            controller.greater.value = text.toLowerCase();
+          }
+          controller.statusFilter = text;
         }
-        Navigator.pop(context);
+        Get.back();
       },
     );
   }

@@ -6,18 +6,19 @@ import 'package:get/get.dart';
 
 class AppointmentsController extends GetxController {
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
-  String less = "z";
-  String greater = "a";
+  RxString less = "z".obs;
+  RxString greater = "a".obs;
   String statusFilter = "All";
   CollectionReference<Map<String, dynamic>> dbUserRef =
       FirebaseFirestore.instance.collection('doctors');
   CollectionReference<Map<String, dynamic>> dbAppRef =
       FirebaseFirestore.instance.collection('appointments');
 
-  Stream<List<Appointment>> getData() async* {
+  Stream<List<Appointment>> getData(dynamic less, dynamic greater) async* {
     var appointmentsStream;
     appointmentsStream = FirebaseFirestore.instance
         .collection('appointments')
+        // .orderBy('appointment_date')
         .where('patient', isEqualTo: userEmail)
         .where('status', isLessThanOrEqualTo: less)
         .where('status', isGreaterThanOrEqualTo: greater)
@@ -29,8 +30,7 @@ class AppointmentsController extends GetxController {
         Appointment appointment;
         appointment = new Appointment(appointmentDoc['status']);
         Timestamp timeStamp = appointmentDoc['appointment_date'];
-        appointment.setDateTime(DateTime.fromMicrosecondsSinceEpoch(
-            timeStamp.microsecondsSinceEpoch));
+        appointment.setDateTime(timeStamp);
         if (appointmentDoc['doctor'] != null) {
           DocumentSnapshot doctorDoc = await appointmentDoc['doctor'].get();
           appointment.setDoctorName(doctorDoc['name']);
