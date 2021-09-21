@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DoctorModel {
+  String? docId;
   String? email, name, specialist, phone;
   double? rating;
   DocumentReference? addressRef;
@@ -8,6 +9,7 @@ class DoctorModel {
   DocumentReference? reference;
 
   DoctorModel({
+    this.docId,
     this.email,
     this.name,
     this.specialist,
@@ -18,12 +20,14 @@ class DoctorModel {
   });
 
   DoctorModel.fromJson(Map<String, dynamic> json) {
+    this.docId = json['docId'];
     this.email = json['email'];
     this.name = json['name'];
     this.address = json['address'];
     this.specialist = json['specialist'];
     this.phone = json['phone'];
-    this.rating = json['rating'];
+    rating =
+        double.parse(json['rating'] == null ? '0' : json['rating'].toString());
     this.reference = json['reference'];
   }
 

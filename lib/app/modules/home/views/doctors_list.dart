@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/doctors_card.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class DoctorsList extends StatelessWidget {
@@ -41,7 +42,9 @@ class DoctorsList extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.DOCTORS_LIST);
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(

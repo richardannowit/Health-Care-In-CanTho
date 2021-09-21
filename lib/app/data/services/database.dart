@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_healthcare/app/data/models/district.dart';
+import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
@@ -127,5 +129,51 @@ class DatabaseMethods {
     }
 
     return doctorList;
+  }
+
+  static Future<DocumentReference> getDistrictRefFromDistrictName(
+      String addressName) async {
+    QuerySnapshot snapshot = await _firestore
+        .collection('districts')
+        .where('name', isEqualTo: addressName)
+        .get();
+    DocumentSnapshot address = snapshot.docs.first;
+    DocumentReference addressRef = address.reference;
+    return addressRef;
+  }
+
+  Future<List<DoctorModel>> getDoctorsByDistrict(String district) async {
+    var doctors = new List<DoctorModel>.empty(growable: true);
+    DocumentReference addressRef =
+        await getDistrictRefFromDistrictName(district);
+    // dynamic addressName = await addressRef.get();
+    // print(addressName.data()['name']);
+    CollectionReference doctorRef =
+        FirebaseFirestore.instance.collection('doctors');
+
+    final snapshot =
+        await doctorRef.where('address', isEqualTo: addressRef).get();
+    snapshot.docs.forEach((element) {
+      var doctor = DoctorModel.fromJson(element.data() as Map<String, dynamic>);
+      doctor.docId = element.id;
+      doctor.reference = element.reference;
+      doctors.add(doctor);
+    });
+    return doctors;
+  }
+
+  Future<List<AddressModel>> getDistricts() async {
+    var districts = new List<AddressModel>.empty(growable: true);
+    CollectionReference districtRef =
+        FirebaseFirestore.instance.collection('districts');
+
+    final snapshot = await districtRef.get();
+    snapshot.docs.forEach((element) {
+      var district =
+          AddressModel.fromJson(element.data() as Map<String, dynamic>);
+      district.reference = element.reference;
+      districts.add(district);
+    });
+    return districts;
   }
 }
