@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
-import 'package:flutter_healthcare/app/data/services/auth.dart';
-import 'package:flutter_healthcare/app/routes/app_pages.dart';
+import 'package:flutter_healthcare/app/modules/home/views/doctors_list.dart';
+import 'package:flutter_healthcare/app/modules/home/views/incoming_appointment.dart';
+import 'package:flutter_healthcare/app/modules/home/views/infomation.dart';
 
 import 'package:get/get.dart';
 
@@ -11,35 +10,46 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('HomeView'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'HomeView is working',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(FirebaseAuth.instance.currentUser!.email.toString()),
-            InkWell(
-              onTap: () {
-                AuthMethods().signOut();
-                HelperFunctions.saveUserLoggedInSharedPreference(false);
-                Get.offAllNamed(Routes.LOGIN);
-              },
-              child: Text(
-                'SIGN OUT',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.red,
+    Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        body: SingleChildScrollView(
+          child: RefreshIndicator(
+            onRefresh: () => controller.loadData(),
+            child: Obx(() {
+              if (controller.loading == true) {
+                return Container(
+                  height: size.height,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              return Container(
+                margin: EdgeInsets.only(top: 20, left: 20),
+                width: size.width,
+                // decoration: BoxDecoration(
+                //   color: Colors.grey[100],
+                // ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InfomationUser(
+                      size: size,
+                      name: controller.userInfo.name!,
+                      bmi: controller.bmi.value,
+                    ),
+                    IncomingAppointment(size: size),
+                    DoctorsList(
+                      size: size,
+                      user: controller.userInfo,
+                    ),
+                  ],
                 ),
-              ),
-            )
-          ],
+              );
+            }),
+          ),
         ),
       ),
     );

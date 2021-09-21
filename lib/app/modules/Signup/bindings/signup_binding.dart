@@ -1,6 +1,3 @@
-import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
-import 'package:flutter_healthcare/app/modules/home/views/home_view.dart';
-import 'package:flutter_healthcare/app/modules/login/controllers/login_controller.dart';
 import 'package:flutter_healthcare/app/modules/login/views/login_view.dart';
 import 'package:get/get.dart';
 

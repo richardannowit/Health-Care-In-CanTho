@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_healthcare/app/modules/home/views/home_view.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
@@ -101,7 +101,7 @@ class SignupController extends GetxController {
       reference
           .doc(userCredential.user!.uid)
           .set(userData)
-          .then((value) => Get.offAll(HomeView()));
+          .then((value) => Get.offAll(Routes.HOME));
       print("Sign up successfully");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
