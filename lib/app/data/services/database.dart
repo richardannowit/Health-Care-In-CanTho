@@ -27,6 +27,8 @@ class DatabaseMethods {
 
     if (snapshot.exists) {
       Map<String, dynamic> user = snapshot.data() as Map<String, dynamic>;
+      user['reference'] = snapshot.reference;
+
       AddressModel addressModel = new AddressModel(name: 'NULL');
       if (user.containsKey('address')) {
         DocumentSnapshot addressRef = await user['address'].get();
@@ -61,24 +63,32 @@ class DatabaseMethods {
 
   static Future<List<AppointmentModel>> getAppointments(
       String patientEmail) async {
-    CollectionReference appointmentRef =
-        _firestore.collection('appointments_test');
-    QuerySnapshot snapshot = await appointmentRef
+    QuerySnapshot snapshot = await _firestore
+        .collection('appointments_test')
         .orderBy('appointment_date')
         .where('patient', isEqualTo: patientEmail)
         .where('appointment_date', isGreaterThanOrEqualTo: new DateTime.now())
         .get();
+
     List<AppointmentModel> appointmentList = [];
     for (var element in snapshot.docs) {
       var appointment = element.data() as Map<String, dynamic>;
-      DocumentSnapshot doctorRef = await appointment['doctor'].get();
+      appointment['reference'] = element.reference;
+
       var doctorModel = new DoctorModel();
-      if (doctorRef.exists) {
-        doctorModel =
-            DoctorModel.fromJson(doctorRef.data() as Map<String, dynamic>);
+
+      /* Query doctor */
+      if (appointment.containsKey('doctor')) {
+        DocumentSnapshot doctorRef = await appointment['doctor'].get();
+        if (doctorRef.exists) {
+          final doctorJson = doctorRef.data() as Map<String, dynamic>;
+          doctorJson['reference'] = doctorRef.reference;
+          doctorModel = DoctorModel.fromJson(doctorJson);
+        }
       }
+
       appointment['doctor'] = doctorModel;
-      // print(appointment);
+
       appointmentList.add(AppointmentModel.fromJson(appointment));
     }
 
@@ -87,21 +97,27 @@ class DatabaseMethods {
 
   static Future<List<DoctorModel>> getDoctors(
       DocumentReference userAddressRef) async {
-    CollectionReference doctorRef =
-        FirebaseFirestore.instance.collection('doctors');
-    QuerySnapshot snapshot =
-        await doctorRef.where('address', isEqualTo: userAddressRef).get();
+    QuerySnapshot snapshot = await _firestore
+        .collection('doctors')
+        .where('address', isEqualTo: userAddressRef)
+        .get();
     List<DoctorModel> doctorList = [];
     for (var element in snapshot.docs) {
       final doctor = element.data() as Map<String, dynamic>;
-      DocumentSnapshot addressRef = await doctor['address'].get();
+      doctor['reference'] = element.reference;
+
       dynamic addressModel = new AddressModel(name: "NULL");
-      if (addressRef.exists) {
-        final addressJson = addressRef.data() as Map<String, dynamic>;
-        addressJson['reference'] = addressRef.reference;
-        addressModel = AddressModel.fromJson(addressJson);
+      /* Query address*/
+      if (doctor.containsKey('address')) {
+        DocumentSnapshot addressRef = await doctor['address'].get();
+        if (addressRef.exists) {
+          final addressJson = addressRef.data() as Map<String, dynamic>;
+          addressJson['reference'] = addressRef.reference;
+          addressModel = AddressModel.fromJson(addressJson);
+        }
       }
       doctor['address'] = addressModel;
+
       doctorList.add(DoctorModel.fromJson(doctor));
     }
 

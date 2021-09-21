@@ -38,7 +38,10 @@ class HomeView extends GetView<HomeController> {
                         bmi: controller.bmi.value,
                       ),
                       IncomingAppointment(size: size),
-                      DoctorsList(size: size, user: user),
+                      DoctorsList(
+                        size: size,
+                        user: user,
+                      ),
                     ],
                   ),
                 );
