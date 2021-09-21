@@ -13,6 +13,7 @@ class AppointmentsController extends GetxController {
       FirebaseFirestore.instance.collection('doctors');
   CollectionReference<Map<String, dynamic>> dbAppRef =
       FirebaseFirestore.instance.collection('appointments');
+
   Stream<List<Appointment>> getData() async* {
     var appointmentsStream;
     appointmentsStream = FirebaseFirestore.instance
