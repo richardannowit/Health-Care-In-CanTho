@@ -21,6 +21,9 @@ class DoctorsListView extends GetView<DoctorListController> {
             fontSize: 24,
           ),
         ),
+        leading: BackButton(
+          color: Colors.black,
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +46,7 @@ class DoctorsListView extends GetView<DoctorListController> {
     );
   }
 
-  FutureBuilder<List<Doctor>> _buildDoctorList(district) {
+  FutureBuilder<List<DoctorModel>> _buildDoctorList(district) {
     return FutureBuilder(
       future: controller.databaseMethods.getDoctorsByDistrict(district),
       builder: (context, snapshot) {
@@ -52,7 +55,7 @@ class DoctorsListView extends GetView<DoctorListController> {
             child: CircularProgressIndicator(),
           );
         else {
-          var doctors = snapshot.data as List<Doctor>;
+          var doctors = snapshot.data as List<DoctorModel>;
           if (doctors.length == 0)
             return Center(
               child: Column(
@@ -96,7 +99,7 @@ class DoctorsListView extends GetView<DoctorListController> {
                           RatingBar.builder(
                               itemSize: 16,
                               allowHalfRating: true,
-                              initialRating: doctors[index].rating,
+                              initialRating: doctors[index].rating!,
                               onRatingUpdate: (rating) {
                                 print(rating);
                               },

@@ -4,9 +4,9 @@ import 'package:flutter_healthcare/app/data/models/user.dart';
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Users? _userFromFirebaseUser(User user) {
+  UserModel? _userFromFirebaseUser(User user) {
     // ignore: unnecessary_null_comparison
-    return user != null ? Users(uid: user.uid) : null;
+    return user != null ? UserModel(uid: user.uid) : null;
   }
 
   Future signInWithEmailAndPassword(String email, String password) async {
