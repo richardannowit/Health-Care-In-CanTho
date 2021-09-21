@@ -28,7 +28,7 @@ class DoctorsList extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  "Doctors List in your area",
+                  "Doctors List",
                   style: TextStyle(
                     color: Color(0xff016565),
                     fontSize: 18,
@@ -62,14 +62,14 @@ class DoctorsList extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(top: 10, right: 20),
-          // height: size.height / 2,
           child: Obx(() {
             var doctorList = controller.doctorList;
             if (doctorList.length == 0) {
               return Text("Doctors in your area is empty");
             }
             return ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 200, minHeight: 56.0),
+              constraints:
+                  BoxConstraints(maxHeight: size.height / 2, minHeight: 100.0),
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),

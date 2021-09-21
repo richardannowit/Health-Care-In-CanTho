@@ -96,11 +96,16 @@ class DatabaseMethods {
   }
 
   static Future<List<DoctorModel>> getDoctors(
-      DocumentReference userAddressRef) async {
-    QuerySnapshot snapshot = await _firestore
-        .collection('doctors')
-        .where('address', isEqualTo: userAddressRef)
-        .get();
+      [DocumentReference? userAddressRef]) async {
+    QuerySnapshot snapshot;
+    if (userAddressRef != null) {
+      snapshot = await _firestore
+          .collection('doctors')
+          .where('address', isEqualTo: userAddressRef)
+          .get();
+    } else {
+      snapshot = await _firestore.collection('doctors').get();
+    }
     List<DoctorModel> doctorList = [];
     for (var element in snapshot.docs) {
       final doctor = element.data() as Map<String, dynamic>;

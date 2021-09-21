@@ -62,7 +62,6 @@ class IncomingAppointment extends StatelessWidget {
           if (controller.appointmentList.length == 0) {
             return Container(
               margin: EdgeInsets.only(top: 30),
-              height: size.height * 0.22,
               child: Text("No appointment yet"),
             );
           }

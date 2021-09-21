@@ -56,7 +56,13 @@ class HomeController extends GetxController {
   }
 
   Future<List<DoctorModel>> getDoctorList() async {
-    return DatabaseMethods.getDoctors(userInfo.address!.reference!);
+    if (userInfo.address!.reference != null) {
+      print(userInfo.address);
+      return DatabaseMethods.getDoctors(userInfo.address!.reference!);
+    }
+
+    return DatabaseMethods.getDoctors();
+    // return DatabaseMethods.getDoctors();
   }
 
   void signOut() {
