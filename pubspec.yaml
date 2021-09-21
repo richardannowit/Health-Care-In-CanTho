@@ -17,6 +17,7 @@ dependencies:
   firebase_core: ^1.6.0
   cloud_firestore: ^2.5.2
   shared_preferences: ^2.0.7
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   lints: 1.0.1
