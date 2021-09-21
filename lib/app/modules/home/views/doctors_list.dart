@@ -64,32 +64,24 @@ class DoctorsList extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(top: 10, right: 20),
-          height: size.height,
-          child: FutureBuilder(
-            future: DatabaseMethods.getDoctors(user.address!.reference!),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-              var doctorList = snapshot.data as List<DoctorModel>;
-              print(doctorList);
-              if (doctorList.length == 0) {
-                return Text("No doctor yet");
-              }
-
-              return ListView.builder(
-                itemCount: doctorList.length,
-                itemBuilder: (_, index) {
-                  return DoctorCard(
-                    img: 'assets/images/dr_1.png',
-                    name: doctorList[index].name!,
-                    speciality: doctorList[index].specialist!,
-                    rating: doctorList[index].rating.toString(),
-                  );
-                },
-              );
-            },
-          ),
+          height: size.height / 2,
+          child: Obx(() {
+            var doctorList = controller.doctorList;
+            if (doctorList.length == 0) {
+              return Text("No doctor yet");
+            }
+            return ListView.builder(
+              itemCount: doctorList.length,
+              itemBuilder: (_, index) {
+                return DoctorCard(
+                  img: 'assets/images/dr_1.png',
+                  name: doctorList[index].name!,
+                  speciality: doctorList[index].specialist!,
+                  rating: doctorList[index].rating.toString(),
+                );
+              },
+            );
+          }),
         ),
       ],
     );

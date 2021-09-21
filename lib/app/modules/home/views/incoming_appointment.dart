@@ -60,42 +60,35 @@ class IncomingAppointment extends StatelessWidget {
             ],
           ),
         ),
-        FutureBuilder(
-          future: DatabaseMethods.getAppointments(controller.user!.email!),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            var appointmentList = snapshot.data as List<AppointmentModel>;
-            print(appointmentList);
-            if (appointmentList.length == 0) {
-              return Container(
-                margin: EdgeInsets.only(top: 30),
-                height: size.height * 0.22,
-                child: Text("No appointment yet"),
-              );
-            }
+        Obx(() {
+          if (controller.appointmentList.length == 0) {
             return Container(
               margin: EdgeInsets.only(top: 30),
               height: size.height * 0.22,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: appointmentList.length,
-                itemBuilder: (_, index) {
-                  return AppointmentCard(
-                    doctor_image: 'assets/images/avt_doctor.png',
-                    doctor_name: appointmentList[index].doctor!.name,
-                    specialist: appointmentList[index].doctor!.specialist,
-                    date: DateTimeHelpers.timestampsToDate(
-                        appointmentList[index].appointment_date!),
-                    time: "10:30 AM",
-                    status: "Active",
-                  );
-                },
-              ),
+              child: Text("No appointment yet"),
             );
-          },
-        ),
+          }
+          return Container(
+            margin: EdgeInsets.only(top: 30),
+            height: size.height * 0.22,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: controller.appointmentList.length,
+              itemBuilder: (_, index) {
+                return AppointmentCard(
+                  doctor_image: 'assets/images/avt_doctor.png',
+                  doctor_name: controller.appointmentList[index].doctor!.name,
+                  specialist:
+                      controller.appointmentList[index].doctor!.specialist,
+                  date: DateTimeHelpers.timestampsToDate(
+                      controller.appointmentList[index].appointment_date!),
+                  time: "10:30 AM",
+                  status: "Active",
+                );
+              },
+            ),
+          );
+        })
       ],
     );
   }
