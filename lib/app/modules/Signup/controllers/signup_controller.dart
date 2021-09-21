@@ -101,7 +101,7 @@ class SignupController extends GetxController {
       reference
           .doc(userCredential.user!.uid)
           .set(userData)
-          .then((value) => Get.offAll(Routes.HOME));
+          .then((value) => Get.offAllNamed(Routes.HOME));
       print("Sign up successfully");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import 'package:flutter_healthcare/app/modules/Signup/bindings/signup_binding.dart';
 import 'package:flutter_healthcare/app/modules/Signup/views/signup_view.dart';
+import 'package:flutter_healthcare/app/modules/appointments/bindings/appointments_binding.dart';
+import 'package:flutter_healthcare/app/modules/appointments/views/appointments_view.dart';
 import 'package:flutter_healthcare/app/modules/forgotpassword/bindings/forgotpassword_binding.dart';
 import 'package:flutter_healthcare/app/modules/forgotpassword/views/forgotpassword_view.dart';
 import 'package:flutter_healthcare/app/modules/home/bindings/home_binding.dart';
@@ -38,6 +40,11 @@ class AppPages {
       name: _Paths.SIGNUP,
       page: () => SignupView(),
       binding: SignupBinding(),
+    ),
+    GetPage(
+      name: _Paths.APPOINTMENTS,
+      page: () => AppointmentsView(),
+      binding: AppointmentsBinding(),
     ),
     GetPage(
       name: _Paths.FORGOTPASSWORD,

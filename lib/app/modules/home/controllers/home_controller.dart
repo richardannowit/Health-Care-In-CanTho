@@ -38,8 +38,6 @@ class HomeController extends GetxController {
     user = _auth.currentUser;
     if (user != null) {
       UserModel data = await databaseMethods.getUserByUID(user!.uid);
-      user?.updateDisplayName(data.name);
-      user?.updateEmail(data.email!);
 
       if (data.height != null && data.weight != null) {
         dynamic height = data.height;
