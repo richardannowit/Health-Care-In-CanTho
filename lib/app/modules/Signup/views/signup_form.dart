@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/Signup/views/constants.dart';
-import 'package:flutter_healthcare/app/modules/login/views/login_view.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 

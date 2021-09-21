@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
-import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/doctors_card.dart';
 import 'package:get/get.dart';
@@ -64,22 +62,27 @@ class DoctorsList extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(top: 10, right: 20),
-          height: size.height / 2,
+          // height: size.height / 2,
           child: Obx(() {
             var doctorList = controller.doctorList;
             if (doctorList.length == 0) {
-              return Text("No doctor yet");
+              return Text("Doctors in your area is empty");
             }
-            return ListView.builder(
-              itemCount: doctorList.length,
-              itemBuilder: (_, index) {
-                return DoctorCard(
-                  img: 'assets/images/dr_1.png',
-                  name: doctorList[index].name!,
-                  speciality: doctorList[index].specialist!,
-                  rating: doctorList[index].rating.toString(),
-                );
-              },
+            return ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 200, minHeight: 56.0),
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemCount: doctorList.length,
+                itemBuilder: (_, index) {
+                  return DoctorCard(
+                    img: 'assets/images/dr_1.png',
+                    name: doctorList[index].name!,
+                    speciality: doctorList[index].specialist!,
+                    rating: doctorList[index].rating.toString(),
+                  );
+                },
+              ),
             );
           }),
         ),

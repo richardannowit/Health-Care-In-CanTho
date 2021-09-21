@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/modules/home/views/doctors_list.dart';
 import 'package:flutter_healthcare/app/modules/home/views/incoming_appointment.dart';
 import 'package:flutter_healthcare/app/modules/home/views/infomation.dart';
@@ -15,9 +14,9 @@ class HomeView extends GetView<HomeController> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
-        body: RefreshIndicator(
-          onRefresh: () => controller.loadData(),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: RefreshIndicator(
+            onRefresh: () => controller.loadData(),
             child: Obx(() {
               if (controller.loading == true) {
                 return Container(

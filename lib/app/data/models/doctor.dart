@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_healthcare/app/data/models/address.dart';
 
 class DoctorModel {
   String? email, name, specialist, phone;

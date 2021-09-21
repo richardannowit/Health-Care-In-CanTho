@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
-import 'package:flutter_healthcare/app/data/models/appointment.dart';
-import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/appointment_cart.dart';
 import 'package:get/get.dart';
@@ -72,6 +70,8 @@ class IncomingAppointment extends StatelessWidget {
             margin: EdgeInsets.only(top: 30),
             height: size.height * 0.22,
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               scrollDirection: Axis.horizontal,
               itemCount: controller.appointmentList.length,
               itemBuilder: (_, index) {
