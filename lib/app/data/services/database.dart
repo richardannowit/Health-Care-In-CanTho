@@ -66,7 +66,7 @@ class DatabaseMethods {
   static Future<List<AppointmentModel>> getAppointments(
       String patientEmail) async {
     QuerySnapshot snapshot = await _firestore
-        .collection('appointments_test')
+        .collection('appointments')
         .orderBy('appointment_date')
         .where('patient', isEqualTo: patientEmail)
         .where('appointment_date', isGreaterThanOrEqualTo: new DateTime.now())
