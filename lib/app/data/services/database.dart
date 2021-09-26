@@ -48,19 +48,40 @@ class DatabaseMethods {
     return UserModel();
   }
 
-  uploadUserInfo(userMap) {
-    _firestore.collection('users').add(userMap);
+  static Future<DoctorModel> getDoctorProfiles(String doctorId) async {
+    var snapshot = await _firestore.collection('doctors').doc(doctorId).get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic> user = snapshot.data() as Map<String, dynamic>;
+      user['reference'] = snapshot.reference;
+
+      AddressModel addressModel = new AddressModel(name: 'NULL');
+      if (user.containsKey('address')) {
+        DocumentSnapshot addressRef = await user['address'].get();
+        if (addressRef.exists) {
+          final addressJson = addressRef.data() as Map<String, dynamic>;
+          addressJson['reference'] = addressRef.reference;
+          addressModel = AddressModel.fromJson(addressJson);
+        }
+      }
+      user['address'] = addressModel;
+      user['docId'] = doctorId;
+      return DoctorModel.fromJson(user);
+    }
+
+    return DoctorModel();
   }
 
-  static Future<DoctorModel> getDoctorProfiles(String doctorId) async {
-    DocumentSnapshot snapshot =
-        await _firestore.collection('doctors').doc(doctorId).get();
-    if (snapshot.exists) {
-      var doctorModel =
-          DoctorModel.fromJson(snapshot.data() as Map<String, dynamic>);
-      return doctorModel;
+  static Future<bool> isDoctor(String uid) async {
+    var doctor = await _firestore.collection('doctors').doc(uid).get();
+    if (doctor.exists) {
+      return true;
     }
-    return DoctorModel();
+    return false;
+  }
+
+  uploadUserInfo(userMap) {
+    _firestore.collection('users').add(userMap);
   }
 
   static Future<List<AppointmentModel>> getAppointments(

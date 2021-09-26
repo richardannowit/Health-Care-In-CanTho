@@ -99,7 +99,7 @@ class LoginController extends GetxController {
           databaseMethods.getUserByUserEmail(email.toString());
           HelperFunctions.saveUserLoggedInSharedPreference(true);
 
-          Get.offAllNamed(Routes.HOME);
+          Get.offAllNamed(Routes.HOME_DOCTOR);
         } else {
           final snackBar = SnackBar(
             backgroundColor: Color.fromARGB(255, 252, 217, 133),
