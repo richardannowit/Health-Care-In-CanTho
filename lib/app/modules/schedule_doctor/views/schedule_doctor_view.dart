@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/calendar_list.dart';
+import 'package:flutter_healthcare/app/modules/schedule_doctor/views/timeline_list.dart';
 
 import 'package:get/get.dart';
 
@@ -18,11 +19,15 @@ class ScheduleDoctorView extends GetView<ScheduleDoctorController> {
           return Container(
             child: Column(
               children: [
-                CalendarList(
-                  height: 80,
-                  date: controller.selectedDate,
-                  onChange: controller.onDateChange,
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: CalendarList(
+                    height: 80,
+                    date: controller.selectedDate,
+                    onChange: controller.onDateChange,
+                  ),
                 ),
+                TimeLineList(),
               ],
             ),
           );
