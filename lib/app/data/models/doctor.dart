@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DoctorModel {
   String? docId;
-  String? email, name, specialist, phone;
+  String? email, name, specialist, phone, about, centeraddress;
   double? rating;
   DocumentReference? addressRef;
   dynamic address;
@@ -26,6 +26,8 @@ class DoctorModel {
     this.address = json['address'];
     this.specialist = json['specialist'];
     this.phone = json['phone'];
+    this.about = json['about'];
+    this.centeraddress = json['centeraddress'];
     rating =
         double.parse(json['rating'] == null ? '0' : json['rating'].toString());
     this.reference = json['reference'];
@@ -38,6 +40,8 @@ class DoctorModel {
     data['specialist'] = this.specialist;
     data['address'] = this.addressRef;
     data['phone'] = this.phone;
+    data['about'] = this.about;
+    data['centeraddress'] = this.centeraddress;
     data['rating'] = this.rating;
     return data;
   }

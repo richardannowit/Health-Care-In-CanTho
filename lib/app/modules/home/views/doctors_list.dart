@@ -78,12 +78,17 @@ class DoctorsList extends StatelessWidget {
                     parent: AlwaysScrollableScrollPhysics()),
                 itemCount: doctorList.length,
                 itemBuilder: (_, index) {
-                  return DoctorCard(
-                    img: 'assets/images/dr_1.png',
-                    name: doctorList[index].name!,
-                    speciality: doctorList[index].specialist!,
-                    rating: doctorList[index].rating.toString(),
-                  );
+                  return GestureDetector(
+                      child: DoctorCard(
+                        img: 'assets/images/dr_1.png',
+                        name: doctorList[index].name!,
+                        speciality: doctorList[index].specialist!,
+                        rating: doctorList[index].rating!.toStringAsFixed(1),
+                      ),
+                      onTap: () {
+                        Get.toNamed(Routes.DOCTORPERSIONALPAGE,
+                            arguments: doctorList[index]);
+                      });
                 },
               ),
             );

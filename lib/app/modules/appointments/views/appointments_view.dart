@@ -34,7 +34,7 @@ class AppointmentsView extends GetView<AppointmentsController> {
                     color: fgColor,
                   ),
                   onPressed: () {
-                    Get.offAllNamed(Routes.HOME);
+                    Get.toNamed(Routes.HOME);
                   })),
           endDrawer: buildDrawer(context),
           body: Container(

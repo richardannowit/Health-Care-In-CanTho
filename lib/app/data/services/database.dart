@@ -4,6 +4,7 @@ import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
+import 'package:flutter_healthcare/app/data/models/review.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 
 class DatabaseMethods {
@@ -112,6 +113,7 @@ class DatabaseMethods {
     for (var element in snapshot.docs) {
       final doctor = element.data() as Map<String, dynamic>;
       doctor['reference'] = element.reference;
+      doctor['docId'] = element.id;
 
       dynamic addressModel = new AddressModel(name: "NULL");
       /* Query address*/
@@ -175,5 +177,40 @@ class DatabaseMethods {
       districts.add(district);
     });
     return districts;
+  }
+
+  static Future<List<ReviewModel>> getReviews(String docId) async {
+    QuerySnapshot snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('reviews')
+        .get();
+    List<ReviewModel> reviewList = [];
+    for (var element in snapshot.docs) {
+      var review = element.data() as Map<String, dynamic>;
+      ReviewModel reviewModel = new ReviewModel.fromJson(review);
+      if (review.containsKey('user')) {
+        DocumentSnapshot userRef = await review['user'].get();
+        reviewModel.userName = userRef['name'];
+      }
+      reviewList.add(reviewModel);
+    }
+    return reviewList;
+  }
+
+  static Future<DocumentReference<Object?>> getUserRef(String userEmail) async {
+    QuerySnapshot snapshot = await _firestore
+        .collection('users')
+        .where('email', isEqualTo: userEmail)
+        .get();
+    return snapshot.docs.first.reference;
+  }
+
+  static upLoadReview(reviewData, String docId) {
+    _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('reviews')
+        .add(reviewData);
   }
 }
