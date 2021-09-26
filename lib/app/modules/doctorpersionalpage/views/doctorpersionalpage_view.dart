@@ -229,7 +229,7 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
             Text("Rating", style: textStyle),
             Icon(Icons.star, color: Colors.amber),
             Text(
-              '(' + controller.rxRating.toStringAsFixed(1) + ')',
+              '(' + controller.txRating.toStringAsFixed(1) + ')',
               style: txtStyle,
             ),
             Text(
@@ -245,7 +245,10 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
             allowHalfRating: true,
             itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber),
             onRatingUpdate: (rating) {
+              controller.rxRating = rating;
+              controller.score = rating;
               showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (context) {
                     return RatingDialog(

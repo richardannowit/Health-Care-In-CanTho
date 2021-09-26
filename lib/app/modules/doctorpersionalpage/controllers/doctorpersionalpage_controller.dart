@@ -15,9 +15,14 @@ class DoctorpersionalpageController extends GetxController {
   late double rating;
   late Timestamp date;
   late DocumentReference userRef;
+
   RxDouble _rxRating = 0.0.obs;
   double get rxRating => _rxRating.value;
   set rxRating(value) => _rxRating.value = value;
+
+  RxDouble _txRating = 0.0.obs;
+  double get txRating => _txRating.value;
+  set txRating(value) => _txRating.value = value;
 
   RxList<ReviewModel> _reviewList =
       new List<ReviewModel>.empty(growable: true).obs;
@@ -52,6 +57,7 @@ class DoctorpersionalpageController extends GetxController {
           .update(docData);
     }
     rxRating = doctor.rating!;
+    txRating = rxRating;
   }
 
   getRating() {
@@ -80,6 +86,10 @@ class DoctorpersionalpageController extends GetxController {
           .update(reviewData);
     } else
       DatabaseMethods.upLoadReview(reviewData, doctor.docId!);
+  }
+
+  changeRxRating() {
+    rxRating = doctor.rating!;
   }
 
   final count = 0.obs;

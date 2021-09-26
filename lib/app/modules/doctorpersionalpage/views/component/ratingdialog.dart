@@ -79,9 +79,9 @@ class RatingDialog extends StatelessWidget {
                         Get.back();
                         Get.snackbar('Error!',
                             'Please make sure you have entered the correct review information');
+                        controller.changeRxRating();
                       } else {
                         controller.upReview();
-                        controller.getReviewList();
                         Get.back();
                         Get.snackbar('Success!',
                             'Thank you for your review, we will use it to improve our service quality!!');
