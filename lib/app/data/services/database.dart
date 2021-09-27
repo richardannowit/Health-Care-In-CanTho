@@ -5,6 +5,7 @@ import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
+import 'package:intl/intl.dart';
 
 class DatabaseMethods {
   static FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -196,5 +197,25 @@ class DatabaseMethods {
       districts.add(district);
     });
     return districts;
+  }
+
+  static Future<bool> addTimeLineForDoctor(
+      String docId, DateTime date, List<DateTime> timeSlot) async {
+    String _date = DateFormat('dd-MM-yyyy').format(date);
+    Map<String, dynamic> data = {
+      'time_slot': FieldValue.arrayUnion(timeSlot),
+    };
+    bool insertSuccess = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .set(data)
+        .then((value) => insertSuccess = true)
+        .catchError((error) {
+      print("Insert timeline error");
+    });
+    return insertSuccess;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
+import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:get/get.dart';
 
 class ScheduleDoctorController extends GetxController {
@@ -35,10 +36,6 @@ class ScheduleDoctorController extends GetxController {
   Rx<TimeOfDay> _duration = new TimeOfDay(hour: 00, minute: 30).obs;
   TimeOfDay get duration => _duration.value;
   set duration(value) => _duration.value = value;
-
-  RxList<DateTime> _timeSlotList = new List<DateTime>.empty(growable: true).obs;
-  List<DateTime> get timeSlotList => _timeSlotList;
-  set timeSlotList(value) => _timeSlotList = value;
 
   //---------- Getter/Setter ---------------//
 
@@ -123,7 +120,21 @@ class ScheduleDoctorController extends GetxController {
       timeStart = timeStart
           .add(Duration(hours: duration.hour, minutes: duration.minute));
     }
-    timeSlotList = _time_slot;
+    bool insertSuccess = await DatabaseMethods.addTimeLineForDoctor(
+        doctorProfile.docId!, selectedDate, _time_slot);
+    if (insertSuccess) {
+      Get.snackbar(
+        "Make Schedule",
+        "Schedule is added successful",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      Get.snackbar(
+        "Make Schedule!",
+        "Error to add timeline",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   @override
