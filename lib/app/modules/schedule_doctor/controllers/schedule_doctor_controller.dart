@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:get/get.dart';
 
@@ -34,6 +35,10 @@ class ScheduleDoctorController extends GetxController {
   Rx<TimeOfDay> _duration = new TimeOfDay(hour: 00, minute: 30).obs;
   TimeOfDay get duration => _duration.value;
   set duration(value) => _duration.value = value;
+
+  RxList<DateTime> _timeSlotList = new List<DateTime>.empty(growable: true).obs;
+  List<DateTime> get timeSlotList => _timeSlotList;
+  set timeSlotList(value) => _timeSlotList = value;
 
   //---------- Getter/Setter ---------------//
 
@@ -77,6 +82,48 @@ class ScheduleDoctorController extends GetxController {
       return result;
     }
     return time;
+  }
+
+  void makeSchedule() async {
+    DateTime timeStart =
+        DateTimeHelpers.timeOfDayToDateTime(selectedDate, this.timeStart);
+    DateTime timeFinish =
+        DateTimeHelpers.timeOfDayToDateTime(selectedDate, this.timeFinish);
+    DateTime timeRelaxStart =
+        DateTimeHelpers.timeOfDayToDateTime(selectedDate, this.timeRelaxStart);
+    DateTime timeRelaxFinish =
+        DateTimeHelpers.timeOfDayToDateTime(selectedDate, this.timeRelaxFinish);
+    List<DateTime> _time_slot = new List<DateTime>.empty(growable: true);
+
+    if (timeStart.compareTo(timeFinish) > 0) {
+      Get.snackbar(
+        "Set wrong time!",
+        "Time Start must be less than Time Finish.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    if (timeRelaxStart.compareTo(timeRelaxFinish) > 0) {
+      Get.snackbar(
+        "Set wrong time!",
+        "Time Relax Start must be less than Time Relax Finish.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    while (true) {
+      if (timeStart.compareTo(timeFinish) > 0) break;
+      if (timeStart.compareTo(timeRelaxStart) < 0 ||
+          timeStart.compareTo(timeRelaxFinish) >= 0) {
+        _time_slot.add(timeStart);
+      }
+
+      timeStart = timeStart
+          .add(Duration(hours: duration.hour, minutes: duration.minute));
+    }
+    timeSlotList = _time_slot;
   }
 
   @override

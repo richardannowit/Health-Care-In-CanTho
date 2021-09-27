@@ -4,12 +4,12 @@ class ButtonCustom extends StatelessWidget {
   ButtonCustom({
     Key? key,
     required this.text,
-    required this.onPress,
+    required this.onPressed,
     required this.color,
   }) : super(key: key);
 
   final String text;
-  final Function onPress;
+  final GestureTapCallback onPressed;
   final Color color;
 
   @override
@@ -27,7 +27,7 @@ class ButtonCustom extends StatelessWidget {
           text,
           style: TextStyle(color: Colors.white),
         ),
-        onTap: () => onPress,
+        onTap: onPressed,
       ),
     );
   }

@@ -127,7 +127,9 @@ class MakeScheduleForm extends StatelessWidget {
                 child: ButtonCustom(
                   color: Color(0xff3668FC),
                   text: "Make Schedule",
-                  onPress: () {},
+                  onPressed: () {
+                    controller.makeSchedule();
+                  },
                 ),
               ),
             ],

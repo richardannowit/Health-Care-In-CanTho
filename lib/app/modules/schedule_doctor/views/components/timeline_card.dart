@@ -34,7 +34,7 @@ class TimeLineCard extends StatelessWidget {
           ButtonCustom(
             text: 'Delete',
             color: Color(0xFFD92828),
-            onPress: () {
+            onPressed: () {
               //
             },
           ),
