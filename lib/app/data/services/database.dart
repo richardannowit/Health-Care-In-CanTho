@@ -255,4 +255,63 @@ class DatabaseMethods {
     });
     return deleteSuccess;
   }
+
+  static Future<bool> deleteTimeSlot(
+      String docId, DateTime date, int index) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return false;
+    }
+
+    var timeline = snapshot.data() as Map<String, dynamic>;
+    List<dynamic> deleteSlot = List<dynamic>.empty(growable: true);
+    if (timeline.containsKey('delete_slot')) {
+      deleteSlot = timeline['delete_slot'];
+    }
+    deleteSlot.add(index);
+
+    Map<String, dynamic> data = {
+      'delete_slot': FieldValue.arrayUnion(deleteSlot),
+    };
+    bool deleteSuccess = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .update(data)
+        .then((value) => deleteSuccess = true)
+        .catchError((error) {
+      print("Delete timeline error");
+    });
+    return deleteSuccess;
+  }
+
+  static Future<List<dynamic>> getTimeSlotDeleted(
+      String docId, dynamic date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return new List<dynamic>.empty(growable: true);
+    }
+    List<dynamic> timeSlotDelete = new List<dynamic>.empty(growable: true);
+    var slot = snapshot.data() as Map<String, dynamic>;
+    if (slot.containsKey('delete_slot')) {
+      for (var timeSlot in slot['delete_slot']) {
+        timeSlotDelete.add(timeSlot);
+      }
+    }
+    return timeSlotDelete;
+  }
 }

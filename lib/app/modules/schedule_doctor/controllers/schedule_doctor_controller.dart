@@ -41,6 +41,10 @@ class ScheduleDoctorController extends GetxController {
   List<DateTime> get timeSlotList => _timeSlotList;
   set timeSlotList(value) => _timeSlotList.value = value;
 
+  RxList<dynamic> _deleteSlotList = new List<dynamic>.empty(growable: true).obs;
+  List<dynamic> get deleteSlotList => _deleteSlotList;
+  set deleteSlotList(value) => _deleteSlotList.value = value;
+
   RxBool _loading = false.obs;
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
@@ -49,7 +53,15 @@ class ScheduleDoctorController extends GetxController {
 
   final scrollController = ScrollController();
 
+  void resetTime() {
+    timeStart = TimeOfDay(hour: 07, minute: 00);
+    timeFinish = TimeOfDay(hour: 17, minute: 00);
+    timeRelaxStart = TimeOfDay(hour: 11, minute: 00);
+    timeRelaxFinish = TimeOfDay(hour: 13, minute: 30);
+  }
+
   void onDateChange(DateTime newDate) async {
+    resetTime();
     selectedDate = newDate;
     await loadData();
   }
@@ -61,8 +73,17 @@ class ScheduleDoctorController extends GetxController {
     await loadData();
   }
 
+  void deleteTimeSlot(int index) async {
+    // TODO: Check have booking does not accept delete
+    await DatabaseMethods.deleteTimeSlot(
+        doctorProfile.docId!, selectedDate, index);
+    await loadData();
+  }
+
   Future<void> loadData() async {
     loading = true;
+    deleteSlotList = await DatabaseMethods.getTimeSlotDeleted(
+        doctorProfile.docId!, selectedDate);
     timeSlotList = await DatabaseMethods.getTimeSlotList(
         doctorProfile.docId!, selectedDate);
     loading = false;
@@ -165,6 +186,7 @@ class ScheduleDoctorController extends GetxController {
   void onInit() async {
     super.onInit();
     doctorProfile = Get.arguments;
+    resetTime();
     await loadData();
   }
 

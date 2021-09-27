@@ -6,9 +6,11 @@ class TimeLineCard extends StatelessWidget {
     Key? key,
     required this.timeStart,
     required this.timeFinish,
+    required this.onPressed,
   }) : super(key: key);
 
   final String timeStart, timeFinish;
+  final GestureTapCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,7 @@ class TimeLineCard extends StatelessWidget {
           ButtonCustom(
             text: 'Delete',
             color: Color(0xFFD92828),
-            onPressed: () {
-              //
-            },
+            onPressed: onPressed,
           ),
         ],
       ),

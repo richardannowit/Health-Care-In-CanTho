@@ -70,11 +70,16 @@ class TimeLineList extends StatelessWidget {
               child: ListView.builder(
                 itemCount: controller.timeSlotList.length - 1,
                 itemBuilder: (_, index) {
+                  if (controller.deleteSlotList.contains(index))
+                    return SizedBox.shrink();
                   return TimeLineCard(
                     timeStart: DateTimeHelpers.dateTimeToTime(
                         controller.timeSlotList[index]),
                     timeFinish: DateTimeHelpers.dateTimeToTime(
                         controller.timeSlotList[index + 1]),
+                    onPressed: () {
+                      controller.deleteTimeSlot(index);
+                    },
                   );
                 },
               ),
