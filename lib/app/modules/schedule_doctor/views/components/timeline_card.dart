@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/button.dart';
 
 class TimeLineCard extends StatelessWidget {
-  const TimeLineCard({
+  TimeLineCard({
     Key? key,
+    required this.timeStart,
+    required this.timeFinish,
   }) : super(key: key);
+
+  final String timeStart, timeFinish;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class TimeLineCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            "7:00 - 7:29",
+            "${timeStart} - ${timeFinish}",
             style: TextStyle(color: Colors.white, fontSize: 22),
           ),
           ButtonCustom(

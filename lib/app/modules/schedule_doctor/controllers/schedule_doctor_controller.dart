@@ -37,12 +37,35 @@ class ScheduleDoctorController extends GetxController {
   TimeOfDay get duration => _duration.value;
   set duration(value) => _duration.value = value;
 
+  RxList<DateTime> _timeSlotList = new List<DateTime>.empty(growable: true).obs;
+  List<DateTime> get timeSlotList => _timeSlotList;
+  set timeSlotList(value) => _timeSlotList.value = value;
+
+  RxBool _loading = false.obs;
+  bool get loading => _loading.value;
+  set loading(value) => _loading.value = value;
+
   //---------- Getter/Setter ---------------//
 
   final scrollController = ScrollController();
 
-  void onDateChange(DateTime newDate) {
+  void onDateChange(DateTime newDate) async {
     selectedDate = newDate;
+    await loadData();
+  }
+
+  void deleteTimeLine() async {
+    // TODO: Check have booking does not accept delete
+    await DatabaseMethods.deleteTimeLineOfDoctor(
+        doctorProfile.docId!, selectedDate);
+    await loadData();
+  }
+
+  Future<void> loadData() async {
+    loading = true;
+    timeSlotList = await DatabaseMethods.getTimeSlotList(
+        doctorProfile.docId!, selectedDate);
+    loading = false;
   }
 
   bool isNow(DateTime date) {
@@ -128,6 +151,7 @@ class ScheduleDoctorController extends GetxController {
         "Schedule is added successful",
         snackPosition: SnackPosition.BOTTOM,
       );
+      await loadData();
     } else {
       Get.snackbar(
         "Make Schedule!",
@@ -138,9 +162,10 @@ class ScheduleDoctorController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     doctorProfile = Get.arguments;
+    await loadData();
   }
 
   @override

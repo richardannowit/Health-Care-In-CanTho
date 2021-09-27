@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/district.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
-import 'package:intl/intl.dart';
 
 class DatabaseMethods {
   static FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -201,7 +201,7 @@ class DatabaseMethods {
 
   static Future<bool> addTimeLineForDoctor(
       String docId, DateTime date, List<DateTime> timeSlot) async {
-    String _date = DateFormat('dd-MM-yyyy').format(date);
+    String _date = DateTimeHelpers.dateTimeToDate(date);
     Map<String, dynamic> data = {
       'time_slot': FieldValue.arrayUnion(timeSlot),
     };
@@ -217,5 +217,42 @@ class DatabaseMethods {
       print("Insert timeline error");
     });
     return insertSuccess;
+  }
+
+  static Future<List<DateTime>> getTimeSlotList(
+      String docId, DateTime date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return new List<DateTime>.empty(growable: true);
+    }
+    List<DateTime> timeSlotList = new List<DateTime>.empty(growable: true);
+    var timeline = snapshot.data() as Map<String, dynamic>;
+    for (var timeSlot in timeline['time_slot']) {
+      timeSlotList.add(DateTimeHelpers.timestampsToDateTime(timeSlot));
+    }
+    return timeSlotList;
+  }
+
+  static Future<bool> deleteTimeLineOfDoctor(
+      String docId, DateTime date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    bool deleteSuccess = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .delete()
+        .then((value) => deleteSuccess = true)
+        .catchError((error) {
+      print('Delete time line of doctor error');
+    });
+    return deleteSuccess;
   }
 }

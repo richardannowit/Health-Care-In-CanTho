@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/modules/schedule_doctor/controllers/schedule_doctor_controller.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/timeline_card.dart';
+import 'package:get/get.dart';
 
 class TimeLineList extends StatelessWidget {
-  const TimeLineList({Key? key}) : super(key: key);
+  TimeLineList({Key? key}) : super(key: key);
+
+  final ScheduleDoctorController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +34,14 @@ class TimeLineList extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     onTap: () {
-                      //
+                      controller.deleteTimeLine();
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        "Edit",
+                        "Delete All",
                         style: TextStyle(
-                          color: Color(0xff443BAD),
+                          color: Colors.red,
                           fontSize: 18,
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w700,
@@ -49,18 +54,33 @@ class TimeLineList extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 600, minHeight: 100.0),
-            child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (_, index) {
-                return TimeLineCard();
-              },
+        Obx(() {
+          if (controller.loading) {
+            return Container(
+              margin: EdgeInsets.only(top: 40),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return Container(
+            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 600, minHeight: 100.0),
+              child: ListView.builder(
+                itemCount: controller.timeSlotList.length - 1,
+                itemBuilder: (_, index) {
+                  return TimeLineCard(
+                    timeStart: DateTimeHelpers.dateTimeToTime(
+                        controller.timeSlotList[index]),
+                    timeFinish: DateTimeHelpers.dateTimeToTime(
+                        controller.timeSlotList[index + 1]),
+                  );
+                },
+              ),
             ),
-          ),
-        )
+          );
+        }),
       ],
     );
   }

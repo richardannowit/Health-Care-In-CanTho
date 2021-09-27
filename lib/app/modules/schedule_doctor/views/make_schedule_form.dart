@@ -58,6 +58,14 @@ class MakeScheduleForm extends StatelessWidget {
           ),
         ),
         Obx(() {
+          if (controller.loading) {
+            return Container(
+              margin: EdgeInsets.only(top: 40),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
           return Column(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
