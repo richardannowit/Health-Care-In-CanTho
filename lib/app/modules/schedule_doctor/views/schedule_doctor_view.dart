@@ -12,7 +12,7 @@ class ScheduleDoctorView extends GetView<ScheduleDoctorController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ScheduleDoctorView'),
+        title: Text('Schedule of doctor'),
         centerTitle: true,
       ),
       // backgroundColor: Color(0xffFFF9F6),
@@ -24,7 +24,7 @@ class ScheduleDoctorView extends GetView<ScheduleDoctorController> {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 20),
                   child: CalendarList(
-                    height: 80,
+                    height: 90,
                     date: controller.selectedDate,
                     onChange: controller.onDateChange,
                   ),

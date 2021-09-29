@@ -14,20 +14,20 @@ class ButtonCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.all(
-          Radius.circular(14),
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.all(
+            Radius.circular(14),
+          ),
         ),
-      ),
-      child: InkWell(
         child: Text(
           text,
           style: TextStyle(color: Colors.white),
         ),
-        onTap: onPressed,
       ),
     );
   }

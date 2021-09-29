@@ -9,6 +9,34 @@ class TimeLineList extends StatelessWidget {
 
   final ScheduleDoctorController controller = Get.find();
 
+  showDialog(
+      {String? content, String? confirmText, void Function()? onConfirm}) {
+    Get.defaultDialog(
+      confirm: TextButton(
+        onPressed: () {
+          onConfirm!();
+          Get.back();
+        },
+        child: Text(
+          confirmText ?? 'Confirm',
+          style: TextStyle(color: Colors.red),
+        ),
+      ),
+      cancel: TextButton(
+        onPressed: () {
+          Get.back();
+        },
+        child: Text('Cancel'),
+      ),
+      titlePadding: EdgeInsets.only(top: 15, bottom: 15),
+      title: 'Confirmation',
+      confirmTextColor: Colors.white,
+      buttonColor: Colors.red,
+      radius: 14,
+      middleText: content ?? "Do you want?",
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +62,13 @@ class TimeLineList extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     onTap: () {
-                      controller.deleteTimeLine();
+                      showDialog(
+                        content: 'Do you want to delete all?',
+                        confirmText: 'Delete',
+                        onConfirm: () {
+                          controller.deleteTimeLine();
+                        },
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -68,6 +102,8 @@ class TimeLineList extends StatelessWidget {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxHeight: 600, minHeight: 100.0),
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 itemCount: controller.timeSlotList.length - 1,
                 itemBuilder: (_, index) {
                   if (controller.deleteSlotList.contains(index))
@@ -78,7 +114,14 @@ class TimeLineList extends StatelessWidget {
                     timeFinish: DateTimeHelpers.dateTimeToTime(
                         controller.timeSlotList[index + 1]),
                     onPressed: () {
-                      controller.deleteTimeSlot(index);
+                      showDialog(
+                        content: 'Do you want to delete?',
+                        confirmText: 'Delete',
+                        onConfirm: () {
+                          controller.deleteTimeSlot(index);
+                        },
+                      );
+                      // controller.deleteTimeSlot(index);
                     },
                   );
                 },

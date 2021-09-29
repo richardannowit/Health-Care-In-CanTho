@@ -63,30 +63,45 @@ class ScheduleDoctorController extends GetxController {
   void onDateChange(DateTime newDate) async {
     resetTime();
     selectedDate = newDate;
+    loading = true;
     await loadData();
+    loading = false;
   }
 
   void deleteTimeLine() async {
     // TODO: Check have booking does not accept delete
     await DatabaseMethods.deleteTimeLineOfDoctor(
         doctorProfile.docId!, selectedDate);
+    loading = true;
     await loadData();
+    loading = false;
   }
 
   void deleteTimeSlot(int index) async {
     // TODO: Check have booking does not accept delete
+    loading = true;
     await DatabaseMethods.deleteTimeSlot(
         doctorProfile.docId!, selectedDate, index);
+
     await loadData();
+    loading = false;
   }
 
   Future<void> loadData() async {
-    loading = true;
     deleteSlotList = await DatabaseMethods.getTimeSlotDeleted(
         doctorProfile.docId!, selectedDate);
     timeSlotList = await DatabaseMethods.getTimeSlotList(
         doctorProfile.docId!, selectedDate);
-    loading = false;
+  }
+
+  bool isLessThanNow(DateTime date) {
+    final now = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+
+    return now.compareTo(date) > 0;
   }
 
   bool isNow(DateTime date) {
@@ -172,7 +187,9 @@ class ScheduleDoctorController extends GetxController {
         "Schedule is added successful",
         snackPosition: SnackPosition.BOTTOM,
       );
+      loading = true;
       await loadData();
+      loading = false;
     } else {
       Get.snackbar(
         "Make Schedule!",
@@ -187,7 +204,9 @@ class ScheduleDoctorController extends GetxController {
     super.onInit();
     doctorProfile = Get.arguments;
     resetTime();
+    loading = true;
     await loadData();
+    loading = false;
   }
 
   @override
