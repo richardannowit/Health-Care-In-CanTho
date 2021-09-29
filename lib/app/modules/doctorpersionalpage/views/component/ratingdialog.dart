@@ -71,25 +71,41 @@ class RatingDialog extends StatelessWidget {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: TextButton(
-                    onPressed: () {
-                      if (controller.score == 0 || controller.content == '') {
-                        Get.back();
-                        Get.snackbar('Error!',
-                            'Please make sure you have entered the correct review information');
-                        controller.changeRxRating();
-                      } else {
-                        controller.upReview();
-                        Get.back();
-                        Get.snackbar('Success!',
-                            'Thank you for your review, we will use it to improve our service quality!!');
-                      }
-                    },
-                    child: Text('Send Review'),
-                    style: reviewBtnStyle,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextButton(
+                        onPressed: () {
+                          Get.back();
+                          controller.changeRxRating();
+                        },
+                        child: Text('Back'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextButton(
+                        onPressed: () {
+                          if (controller.score == 0 ||
+                              controller.content == '') {
+                            Get.back();
+                            Get.snackbar('Error!',
+                                'Please make sure you have entered the correct review information');
+                            controller.changeRxRating();
+                          } else {
+                            controller.upReview();
+                            Get.back();
+                            Get.snackbar('Success!',
+                                'Thank you for your review, we will use it to improve our service quality!!');
+                          }
+                        },
+                        child: Text('Send Review'),
+                        style: reviewBtnStyle,
+                      ),
+                    )
+                  ],
                 ),
               ],
             )

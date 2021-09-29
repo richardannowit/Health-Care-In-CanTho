@@ -103,7 +103,8 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Get.offAndToNamed(Routes.HOME);
+                        Get.offNamed(Routes.DOCTORPERSIONALPAGE);
+                        Get.back();
                       },
                       icon: Icon(Icons.arrow_back_ios)),
                   IconButton(onPressed: () {}, icon: Icon(Icons.menu))
@@ -118,7 +119,11 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                   ),
                 ),
               ),
-              Text(controller.doctor.name!, style: TextStyle(fontSize: 20)),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(controller.doctor.name!,
+                    style: TextStyle(fontSize: 20)),
+              ),
               Text(
                 controller.doctor.specialist!,
                 style: txtStyle,

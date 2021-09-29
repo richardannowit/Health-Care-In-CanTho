@@ -150,6 +150,11 @@ class DatabaseMethods {
         await getDistrictRefFromDistrictName(district);
     // dynamic addressName = await addressRef.get();
     // print(addressName.data()['name']);
+    DocumentSnapshot address = await addressRef.get();
+    dynamic addressModel = new AddressModel(name: "NULL");
+    final addressJson = address.data() as Map<String, dynamic>;
+    addressJson['reference'] = address.reference;
+    addressModel = AddressModel.fromJson(addressJson);
     CollectionReference doctorRef =
         FirebaseFirestore.instance.collection('doctors');
 
@@ -159,6 +164,7 @@ class DatabaseMethods {
       var doctor = DoctorModel.fromJson(element.data() as Map<String, dynamic>);
       doctor.docId = element.id;
       doctor.reference = element.reference;
+      doctor.address = addressModel;
       doctors.add(doctor);
     });
     return doctors;

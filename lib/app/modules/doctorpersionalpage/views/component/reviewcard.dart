@@ -26,7 +26,7 @@ class ReviewCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                         child: Image(
-                      image: AssetImage('assets/images/avt_doctor.png'),
+                      image: AssetImage('assets/images/avt_user.png'),
                     )),
                     Container(
                       margin: EdgeInsets.only(left: 10),
