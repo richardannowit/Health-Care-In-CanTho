@@ -13,105 +13,105 @@ class RatingDialog extends StatelessWidget {
   final DoctorpersionalpageController controller;
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0)), //this right here
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 240,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Column(
+    return Obx(() => Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0)), //this right here
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 252,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                          child: Image(
-                        image: AssetImage('assets/images/avt_doctor.png'),
-                      )),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('What do you think about me?',
-                            style: textStyle),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Score',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600)),
-                      ),
-                      RatingBar.builder(
-                          itemSize: 40,
-                          allowHalfRating: true,
-                          initialRating: rating!,
-                          itemBuilder: (context, _) =>
-                              Icon(Icons.star, color: Colors.amber),
-                          onRatingUpdate: (rating) {
-                            controller.score = rating;
-                          }),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: TextField(
-                    onChanged: (value) {
-                      controller.content = value;
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: TextButton(
-                        onPressed: () {
-                          Get.back();
-                          controller.changeRxRating();
-                        },
-                        child: Text('Back'),
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                              child: Image(
+                            image: AssetImage('assets/images/avt_doctor.png'),
+                          )),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('What do you think about me?',
+                                style: textStyle),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Score',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600)),
+                          ),
+                          RatingBar.builder(
+                              itemSize: 40,
+                              allowHalfRating: true,
+                              initialRating: rating!,
+                              itemBuilder: (context, _) =>
+                                  Icon(Icons.star, color: Colors.amber),
+                              onRatingUpdate: (rating) {
+                                controller.score = rating;
+                              }),
+                        ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: TextButton(
-                        onPressed: () {
-                          if (controller.score == 0 ||
-                              controller.content == '') {
-                            Get.back();
-                            Get.snackbar('Error!',
-                                'Please make sure you have entered the correct review information');
-                            controller.changeRxRating();
-                          } else {
-                            controller.upReview();
-                            Get.back();
-                            Get.snackbar('Success!',
-                                'Thank you for your review, we will use it to improve our service quality!!');
-                          }
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: TextField(
+                        onChanged: (value) {
+                          controller.content = value;
                         },
-                        child: Text('Send Review'),
-                        style: reviewBtnStyle,
                       ),
-                    )
+                    ),
+                    Text(controller.text, style: TextStyle(color: Colors.red)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: TextButton(
+                            onPressed: () {
+                              Get.back();
+                              controller.text = '';
+                              controller.changeRxRating();
+                            },
+                            child: Text('Back'),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: TextButton(
+                            onPressed: () {
+                              if (controller.score == 0 ||
+                                  controller.content == '') {
+                                controller.text = 'Please enter your comment!';
+                              } else {
+                                controller.text = '';
+                                controller.upReview();
+                                Get.back();
+                                Get.snackbar('Success!',
+                                    'Thank you for your review, we will use it to improve our service quality!!');
+                              }
+                            },
+                            child: Text('Send Review'),
+                            style: reviewBtnStyle,
+                          ),
+                        )
+                      ],
+                    ),
                   ],
-                ),
+                )
               ],
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 }

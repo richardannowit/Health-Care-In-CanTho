@@ -33,6 +33,10 @@ class DoctorpersionalpageController extends GetxController {
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
 
+  RxString _text = ''.obs;
+  String get text => _text.value;
+  set text(value) => _text.value = value;
+
   getReviewList() async {
     loading = true;
     reviewList = await DatabaseMethods.getReviews(doctor.docId!);
