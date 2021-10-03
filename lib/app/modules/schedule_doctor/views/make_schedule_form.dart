@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/controllers/schedule_doctor_controller.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/button.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/timepicker.dart';
-import 'package:flutter_healthcare/app/modules/schedule_doctor/views/constants.dart';
 import 'package:get/get.dart';
 
 class MakeScheduleForm extends StatelessWidget {

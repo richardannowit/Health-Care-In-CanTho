@@ -7,15 +7,17 @@ class DoctorCard extends StatelessWidget {
     required this.name,
     required this.speciality,
     required this.rating,
+    required this.onPressed,
   }) : super(key: key);
 
   final String img, name, speciality, rating;
+  final GestureTapCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () {},
+    return InkWell(
+      onTap: onPressed,
       child: Container(
         height: 90,
         // width: size.width,
