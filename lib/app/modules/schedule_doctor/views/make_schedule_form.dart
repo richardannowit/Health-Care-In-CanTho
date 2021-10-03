@@ -21,14 +21,16 @@ class MakeScheduleForm extends StatelessWidget {
           child: Stack(
             fit: StackFit.loose,
             children: [
-              Container(
-                child: Text(
-                  "Your schedule",
-                  style: TextStyle(
-                    color: Color(0xff016565),
-                    fontSize: 18,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w600,
+              Center(
+                child: Container(
+                  child: Text(
+                    "Make your schedule",
+                    style: TextStyle(
+                      color: Color(0xff016565),
+                      fontSize: 18,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -42,7 +44,7 @@ class MakeScheduleForm extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        "Edit",
+                        "",
                         style: TextStyle(
                           color: Color(0xff443BAD),
                           fontSize: 18,

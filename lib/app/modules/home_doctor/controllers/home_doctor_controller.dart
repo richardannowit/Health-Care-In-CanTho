@@ -35,13 +35,7 @@ class HomeDoctorController extends GetxController {
   Future loadData() async {
     loading = true;
     user = _auth.currentUser;
-    var isDoctor = await DatabaseMethods.isDoctor(user!.uid);
-    if (!isDoctor) {
-      Get.offAllNamed(Routes.HOME);
-    }
-
     doctorProfile = await getDoctorProfile();
-
     loading = false;
   }
 

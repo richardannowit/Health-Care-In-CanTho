@@ -35,7 +35,6 @@ class HomeController extends GetxController {
   set loading(value) => _loading.value = value;
 
   Future<UserModel> getUserInfo() async {
-    user = _auth.currentUser;
     if (user != null) {
       UserModel data = await databaseMethods.getUserByUID(user!.uid);
 
@@ -71,6 +70,11 @@ class HomeController extends GetxController {
 
   Future loadData() async {
     loading = true;
+
+    var isDoctor = await DatabaseMethods.isDoctor(user!.uid);
+    if (isDoctor) {
+      Get.offAllNamed(Routes.HOME_DOCTOR);
+    }
     userInfo = await getUserInfo();
     appointmentList = await getAppointmentList();
     doctorList = await getDoctorList();
@@ -80,6 +84,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    user = _auth.currentUser;
     await loadData();
   }
 

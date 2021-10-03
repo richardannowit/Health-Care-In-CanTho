@@ -82,7 +82,7 @@ class DoctorsList extends StatelessWidget {
                     img: 'assets/images/dr_1.png',
                     name: doctorList[index].name!,
                     speciality: doctorList[index].specialist!,
-                    rating: doctorList[index].rating.toString(),
+                    rating: doctorList[index].rating!.toStringAsFixed(2),
                   );
                 },
               ),

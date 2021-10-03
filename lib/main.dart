@@ -13,7 +13,7 @@ Future<void> main() async {
     GetMaterialApp(
       title: "HealthCare",
       initialRoute: FirebaseAuth.instance.currentUser != null
-          ? Routes.HOME_DOCTOR
+          ? Routes.HOME
           : Routes.SPLASH,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
