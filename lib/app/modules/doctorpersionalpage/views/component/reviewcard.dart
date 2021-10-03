@@ -61,6 +61,8 @@ class ReviewCard extends StatelessWidget {
               margin: EdgeInsets.only(top: 10),
               child: Text(
                 content!,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 style: txtStyle,
               )),
         ],
