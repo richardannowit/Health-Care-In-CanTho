@@ -53,12 +53,10 @@ class DoctorpersionalpageController extends GetxController {
     if (reviewList.isNotEmpty) {
       getRating();
       doctor.rating = this.rating;
-      doctor.addressRef = doctor.address.reference;
-      Map<String, dynamic> docData = doctor.toJson();
       FirebaseFirestore.instance
           .collection('doctors')
           .doc(doctor.docId)
-          .update(docData);
+          .update({'rating': rating});
     }
     rxRating = doctor.rating!;
     txRating = rxRating;
