@@ -1,4 +1,3 @@
-import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {

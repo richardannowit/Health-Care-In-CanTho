@@ -35,6 +35,7 @@ class HomeController extends GetxController {
   set loading(value) => _loading.value = value;
 
   Future<UserModel> getUserInfo() async {
+    // TODO: Instead get user from firebase, we get user from local storage
     user = _auth.currentUser;
     if (user != null) {
       UserModel data = await databaseMethods.getUserByUID(user!.uid);
@@ -50,6 +51,7 @@ class HomeController extends GetxController {
   }
 
   Future<List<AppointmentModel>> getAppointmentList() async {
+    // TODO: userInfo will be delete temporary when click back in home and enter again
     return DatabaseMethods.getAppointments(userInfo.email!);
   }
 
@@ -60,7 +62,6 @@ class HomeController extends GetxController {
     }
 
     return DatabaseMethods.getDoctors();
-    // return DatabaseMethods.getDoctors();
   }
 
   void signOut() {
@@ -71,20 +72,28 @@ class HomeController extends GetxController {
 
   Future loadData() async {
     loading = true;
+    user = _auth.currentUser;
+    var isDoctor = await DatabaseMethods.isDoctor(user!.uid);
+    if (isDoctor) {
+      await Get.offAllNamed(Routes.HOME_DOCTOR);
+      return;
+    }
     userInfo = await getUserInfo();
     appointmentList = await getAppointmentList();
     doctorList = await getDoctorList();
+
     loading = false;
   }
 
   @override
   void onInit() async {
     super.onInit();
+    user = _auth.currentUser;
     await loadData();
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
   }
 
