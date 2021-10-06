@@ -16,6 +16,8 @@ import 'package:flutter_healthcare/app/modules/login/bindings/login_binding.dart
 import 'package:flutter_healthcare/app/modules/login/views/login_view.dart';
 import 'package:flutter_healthcare/app/modules/splash/bindings/splash_binding.dart';
 import 'package:flutter_healthcare/app/modules/splash/views/splash_view.dart';
+import 'package:flutter_healthcare/app/modules/userinformation/bindings/userinformation_binding.dart';
+import 'package:flutter_healthcare/app/modules/userinformation/views/userinformation_view.dart';
 
 part 'app_routes.dart';
 
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.DOCTORPERSIONALPAGE,
       page: () => DoctorpersionalpageView(),
       binding: DoctorpersionalpageBinding(),
+    ),
+    GetPage(
+      name: _Paths.USERINFORMATION,
+      page: () => UserinformationView(),
+      binding: UserinformationBinding(),
     ),
   ];
 }

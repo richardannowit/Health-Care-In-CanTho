@@ -4,6 +4,7 @@ import 'package:flutter_healthcare/app/data/models/address.dart';
 class UserModel {
   String? email, name, phone, uid;
   dynamic height, weight;
+  Timestamp? dateOfBirth;
   DocumentReference? addressRef;
   AddressModel? address;
   DocumentReference? reference;
@@ -13,6 +14,9 @@ class UserModel {
       this.email,
       this.name,
       this.phone,
+      this.weight,
+      this.height,
+      this.dateOfBirth,
       this.addressRef,
       this.reference});
 
@@ -23,6 +27,7 @@ class UserModel {
     this.address = json['address'];
     this.height = json['height'];
     this.weight = json['weight'];
+    this.dateOfBirth = json['dateofbirth'];
     this.reference = json['reference'];
   }
 
@@ -31,9 +36,10 @@ class UserModel {
     data['email'] = this.email;
     data['name'] = this.name;
     data['phone'] = this.phone;
-    data['address'] = this.address;
+    data['address'] = this.addressRef;
     data['height'] = this.height;
     data['weight'] = this.weight;
+    data['dateofbirth'] = this.dateOfBirth;
     return data;
   }
 }

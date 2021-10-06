@@ -42,7 +42,6 @@ class DatabaseMethods {
         }
       }
       user['address'] = addressModel;
-
       return UserModel.fromJson(user);
     }
 
