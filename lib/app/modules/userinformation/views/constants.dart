@@ -20,6 +20,7 @@ final inforStyle = BoxDecoration(
     ),
   ],
 );
+
 final buttonStyle = ButtonStyle(
   backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
   foregroundColor: MaterialStateProperty.all<Color>(Colors.white),

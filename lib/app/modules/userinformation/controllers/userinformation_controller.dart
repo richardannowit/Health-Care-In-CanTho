@@ -68,14 +68,7 @@ class UserinformationController extends GetxController {
     if (userInfo.phone == null) {
       userInfo.phone = 'Waiting for your update';
     }
-    if (userInfo.address == null) {
-      addressName = 'Waiting for your update';
-    } else {
-      if (userInfo.address!.name == 'NULL')
-        addressName = 'Waiting for your update';
-      else
-        addressName = userInfo.address!.name! + ', Cần Thơ';
-    }
+
     if (userInfo.dateOfBirth == null) {
       dateOfBirth = 'Waiting for your update';
     } else {

@@ -13,6 +13,7 @@ abstract class Routes {
   static const FORGOTPASSWORD = _Paths.FORGOTPASSWORD;
   static const DOCTORPERSIONALPAGE = _Paths.DOCTORPERSIONALPAGE;
   static const USERINFORMATION = _Paths.USERINFORMATION;
+  static const DOCTORINFORMATION = _Paths.DOCTORINFORMATION;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const FORGOTPASSWORD = '/forgotpassword';
   static const DOCTORPERSIONALPAGE = '/doctorpersionalpage';
   static const USERINFORMATION = '/userinformation';
+  static const DOCTORINFORMATION = '/doctorinformation';
 }

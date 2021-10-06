@@ -4,6 +4,8 @@ import 'package:flutter_healthcare/app/modules/Signup/bindings/signup_binding.da
 import 'package:flutter_healthcare/app/modules/Signup/views/signup_view.dart';
 import 'package:flutter_healthcare/app/modules/appointments/bindings/appointments_binding.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/appointments_view.dart';
+import 'package:flutter_healthcare/app/modules/doctorinformation/bindings/doctorinformation_binding.dart';
+import 'package:flutter_healthcare/app/modules/doctorinformation/views/doctorinformation_view.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/bindings/doctorpersionalpage_binding.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/doctorpersionalpage_view.dart';
 import 'package:flutter_healthcare/app/modules/doctors_list/bindings/doctor_list_binding.dart';
@@ -71,6 +73,11 @@ class AppPages {
       name: _Paths.USERINFORMATION,
       page: () => UserinformationView(),
       binding: UserinformationBinding(),
+    ),
+    GetPage(
+      name: _Paths.DOCTORINFORMATION,
+      page: () => DoctorinformationView(),
+      binding: DoctorinformationBinding(),
     ),
   ];
 }

@@ -48,6 +48,29 @@ class DatabaseMethods {
     return UserModel();
   }
 
+  Future<DoctorModel> getDoctorById(String did) async {
+    var snapshot = await _firestore.collection('doctors').doc(did).get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic> doctor = snapshot.data() as Map<String, dynamic>;
+      doctor['reference'] = snapshot.reference;
+
+      AddressModel addressModel = new AddressModel(name: 'NULL');
+      if (doctor.containsKey('address')) {
+        DocumentSnapshot addressRef = await doctor['address'].get();
+        if (addressRef.exists) {
+          final addressJon = addressRef.data() as Map<String, dynamic>;
+          addressJon['reference'] = addressRef.reference;
+          addressModel = AddressModel.fromJson(addressJon);
+        }
+      }
+      doctor['address'] = addressModel;
+      return DoctorModel.fromJson(doctor);
+    }
+
+    return DoctorModel();
+  }
+
   uploadUserInfo(userMap) {
     _firestore.collection('users').add(userMap);
   }
