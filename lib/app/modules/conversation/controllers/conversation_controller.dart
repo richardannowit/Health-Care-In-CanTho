@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 class ConversationController extends GetxController {
   TextEditingController messageEditingController = new TextEditingController();
   DatabaseMethods databaseMethods = new DatabaseMethods();
+
   final bool sendByMe = false;
 
   Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
