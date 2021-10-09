@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -122,12 +123,28 @@ class DoctorsListView extends GetView<DoctorListController> {
                                       const EdgeInsets.fromLTRB(0, 6, 6, 16)),
                             ],
                           ),
-                          InkWell(
-                            onTap: () =>
-                                controller.createChatroomAndStartConversation(
-                                    doctors[index].email.toString(),
-                                    doctors[index].name.toString()),
-                            child: Text('Message'),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 100, bottom: 24),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(24),
+                              onTap: () => CreateChatRoom()
+                                  .createChatroomAndStartConversation(
+                                      doctors[index].email.toString(),
+                                      doctors[index].name.toString()),
+                              child: PhysicalModel(
+                                color: Colors.amber,
+                                borderRadius: BorderRadius.circular(24),
+                                elevation: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Message',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -154,7 +171,6 @@ class DoctorsListView extends GetView<DoctorListController> {
                   borderRadius: BorderRadius.circular(8),
                   onTap: () {
                     controller.currentIndex.value = index;
-                    print('$index ' + 'và' + '$controller.currentIndex.value');
                     controller.changeCategories(districts[index].name);
                   },
                   child: Container(
