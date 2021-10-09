@@ -50,11 +50,11 @@ class HomeController extends GetxController {
   }
 
   Future<List<AppointmentModel>> getAppointmentList() async {
-    return DatabaseMethods.getAppointments(userInfo.email!);
+    return DatabaseMethods.getAppointments(userInfo.email ?? '');
   }
 
   Future<List<DoctorModel>> getDoctorList() async {
-    if (userInfo.address!.reference != null) {
+    if (userInfo.address?.reference != null) {
       print(userInfo.address);
       return DatabaseMethods.getDoctors(userInfo.address!.reference!);
     }

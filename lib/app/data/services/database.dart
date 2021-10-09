@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_healthcare/app/data/models/district.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
-import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 
 class DatabaseMethods {
@@ -22,6 +20,43 @@ class DatabaseMethods {
         .collection('users')
         .where('email', isEqualTo: userEmail)
         .get();
+  }
+
+  createChatroom(chatRoomId, chatRoomMap) {
+    FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .set(chatRoomMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getChatRooms(String userName) async {
+    return FirebaseFirestore.instance
+        .collection("chatRoom")
+        .where("users", arrayContains: userName)
+        .snapshots();
+  }
+
+  getConversationMessage(String chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("time", descending: false)
+        .snapshots();
+  }
+
+  addMessage(String chatRoomId, chatMessageData) async {
+    return FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .add(chatMessageData)
+        .catchError((e) {
+      print(e.toString());
+    });
   }
 
   Future<UserModel> getUserByUID(String uid) async {

@@ -89,28 +89,39 @@ class DoctorsListView extends GetView<DoctorListController> {
                           ),
                         ),
                       ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      subtitle: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Text('${doctors[index].specialist}'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 6),
+                                child: Text('${doctors[index].specialist}'),
+                              ),
+                              RatingBar.builder(
+                                  itemSize: 16,
+                                  allowHalfRating: true,
+                                  initialRating: doctors[index].rating!,
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
+                                  direction: Axis.horizontal,
+                                  itemCount: 5,
+                                  itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                  itemPadding:
+                                      const EdgeInsets.fromLTRB(0, 6, 6, 16)),
+                            ],
                           ),
-                          RatingBar.builder(
-                              itemSize: 16,
-                              allowHalfRating: true,
-                              initialRating: doctors[index].rating!,
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                              direction: Axis.horizontal,
-                              itemCount: 5,
-                              itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                              itemPadding:
-                                  const EdgeInsets.fromLTRB(0, 6, 6, 16)),
+                          InkWell(
+                            onTap: () =>
+                                controller.createChatroomAndStartConversation(
+                                    doctors[index].email.toString(),
+                                    doctors[index].name.toString()),
+                            child: Text('Message'),
+                          )
                         ],
                       ),
                     ),

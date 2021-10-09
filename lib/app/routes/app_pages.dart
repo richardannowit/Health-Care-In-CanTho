@@ -1,11 +1,13 @@
-import 'package:flutter_healthcare/app/modules/doctors_list/bindings/doctor_list_binding.dart';
+import 'package:flutter_healthcare/app/modules/conversation/bindings/conversation_binding.dart';
+import 'package:flutter_healthcare/app/modules/conversation/views/conversation_view.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_healthcare/app/modules/Signup/bindings/signup_binding.dart';
 import 'package:flutter_healthcare/app/modules/Signup/views/signup_view.dart';
-import 'package:flutter_healthcare/app/modules/doctors_list/views/doctor_list_view.dart';
 import 'package:flutter_healthcare/app/modules/appointments/bindings/appointments_binding.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/appointments_view.dart';
+import 'package:flutter_healthcare/app/modules/doctors_list/bindings/doctor_list_binding.dart';
+import 'package:flutter_healthcare/app/modules/doctors_list/views/doctor_list_view.dart';
 import 'package:flutter_healthcare/app/modules/forgotpassword/bindings/forgotpassword_binding.dart';
 import 'package:flutter_healthcare/app/modules/forgotpassword/views/forgotpassword_view.dart';
 import 'package:flutter_healthcare/app/modules/home/bindings/home_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.FORGOTPASSWORD,
       page: () => ForgotpasswordView(),
       binding: ForgotpasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONSERVATION,
+      page: () => ConversationView(),
+      binding: ConversationBinding(),
     ),
   ];
 }
