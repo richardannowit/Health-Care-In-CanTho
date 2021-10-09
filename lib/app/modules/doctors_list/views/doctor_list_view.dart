@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:get/get.dart';
@@ -22,6 +23,9 @@ class DoctorsListView extends GetView<DoctorListController> {
           ),
         ),
         leading: BackButton(
+          onPressed: () {
+            Get.back();
+          },
           color: Colors.black,
         ),
       ),
@@ -72,7 +76,10 @@ class DoctorsListView extends GetView<DoctorListController> {
               itemBuilder: (context, index) {
                 return InkWell(
                   borderRadius: BorderRadius.circular(8),
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.DOCTORPERSIONALPAGE,
+                        arguments: doctors[index]);
+                  },
                   child: Card(
                     elevation: 2,
                     child: ListTile(
