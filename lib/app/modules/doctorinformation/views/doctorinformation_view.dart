@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/controllers/doctorinformation_controller.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/views/reviews.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/views/updateview.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'constants.dart';
@@ -45,7 +46,7 @@ class DoctorinformationView extends GetView<DoctorinformationController> {
                           Get.snackbar('Please update your information',
                               'To use other features please update your information');
                         } else {
-                          print("Chuyen trang thanh cong");
+                          Get.offAndToNamed(Routes.HOME_DOCTOR);
                         }
                       },
                       icon: Icon(Icons.arrow_back_ios)),

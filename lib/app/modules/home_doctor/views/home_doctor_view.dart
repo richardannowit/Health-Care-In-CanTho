@@ -31,6 +31,12 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
                 ),
                 TextButton(
                   onPressed: () {
+                    Get.toNamed(Routes.DOCTORINFORMATION);
+                  },
+                  child: Text('Information'),
+                ),
+                TextButton(
+                  onPressed: () {
                     controller.signOut();
                   },
                   child: Text('Log out'),

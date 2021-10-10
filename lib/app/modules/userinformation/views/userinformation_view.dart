@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/constants.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 
@@ -34,8 +35,7 @@ class UserinformationView extends GetView<UserinformationController> {
                                 Get.snackbar('Please update your information',
                                     'To use other features please update your information');
                               } else {
-                                //change page in here
-                                print('Chuyen trang thanh cong');
+                                Get.offAndToNamed(Routes.HOME);
                               }
                             }
                           },
@@ -376,7 +376,8 @@ class UserinformationView extends GetView<UserinformationController> {
                                     child: TextFormField(
                                       onSaved: (value) {
                                         if (value != '')
-                                          controller.newUserInfo.height = value;
+                                          controller.newUserInfo.height =
+                                              double.tryParse(value!);
                                       },
                                       decoration: InputDecoration(
                                           hintText: controller
@@ -402,7 +403,8 @@ class UserinformationView extends GetView<UserinformationController> {
                               child: TextFormField(
                                   onSaved: (value) {
                                     if (value != '')
-                                      controller.newUserInfo.weight = value;
+                                      controller.newUserInfo.weight =
+                                          double.tryParse(value!);
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(

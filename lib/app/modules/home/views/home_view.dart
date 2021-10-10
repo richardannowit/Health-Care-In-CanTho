@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/modules/appointments/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/home/views/doctors_list.dart';
 import 'package:flutter_healthcare/app/modules/home/views/incoming_appointment.dart';
 import 'package:flutter_healthcare/app/modules/home/views/infomation.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.grey[200],
+        endDrawer: buildDrawer(context),
         body: SingleChildScrollView(
           child: RefreshIndicator(
             onRefresh: () => controller.loadData(),
@@ -36,6 +41,7 @@ class HomeView extends GetView<HomeController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InfomationUser(
+                      scaffoldKey: _scaffoldKey,
                       size: size,
                       name: controller.userInfo.name!,
                       bmi: controller.bmi.value,
@@ -52,6 +58,53 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildDrawer(BuildContext context) {
+    return Column(children: [
+      Expanded(
+        child: Drawer(
+          child: Material(
+            child: ListView(
+              children: <Widget>[
+                buildMenuItem(
+                    text: 'User information',
+                    icon: Icons.person,
+                    iconColor: Colors.blue,
+                    onPressed: () {
+                      Get.toNamed(Routes.USERINFORMATION);
+                    }),
+                buildMenuItem(
+                    text: 'Log out',
+                    icon: Icons.logout,
+                    iconColor: Colors.blue,
+                    onPressed: () {
+                      controller.signOut();
+                    }),
+              ],
+            ),
+          ),
+        ),
+      )
+    ]);
+  }
+
+  Widget buildMenuItem({
+    required String text,
+    required IconData icon,
+    required iconColor,
+    required GestureTapCallback onPressed,
+  }) {
+    final hoverColor = Colors.white70;
+    return ListTile(
+      leading: Icon(icon, color: iconColor),
+      title: Text(
+        text,
+        style: largeTextStyle,
+      ),
+      hoverColor: hoverColor,
+      onTap: onPressed,
     );
   }
 }
