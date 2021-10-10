@@ -1,3 +1,5 @@
+import 'package:flutter_healthcare/app/modules/conversation/bindings/conversation_binding.dart';
+import 'package:flutter_healthcare/app/modules/conversation/views/conversation_view.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_healthcare/app/modules/Signup/bindings/signup_binding.dart';
@@ -63,6 +65,11 @@ class AppPages {
       name: _Paths.FORGOTPASSWORD,
       page: () => ForgotpasswordView(),
       binding: ForgotpasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONSERVATION,
+      page: () => ConversationView(),
+      binding: ConversationBinding(),
     ),
     GetPage(
       name: _Paths.HOME_DOCTOR,

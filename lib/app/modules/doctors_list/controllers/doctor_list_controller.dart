@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_healthcare/app/data/helper/constants.dart';
+import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/data/models/district.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
@@ -17,6 +20,8 @@ class DoctorListController extends GetxController {
   UserModel get userInfo => _userInfo.value;
   set userInfo(value) => _userInfo.value = value;
 
+  Stream<QuerySnapshot>? chatRoomStream;
+
   Future<UserModel> getUserInfo() async {
     user = _auth.currentUser;
     if (user != null) {
@@ -26,10 +31,19 @@ class DoctorListController extends GetxController {
     return new UserModel();
   }
 
+  getUserInfoIsLogged() async {
+    Constants.myName =
+        (await HelperFunctions.getUserEmailSharedPreference()) ?? '';
+    databaseMethods.getChatRooms(Constants.myName).then((value) {
+      chatRoomStream = value;
+    });
+  }
+
   @override
   void onInit() async {
     super.onInit();
     await getUserInfo();
+    await getUserInfoIsLogged();
   }
 
   @override
@@ -39,11 +53,6 @@ class DoctorListController extends GetxController {
 
   @override
   void onClose() {}
-
-  // void changeCategories(index) {
-  //   currentIndex(index);
-  //   getDoctorsByDistrict(index);
-  // }
 
   changeCategories(var value) {
     this.districtName.value = value;

@@ -24,6 +24,43 @@ class DatabaseMethods {
         .get();
   }
 
+  createChatroom(chatRoomId, chatRoomMap) {
+    FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .set(chatRoomMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getChatRooms(String userName) async {
+    return FirebaseFirestore.instance
+        .collection("chatRoom")
+        .where("users", arrayContains: userName)
+        .snapshots();
+  }
+
+  getConversationMessage(String chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("time", descending: false)
+        .snapshots();
+  }
+
+  addMessage(String chatRoomId, chatMessageData) async {
+    return FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .add(chatMessageData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   Future<UserModel> getUserByUID(String uid) async {
     var snapshot = await _firestore.collection('users').doc(uid).get();
 

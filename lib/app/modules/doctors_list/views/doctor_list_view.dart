@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -23,6 +24,9 @@ class DoctorsListView extends GetView<DoctorListController> {
           ),
         ),
         leading: BackButton(
+          onPressed: () {
+            Get.back();
+          },
           color: Colors.black,
         ),
       ),
@@ -93,28 +97,55 @@ class DoctorsListView extends GetView<DoctorListController> {
                           ),
                         ),
                       ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      subtitle: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Text('${doctors[index].specialist}'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 6),
+                                child: Text('${doctors[index].specialist}'),
+                              ),
+                              RatingBar.builder(
+                                  itemSize: 16,
+                                  allowHalfRating: true,
+                                  initialRating: doctors[index].rating!,
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
+                                  direction: Axis.horizontal,
+                                  itemCount: 5,
+                                  itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                  itemPadding:
+                                      const EdgeInsets.fromLTRB(0, 6, 6, 16)),
+                            ],
                           ),
-                          RatingBar.builder(
-                              itemSize: 16,
-                              allowHalfRating: true,
-                              initialRating: doctors[index].rating!,
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                              direction: Axis.horizontal,
-                              itemCount: 5,
-                              itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 100, bottom: 24),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(24),
+                              onTap: () => CreateChatRoom()
+                                  .createChatroomAndStartConversation(
+                                      doctors[index].email.toString(),
+                                      doctors[index].name.toString()),
+                              child: PhysicalModel(
+                                color: Colors.amber,
+                                borderRadius: BorderRadius.circular(24),
+                                elevation: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Message',
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                              itemPadding:
-                                  const EdgeInsets.fromLTRB(0, 6, 6, 16)),
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -140,7 +171,6 @@ class DoctorsListView extends GetView<DoctorListController> {
                   borderRadius: BorderRadius.circular(8),
                   onTap: () {
                     controller.currentIndex.value = index;
-                    print('$index ' + 'và' + '$controller.currentIndex.value');
                     controller.changeCategories(districts[index].name);
                   },
                   child: Container(
