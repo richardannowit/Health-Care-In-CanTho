@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class DoctorinformationController extends GetxController {
   final String doctorId = FirebaseAuth.instance.currentUser!.uid;
   final String? email = FirebaseAuth.instance.currentUser!.email;
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
+  DoctorModel newDoctor = new DoctorModel();
 
   Rx<DoctorModel> _doctorInfo = new DoctorModel().obs;
   DoctorModel get doctorInfo => _doctorInfo.value;
@@ -28,6 +30,10 @@ class DoctorinformationController extends GetxController {
   RxBool _loading = true.obs;
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
+
+  RxBool _isUpdate = true.obs;
+  bool get isUpdate => _isUpdate.value;
+  set isUpdate(value) => _isUpdate.value = value;
 
   Rx<String> _doctorName = '...'.obs;
   String get doctorName => _doctorName.value;
@@ -64,6 +70,7 @@ class DoctorinformationController extends GetxController {
 
   removeNullFields() {
     if (doctorInfo.email == null) {
+      isUpdate = false;
       doctorInfo.email = FirebaseAuth.instance.currentUser!.email;
     }
 
@@ -101,6 +108,60 @@ class DoctorinformationController extends GetxController {
       else
         addressName = doctorInfo.address!.name! + ', Cần Thơ';
     }
+  }
+
+  makeHint() {
+    hint = listAddress[0].name;
+    newDoctor.addressRef = listAddress[0].reference;
+    newDoctor.email = FirebaseAuth.instance.currentUser!.email;
+    if (doctorInfo.name == null) {
+      newDoctor.name = 'Ex: Vo Tu Thien';
+    } else {
+      newDoctor.name = doctorInfo.name;
+    }
+
+    if (doctorInfo.specialist == null) {
+      newDoctor.specialist = 'Ex: Heart';
+    } else {
+      newDoctor.specialist = doctorInfo.specialist;
+    }
+
+    if (doctorInfo.about == 'Waiting for your update') {
+      newDoctor.about =
+          'Ex: Renowned doctor who participated in heart transplants abroad';
+    } else {
+      newDoctor.about = doctorInfo.about;
+    }
+
+    if (doctorInfo.rating == null) {
+      newDoctor.rating = 0;
+    } else {
+      newDoctor.rating = doctorInfo.rating;
+    }
+    if (doctorInfo.phone == 'Waiting for your update') {
+      newDoctor.phone = 'Ex: 0812305346';
+    } else {
+      newDoctor.phone = doctorInfo.phone;
+    }
+    if (doctorInfo.centeraddress == 'Waiting for your update') {
+      newDoctor.centeraddress = 'Ex: 331 Ba Thang Hai Street, Hung Loi';
+    } else {
+      newDoctor.centeraddress = doctorInfo.centeraddress;
+    }
+    if (doctorInfo.address != null) {
+      if (doctorInfo.address.name != 'NULL') {
+        newDoctor.addressRef = doctorInfo.address.reference;
+        hint = doctorInfo.address.name;
+      }
+    }
+  }
+
+  updateDoctorInfo() {
+    FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(doctorId)
+        .set(newDoctor.toJson());
+    isUpdate = true;
   }
 
   changeViewMode() {

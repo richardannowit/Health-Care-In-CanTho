@@ -140,51 +140,71 @@ class UserinformationView extends GetView<UserinformationController> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
-                      child: Text('Height:'),
+                      child: Text('Sex:'),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          controller.userInfo.height.toString(),
-                          style: textStyle,
-                        ),
-                        Text(
-                          ' m',
-                          style: textStyle,
-                        )
-                      ],
-                    )
+                    Text(
+                      controller.userInfo.sex!,
+                      style: textStyle,
+                    ),
                   ],
                 ),
                 Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, bottom: 8),
-                      child: Text('Weight:'),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          controller.userInfo.weight.toString(),
-                          style: textStyle,
-                        ),
-                        Text(
-                          ' Kg',
-                          style: textStyle,
-                        )
-                      ],
-                    )
-                  ],
-                ))
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Text('Height:'),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                controller.userInfo.height.toString(),
+                                style: textStyle,
+                              ),
+                              Text(
+                                ' m',
+                                style: textStyle,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4, bottom: 8),
+                            child: Text('Weight:'),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                controller.userInfo.weight.toString(),
+                                style: textStyle,
+                              ),
+                              Text(
+                                ' Kg',
+                                style: textStyle,
+                              )
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
             Divider(
@@ -328,50 +348,71 @@ class UserinformationView extends GetView<UserinformationController> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Height(m) & Weight(kg):'),
+                      Text('Sex/Height(m)/Weight(kg):'),
                       Row(
                         children: [
+                          Row(
+                            children: [
+                              Checkbox(
+                                  value: controller.sex,
+                                  onChanged: (value) {
+                                    if (value!) {
+                                      controller.newUserInfo.sex = 'Nam';
+                                    } else {
+                                      controller.newUserInfo.sex = 'Nữ';
+                                    }
+                                    controller.sex = value;
+                                  }),
+                              Text('Nam')
+                            ],
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Flexible(
+                                  child: Container(
+                                    width: 60,
+                                    child: TextFormField(
+                                      onSaved: (value) {
+                                        if (value != '')
+                                          controller.newUserInfo.height = value;
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: controller
+                                              .newUserInfo.height
+                                              .toString()),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value !=
+                                            '') if (double.tryParse(value!)! <=
+                                                0 ||
+                                            double.tryParse(value)! >= 2.5)
+                                          return 'Incorrect';
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           Flexible(
                             child: Container(
                               width: 60,
                               child: TextFormField(
-                                onSaved: (value) {
-                                  if (value != '')
-                                    controller.newUserInfo.height = value;
-                                },
-                                decoration: InputDecoration(
-                                    hintText: controller.newUserInfo.height
-                                        .toString()),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value !=
-                                      '') if (double.tryParse(value!)! <=
-                                          0 ||
-                                      double.tryParse(value)! >= 2.5)
-                                    return 'Incorrect';
-                                },
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            child: Center(
-                              child: Container(
-                                width: 60,
-                                child: TextFormField(
-                                    onSaved: (value) {
-                                      if (value != '')
-                                        controller.newUserInfo.weight = value;
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        hintText: controller.newUserInfo.weight
-                                            .toString()),
-                                    validator: (value) {
-                                      if (value !=
-                                          '') if (double.tryParse(value!)! <= 0)
-                                        return 'Incorrect';
-                                    }),
-                              ),
+                                  onSaved: (value) {
+                                    if (value != '')
+                                      controller.newUserInfo.weight = value;
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      hintText: controller.newUserInfo.weight
+                                          .toString()),
+                                  validator: (value) {
+                                    if (value !=
+                                        '') if (double.tryParse(value!)! <= 0)
+                                      return 'Incorrect';
+                                  }),
                             ),
                           ),
                         ],
@@ -402,7 +443,7 @@ class UserinformationView extends GetView<UserinformationController> {
                               controller.newUserInfo.phone == 'Ex: 0971002636')
                             return 'The phone field cannot be empty!';
                           if (value != '' && !GetUtils.isPhoneNumber(value!)) {
-                            return 'Incorrect';
+                            return 'Incorrect!';
                           }
                         },
                       ),

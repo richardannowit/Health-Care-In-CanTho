@@ -41,7 +41,12 @@ class DoctorinformationView extends GetView<DoctorinformationController> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        // To do anything
+                        if (!controller.isUpdate) {
+                          Get.snackbar('Please update your information',
+                              'To use other features please update your information');
+                        } else {
+                          print("Chuyen trang thanh cong");
+                        }
                       },
                       icon: Icon(Icons.arrow_back_ios)),
                   IconButton(onPressed: () {}, icon: Icon(Icons.menu))
@@ -84,6 +89,7 @@ class DoctorinformationView extends GetView<DoctorinformationController> {
                   ),
                   RawMaterialButton(
                     onPressed: () {
+                      controller.makeHint();
                       Get.to(UpdateView());
                     },
                     child: Icon(
@@ -359,6 +365,8 @@ class DoctorinformationView extends GetView<DoctorinformationController> {
                   Text(
                     controller.doctorInfo.centeraddress!,
                     style: textStyle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   )
                 ],
               ),
@@ -386,7 +394,7 @@ class DoctorinformationView extends GetView<DoctorinformationController> {
                   Text(
                     controller.doctorInfo.about!,
                     style: textStyle,
-                    maxLines: 3,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   )
                 ],

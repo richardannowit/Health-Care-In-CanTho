@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 
 class UserModel {
-  String? email, name, phone, uid;
+  String? email, name, phone, uid, sex;
   dynamic height, weight;
   Timestamp? dateOfBirth;
   DocumentReference? addressRef;
@@ -14,6 +14,7 @@ class UserModel {
       this.email,
       this.name,
       this.phone,
+      this.sex,
       this.weight,
       this.height,
       this.dateOfBirth,
@@ -24,6 +25,7 @@ class UserModel {
     this.email = json['email'];
     this.name = json['name'];
     this.phone = json['phone'];
+    this.sex = json['sex'];
     this.address = json['address'];
     this.height = json['height'];
     this.weight = json['weight'];
@@ -36,6 +38,7 @@ class UserModel {
     data['email'] = this.email;
     data['name'] = this.name;
     data['phone'] = this.phone;
+    data['sex'] = this.sex;
     data['address'] = this.addressRef;
     data['height'] = this.height;
     data['weight'] = this.weight;

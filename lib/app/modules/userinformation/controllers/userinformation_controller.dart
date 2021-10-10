@@ -27,6 +27,10 @@ class UserinformationController extends GetxController {
   bool get flag => _flag.value;
   set flag(value) => _flag.value = value;
 
+  RxBool _sex = true.obs;
+  bool get sex => _sex.value;
+  set sex(value) => _sex.value = value;
+
   RxBool _visible = true.obs;
   bool get visible => _visible.value;
   set visible(value) => _visible.value = value;
@@ -53,7 +57,10 @@ class UserinformationController extends GetxController {
     if (userInfo.email == null) {
       isUpdate = false;
       userInfo.email = FirebaseAuth.instance.currentUser!.email;
-    } else {}
+    }
+    if (userInfo.sex == null) {
+      userInfo.sex = 'None';
+    }
     if (userInfo.name == null) {
       userName = 'Waiting for your update';
     } else {
@@ -74,12 +81,30 @@ class UserinformationController extends GetxController {
     } else {
       dateOfBirth = DateTimeHelpers.timestampsToDate(userInfo.dateOfBirth!);
     }
+    if (userInfo.address == null) {
+      addressName = 'Waiting for your update';
+    } else {
+      if (userInfo.address!.name == 'NULL')
+        addressName = 'Waiting for your update';
+      else
+        addressName = userInfo.address!.name! + ', Cần Thơ';
+    }
   }
 
   makeHint() {
     updating = true;
     newUserInfo.addressRef = listAddress[0].reference;
     hint = listAddress[0].name;
+    if (userInfo.sex == 'None') {
+      newUserInfo.sex = 'Nam';
+      sex = true;
+    } else {
+      newUserInfo.sex = userInfo.sex;
+      if (userInfo.sex == 'Nam')
+        sex = true;
+      else
+        sex = false;
+    }
     if (userInfo.name == null) {
       newUserInfo.name = 'Ex: Nguyen Van A';
     } else {
@@ -101,7 +126,7 @@ class UserinformationController extends GetxController {
       newUserInfo.phone = userInfo.phone;
     }
     if (userInfo.address != null) {
-      if (userInfo.address!.name != 'null') {
+      if (userInfo.address!.name != 'NULL') {
         newUserInfo.addressRef = userInfo.address!.reference;
         hint = userInfo.address!.name;
       }
