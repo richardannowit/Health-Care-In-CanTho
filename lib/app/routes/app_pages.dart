@@ -14,8 +14,12 @@ import 'package:flutter_healthcare/app/modules/forgotpassword/bindings/forgotpas
 import 'package:flutter_healthcare/app/modules/forgotpassword/views/forgotpassword_view.dart';
 import 'package:flutter_healthcare/app/modules/home/bindings/home_binding.dart';
 import 'package:flutter_healthcare/app/modules/home/views/home_view.dart';
+import 'package:flutter_healthcare/app/modules/home_doctor/bindings/home_doctor_binding.dart';
+import 'package:flutter_healthcare/app/modules/home_doctor/views/home_doctor_view.dart';
 import 'package:flutter_healthcare/app/modules/login/bindings/login_binding.dart';
 import 'package:flutter_healthcare/app/modules/login/views/login_view.dart';
+import 'package:flutter_healthcare/app/modules/schedule_doctor/bindings/schedule_doctor_binding.dart';
+import 'package:flutter_healthcare/app/modules/schedule_doctor/views/schedule_doctor_view.dart';
 import 'package:flutter_healthcare/app/modules/splash/bindings/splash_binding.dart';
 import 'package:flutter_healthcare/app/modules/splash/views/splash_view.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/bindings/userinformation_binding.dart';
@@ -63,6 +67,16 @@ class AppPages {
       name: _Paths.FORGOTPASSWORD,
       page: () => ForgotpasswordView(),
       binding: ForgotpasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME_DOCTOR,
+      page: () => HomeDoctorView(),
+      binding: HomeDoctorBinding(),
+    ),
+    GetPage(
+      name: _Paths.SCHEDULE_DOCTOR,
+      page: () => ScheduleDoctorView(),
+      binding: ScheduleDoctorBinding(),
     ),
     GetPage(
       name: _Paths.DOCTORPERSIONALPAGE,

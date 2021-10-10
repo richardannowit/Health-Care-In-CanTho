@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_healthcare/app/data/models/district.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
-import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/review.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 
@@ -76,14 +75,35 @@ class DatabaseMethods {
   }
 
   static Future<DoctorModel> getDoctorProfiles(String doctorId) async {
-    DocumentSnapshot snapshot =
-        await _firestore.collection('doctors').doc(doctorId).get();
+    var snapshot = await _firestore.collection('doctors').doc(doctorId).get();
+
     if (snapshot.exists) {
-      var doctorModel =
-          DoctorModel.fromJson(snapshot.data() as Map<String, dynamic>);
-      return doctorModel;
+      Map<String, dynamic> user = snapshot.data() as Map<String, dynamic>;
+      user['reference'] = snapshot.reference;
+
+      AddressModel addressModel = new AddressModel(name: 'NULL');
+      if (user.containsKey('address')) {
+        DocumentSnapshot addressRef = await user['address'].get();
+        if (addressRef.exists) {
+          final addressJson = addressRef.data() as Map<String, dynamic>;
+          addressJson['reference'] = addressRef.reference;
+          addressModel = AddressModel.fromJson(addressJson);
+        }
+      }
+      user['address'] = addressModel;
+      user['docId'] = doctorId;
+      return DoctorModel.fromJson(user);
     }
+
     return DoctorModel();
+  }
+
+  static Future<bool> isDoctor(String uid) async {
+    var doctor = await _firestore.collection('doctors').doc(uid).get();
+    if (doctor.exists) {
+      return true;
+    }
+    return false;
   }
 
   static Future<List<AppointmentModel>> getAppointments(
@@ -205,6 +225,122 @@ class DatabaseMethods {
       districts.add(district);
     });
     return districts;
+  }
+
+  static Future<bool> addTimeLineForDoctor(
+      String docId, DateTime date, List<DateTime> timeSlot) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    Map<String, dynamic> data = {
+      'time_slot': FieldValue.arrayUnion(timeSlot),
+    };
+    bool insertSuccess = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .set(data)
+        .then((value) => insertSuccess = true)
+        .catchError((error) {
+      print("Insert timeline error");
+    });
+    return insertSuccess;
+  }
+
+  static Future<List<DateTime>> getTimeSlotList(
+      String docId, DateTime date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return new List<DateTime>.empty(growable: true);
+    }
+    List<DateTime> timeSlotList = new List<DateTime>.empty(growable: true);
+    var timeline = snapshot.data() as Map<String, dynamic>;
+    for (var timeSlot in timeline['time_slot']) {
+      timeSlotList.add(DateTimeHelpers.timestampsToDateTime(timeSlot));
+    }
+    return timeSlotList;
+  }
+
+  static Future<bool> deleteTimeLineOfDoctor(
+      String docId, DateTime date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    bool deleteSuccess = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .delete()
+        .then((value) => deleteSuccess = true)
+        .catchError((error) {
+      print('Delete time line of doctor error');
+    });
+    return deleteSuccess;
+  }
+
+  static Future<bool> deleteTimeSlot(
+      String docId, DateTime date, int index) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return false;
+    }
+
+    var timeline = snapshot.data() as Map<String, dynamic>;
+    List<dynamic> deleteSlot = List<dynamic>.empty(growable: true);
+    if (timeline.containsKey('delete_slot')) {
+      deleteSlot = timeline['delete_slot'];
+    }
+    deleteSlot.add(index);
+
+    Map<String, dynamic> data = {
+      'delete_slot': FieldValue.arrayUnion(deleteSlot),
+    };
+    bool deleteSuccess = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .update(data)
+        .then((value) => deleteSuccess = true)
+        .catchError((error) {
+      print("Delete timeline error");
+    });
+    return deleteSuccess;
+  }
+
+  static Future<List<dynamic>> getTimeSlotDeleted(
+      String docId, dynamic date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return new List<dynamic>.empty(growable: true);
+    }
+    List<dynamic> timeSlotDelete = new List<dynamic>.empty(growable: true);
+    var slot = snapshot.data() as Map<String, dynamic>;
+    if (slot.containsKey('delete_slot')) {
+      for (var timeSlot in slot['delete_slot']) {
+        timeSlotDelete.add(timeSlot);
+      }
+    }
+    return timeSlotDelete;
   }
 
   static Future<List<ReviewModel>> getReviews(String docId) async {

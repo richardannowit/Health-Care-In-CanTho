@@ -42,6 +42,8 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
                                     controller.doctor.about!,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: txtStyle,
                                   ),
                                 ),

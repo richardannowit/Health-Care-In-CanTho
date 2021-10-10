@@ -35,8 +35,7 @@ class RatingDialog extends StatelessWidget {
                           )),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('What do you think about me?',
-                                style: textStyle),
+                            child: Text('Rating for me!', style: textStyle),
                           )
                         ],
                       ),
