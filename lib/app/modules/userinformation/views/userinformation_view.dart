@@ -29,7 +29,10 @@ class UserinformationView extends GetView<UserinformationController> {
                       IconButton(
                           onPressed: () {
                             if (controller.updating) {
-                              //do nothing
+                              FocusScope.of(context).unfocus();
+                              controller.flag = !controller.flag;
+                              controller.visible = true;
+                              controller.updating = false;
                             } else {
                               if (!controller.isUpdate) {
                                 Get.snackbar('Please update your information',
@@ -315,7 +318,7 @@ class UserinformationView extends GetView<UserinformationController> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Please enter your information', style: textStyle),
+                  Text('Enter your information', style: textStyle),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -332,6 +335,7 @@ class UserinformationView extends GetView<UserinformationController> {
                         ),
                       ),
                       TextFormField(
+                        initialValue: controller.initName,
                         onSaved: (value) {
                           if (value != '') controller.newUserInfo.name = value;
                         },
@@ -345,79 +349,40 @@ class UserinformationView extends GetView<UserinformationController> {
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Sex/Height(m)/Weight(kg):'),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              Checkbox(
-                                  value: controller.sex,
-                                  onChanged: (value) {
-                                    if (value!) {
-                                      controller.newUserInfo.sex = 'Nam';
-                                    } else {
-                                      controller.newUserInfo.sex = 'Nữ';
-                                    }
-                                    controller.sex = value;
-                                  }),
-                              Text('Nam')
-                            ],
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Sex:'),
+                            Row(
                               children: [
-                                Flexible(
-                                  child: Container(
-                                    width: 60,
-                                    child: TextFormField(
-                                      onSaved: (value) {
-                                        if (value != '')
-                                          controller.newUserInfo.height =
-                                              double.tryParse(value!);
-                                      },
-                                      decoration: InputDecoration(
-                                          hintText: controller
-                                              .newUserInfo.height
-                                              .toString()),
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value !=
-                                            '') if (double.tryParse(value!)! <=
-                                                0 ||
-                                            double.tryParse(value)! >= 2.5)
-                                          return 'Incorrect';
-                                      },
-                                    ),
-                                  ),
-                                ),
+                                Text('Nam'),
+                                Checkbox(
+                                    value: controller.sex,
+                                    onChanged: (value) {
+                                      if (value!) {
+                                        controller.newUserInfo.sex = 'Nam';
+                                      } else {
+                                        controller.newUserInfo.sex = 'Nữ';
+                                      }
+                                      controller.sex = value;
+                                    }),
                               ],
                             ),
-                          ),
-                          Flexible(
-                            child: Container(
-                              width: 60,
-                              child: TextFormField(
-                                  onSaved: (value) {
-                                    if (value != '')
-                                      controller.newUserInfo.weight =
-                                          double.tryParse(value!);
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      hintText: controller.newUserInfo.weight
-                                          .toString()),
-                                  validator: (value) {
-                                    if (value !=
-                                        '') if (double.tryParse(value!)! <= 0)
-                                      return 'Incorrect';
-                                  }),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            EnterHeight(),
+                            EnterWeight(),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -434,6 +399,7 @@ class UserinformationView extends GetView<UserinformationController> {
                         ],
                       ),
                       TextFormField(
+                        initialValue: controller.initPhone,
                         onSaved: (value) {
                           if (value != '') controller.newUserInfo.phone = value;
                         },
@@ -547,4 +513,50 @@ class UserinformationView extends GetView<UserinformationController> {
     if (newDate == null) return;
     controller.date = newDate;
   }
+
+  Widget EnterHeight() => Container(
+        width: 80,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Height(m):'),
+            TextFormField(
+              initialValue: controller.initHeight,
+              onSaved: (value) {
+                if (value != '')
+                  controller.newUserInfo.height = double.tryParse(value!);
+              },
+              decoration: InputDecoration(
+                  hintText: controller.newUserInfo.height.toString()),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value != '') if (double.tryParse(value!)! <= 0 ||
+                    double.tryParse(value)! >= 2.5) return 'Incorrect';
+              },
+            ),
+          ],
+        ),
+      );
+  Widget EnterWeight() => Container(
+        width: 80,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Weight(kg):'),
+            TextFormField(
+                initialValue: controller.initWeight,
+                onSaved: (value) {
+                  if (value != '')
+                    controller.newUserInfo.weight = double.tryParse(value!);
+                },
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    hintText: controller.newUserInfo.weight.toString()),
+                validator: (value) {
+                  if (value != '') if (double.tryParse(value!)! <= 0)
+                    return 'Incorrect';
+                }),
+          ],
+        ),
+      );
 }

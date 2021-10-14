@@ -9,7 +9,12 @@ import 'package:get/get.dart';
 class UserinformationController extends GetxController {
   late List<AddressModel> listAddress;
   late AddressModel address;
-  late String dateOfBirth, addressName;
+  late String dateOfBirth,
+      addressName,
+      initName,
+      initHeight,
+      initWeight,
+      initPhone;
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
   final String userID = FirebaseAuth.instance.currentUser!.uid;
   UserModel newUserInfo = new UserModel();
@@ -107,23 +112,31 @@ class UserinformationController extends GetxController {
     }
     if (userInfo.name == null) {
       newUserInfo.name = 'Ex: Nguyen Van A';
+      initName = '';
     } else {
       newUserInfo.name = userInfo.name;
+      initName = userInfo.name!;
     }
     if (userInfo.height == 0) {
       newUserInfo.height = 1.6;
+      initHeight = '';
     } else {
       newUserInfo.height = userInfo.height;
+      initHeight = userInfo.height.toString();
     }
     if (userInfo.weight == 0) {
       newUserInfo.weight = 50;
+      initWeight = '';
     } else {
       newUserInfo.weight = userInfo.weight;
+      initWeight = userInfo.weight.toString();
     }
     if (userInfo.phone == 'Waiting for your update') {
       newUserInfo.phone = 'Ex: 0971002636';
+      initPhone = '';
     } else {
       newUserInfo.phone = userInfo.phone;
+      initPhone = userInfo.phone!;
     }
     if (userInfo.address != null) {
       if (userInfo.address!.name != 'NULL') {

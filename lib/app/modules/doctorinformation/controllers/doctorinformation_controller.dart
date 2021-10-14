@@ -14,6 +14,11 @@ class DoctorinformationController extends GetxController {
   final String? email = FirebaseAuth.instance.currentUser!.email;
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
   DoctorModel newDoctor = new DoctorModel();
+  late String initName,
+      initPhone,
+      initSpecialist,
+      initAbout,
+      initCenterAddreess;
 
   Rx<DoctorModel> _doctorInfo = new DoctorModel().obs;
   DoctorModel get doctorInfo => _doctorInfo.value;
@@ -116,21 +121,27 @@ class DoctorinformationController extends GetxController {
     newDoctor.email = FirebaseAuth.instance.currentUser!.email;
     if (doctorInfo.name == null) {
       newDoctor.name = 'Ex: Vo Tu Thien';
+      initName = '';
     } else {
       newDoctor.name = doctorInfo.name;
+      initName = doctorInfo.name!;
     }
 
     if (doctorInfo.specialist == null) {
       newDoctor.specialist = 'Ex: Heart';
+      initSpecialist = '';
     } else {
       newDoctor.specialist = doctorInfo.specialist;
+      initSpecialist = doctorInfo.specialist!;
     }
 
     if (doctorInfo.about == 'Waiting for your update') {
       newDoctor.about =
           'Ex: Renowned doctor who participated in heart transplants abroad';
+      initAbout = '';
     } else {
       newDoctor.about = doctorInfo.about;
+      initAbout = doctorInfo.about!;
     }
 
     if (doctorInfo.rating == null) {
@@ -140,13 +151,17 @@ class DoctorinformationController extends GetxController {
     }
     if (doctorInfo.phone == 'Waiting for your update') {
       newDoctor.phone = 'Ex: 0812305346';
+      initPhone = '';
     } else {
       newDoctor.phone = doctorInfo.phone;
+      initPhone = doctorInfo.phone!;
     }
     if (doctorInfo.centeraddress == 'Waiting for your update') {
       newDoctor.centeraddress = 'Ex: 331 Ba Thang Hai Street, Hung Loi';
+      initCenterAddreess = '';
     } else {
       newDoctor.centeraddress = doctorInfo.centeraddress;
+      initCenterAddreess = doctorInfo.centeraddress!;
     }
     if (doctorInfo.address != null) {
       if (doctorInfo.address.name != 'NULL') {
