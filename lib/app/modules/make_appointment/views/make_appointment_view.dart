@@ -13,6 +13,7 @@ class MakeAppointmentView extends GetView<MakeAppointmentController> {
   Widget build(BuildContext context) {
     var safePadding = MediaQuery.of(context).padding.top;
     var screenHeight = MediaQuery.of(context).size.height - safePadding;
+    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xffE2FEEF),
       body: SafeArea(
@@ -20,7 +21,7 @@ class MakeAppointmentView extends GetView<MakeAppointmentController> {
           child: Column(
             children: [
               Header(height: screenHeight * 0.3),
-              SelectAppointment(height: screenHeight * 0.7),
+              SelectAppointment(height: screenHeight * 0.7, width: screenWidth),
             ],
           ),
         ),

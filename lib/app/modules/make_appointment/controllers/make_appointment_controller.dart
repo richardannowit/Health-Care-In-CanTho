@@ -1,6 +1,12 @@
+import 'package:flutter_healthcare/app/data/models/doctor.dart';
+import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:get/get.dart';
 
 class MakeAppointmentController extends GetxController {
+  Rx<DoctorModel> _doctorProfile = new DoctorModel().obs;
+  DoctorModel get doctorProfile => _doctorProfile.value;
+  set doctorProfile(value) => _doctorProfile.value = value;
+
   RxBool _loading = false.obs;
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
@@ -13,8 +19,19 @@ class MakeAppointmentController extends GetxController {
   DateTime get selectedDate => _selectedDate.value;
   set selectedDate(value) => _selectedDate.value = value;
 
+  RxList<DateTime> _timeSlotList = new List<DateTime>.empty(growable: true).obs;
+  List<DateTime> get timeSlotList => _timeSlotList;
+  set timeSlotList(value) => _timeSlotList.value = value;
+
+  RxList<dynamic> _deleteSlotList = new List<dynamic>.empty(growable: true).obs;
+  List<dynamic> get deleteSlotList => _deleteSlotList;
+  set deleteSlotList(value) => _deleteSlotList.value = value;
+
   void onDateChange(DateTime newDate) async {
     selectedDate = newDate;
+    loading = true;
+    await loadData();
+    loading = false;
   }
 
   bool isDate(DateTime thisDate, DateTime _selected) {
@@ -48,12 +65,24 @@ class MakeAppointmentController extends GetxController {
   }
 
   Future<void> loadData() async {
-    //
+    loading = true;
+    timeSlotList = await DatabaseMethods.getTimeSlotList(
+        doctorProfile.docId!, selectedDate);
+    deleteSlotList = await DatabaseMethods.getTimeSlotDeleted(
+        doctorProfile.docId!, selectedDate);
+    deleteSlotList.forEach((element) {
+      timeSlotList.removeAt(element);
+    });
+    loading = false;
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    doctorProfile = Get.arguments;
+    loading = true;
+    await loadData();
+    loading = false;
   }
 
   @override

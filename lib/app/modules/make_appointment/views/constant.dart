@@ -16,3 +16,12 @@ final roundedContainer = BoxDecoration(
     ),
   ],
 );
+
+final selectedTimeStyle = BoxDecoration(
+  border: Border.all(
+    color: Color(0xffB0B0B0),
+    width: 2,
+  ),
+  color: Colors.white,
+  borderRadius: BorderRadius.all(Radius.circular(7)),
+);
