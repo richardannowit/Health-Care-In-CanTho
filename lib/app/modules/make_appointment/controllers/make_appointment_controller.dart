@@ -70,6 +70,10 @@ class MakeAppointmentController extends GetxController {
         doctorProfile.docId!, selectedDate);
     deleteSlotList = await DatabaseMethods.getTimeSlotDeleted(
         doctorProfile.docId!, selectedDate);
+
+    // Sort deleteSlot with desc and remove to avoid wrong index
+    deleteSlotList.sort();
+    deleteSlotList = deleteSlotList.reversed.toList();
     deleteSlotList.forEach((element) {
       timeSlotList.removeAt(element);
     });
