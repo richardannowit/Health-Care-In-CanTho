@@ -84,8 +84,9 @@ class IncomingAppointment extends StatelessWidget {
                       controller.appointmentList[index].doctor!.specialist,
                   date: DateTimeHelpers.timestampsToDate(
                       controller.appointmentList[index].appointment_date!),
-                  time: "10:30 AM",
-                  status: "Active",
+                  time: DateTimeHelpers.timestampsToTime(
+                      controller.appointmentList[index].appointment_date!),
+                  status: controller.appointmentList[index].status!,
                 );
               },
             ),

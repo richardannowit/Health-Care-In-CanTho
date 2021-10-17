@@ -392,4 +392,52 @@ class DatabaseMethods {
         .collection('reviews')
         .add(reviewData);
   }
+
+  static Future<bool> createAppointment(Map<String, dynamic> data) async {
+    bool isSuccess = true;
+    await _firestore
+        .collection('appointments')
+        .add(data)
+        .then((value) => isSuccess = true)
+        .catchError((error) => isSuccess = false);
+    ;
+    return isSuccess;
+  }
+
+  static Future<bool> markTimeIndex(
+      String docId, DateTime date, int index) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return false;
+    }
+
+    var timeline = snapshot.data() as Map<String, dynamic>;
+    List<dynamic> bookedSlot = List<dynamic>.empty(growable: true);
+    if (timeline.containsKey('booked_slot')) {
+      bookedSlot = timeline['booked_slot'];
+    }
+    bookedSlot.add(index);
+
+    Map<String, dynamic> data = {
+      'booked_slot': FieldValue.arrayUnion(bookedSlot),
+    };
+    bool checkMark = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .update(data)
+        .then((value) => checkMark = true)
+        .catchError((error) {
+      print("Delete timeline error");
+    });
+    return checkMark;
+  }
 }

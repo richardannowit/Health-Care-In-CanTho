@@ -19,7 +19,7 @@ class AppointmentCard extends StatelessWidget {
     return Container(
       width: 350,
       margin: EdgeInsets.only(right: 15),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 22, vertical: 12),
       decoration: BoxDecoration(
         color: Color(0xff107163),
         borderRadius: BorderRadius.circular(10),
@@ -78,6 +78,7 @@ class AppointmentCard extends StatelessWidget {
                         Icons.watch_later,
                         color: Colors.white,
                       ),
+                      SizedBox(width: 5),
                       Text(
                         time!,
                         style: smallTextStyle.copyWith(color: Colors.white),
@@ -90,7 +91,8 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.fiber_manual_record,
-                        color: Colors.green,
+                        color:
+                            status == 'Waiting' ? Colors.yellow : Colors.green,
                       ),
                       Text(
                         status!,

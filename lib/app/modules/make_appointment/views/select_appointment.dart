@@ -19,6 +19,37 @@ class SelectAppointment extends StatelessWidget {
 
   final MakeAppointmentController controller = Get.find();
 
+  showDialog(
+      {String? content, String? confirmText, void Function()? onConfirm}) {
+    Get.defaultDialog(
+      confirm: TextButton(
+        onPressed: () {
+          onConfirm!();
+          Get.back();
+        },
+        child: Text(
+          confirmText ?? 'Confirm',
+          style: TextStyle(color: Colors.blue),
+        ),
+      ),
+      cancel: TextButton(
+        style: TextButton.styleFrom(
+          primary: Colors.grey,
+        ),
+        onPressed: () {
+          Get.back();
+        },
+        child: Text('Cancel'),
+      ),
+      titlePadding: EdgeInsets.only(top: 15, bottom: 15),
+      title: 'Confirmation',
+      confirmTextColor: Colors.white,
+      buttonColor: Colors.blue,
+      radius: 14,
+      middleText: content ?? "Do you want?",
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,15 +140,23 @@ class SelectAppointment extends StatelessWidget {
                     crossAxisSpacing: 20,
                     children: List.generate(controller.timeSlotList.length - 1,
                         (index) {
+                      Color backgroundColor = Colors.white;
+                      Color textColor = Color(0xff545454);
+                      Color borderColor = Color(0xffB0B0B0);
+                      if (index == controller.selectedTime) {
+                        backgroundColor = Color(0xff197D84);
+                        textColor = Colors.white;
+                        borderColor = Color(0xff197D84);
+                      }
                       return TimeSelectButton(
                         height: height * 0.1,
                         time: DateTimeHelpers.dateTimeToTime(
-                            controller.timeSlotList[index]),
-                        textColor: Color(0xff545454),
-                        borderColor: Color(0xffB0B0B0),
-                        backgroundColor: Colors.white,
+                            controller.timeSlotList[index]['time']),
+                        textColor: textColor,
+                        borderColor: borderColor,
+                        backgroundColor: backgroundColor,
                         onPressed: () {
-                          //
+                          controller.onTimeChange(index);
                         },
                       );
                     }),
@@ -129,7 +168,27 @@ class SelectAppointment extends StatelessWidget {
               width: width * 0.5,
               height: 40,
               onPressed: () {
-                //
+                //Check chon ngay gio r moi submit duoc
+                showDialog(
+                  content: 'Do you want to booking?',
+                  confirmText: 'Confirm',
+                  onConfirm: () async {
+                    bool checkBooking = await controller.bookAppointment();
+                    if (checkBooking) {
+                      Get.snackbar(
+                        "Booking",
+                        "Booking successfull.",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } else {
+                      Get.snackbar(
+                        "Booking",
+                        "Booking fail cause conflict with others.",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
+                  },
+                );
               },
             ),
           ],

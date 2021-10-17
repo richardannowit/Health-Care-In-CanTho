@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:get/get.dart';
 
 class MakeAppointmentController extends GetxController {
+  //TODO: Get book slot to check conflict
+  //TODO: Create booking success screen
+  final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
+
   Rx<DoctorModel> _doctorProfile = new DoctorModel().obs;
   DoctorModel get doctorProfile => _doctorProfile.value;
   set doctorProfile(value) => _doctorProfile.value = value;
@@ -10,6 +16,10 @@ class MakeAppointmentController extends GetxController {
   RxBool _loading = false.obs;
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
+
+  RxInt _selectedTime = (-1).obs;
+  int get selectedTime => _selectedTime.value;
+  set selectedTime(value) => _selectedTime.value = value;
 
   Rx<DateTime> _selectedDate = DateTime(
     DateTime.now().year,
@@ -19,8 +29,9 @@ class MakeAppointmentController extends GetxController {
   DateTime get selectedDate => _selectedDate.value;
   set selectedDate(value) => _selectedDate.value = value;
 
-  RxList<DateTime> _timeSlotList = new List<DateTime>.empty(growable: true).obs;
-  List<DateTime> get timeSlotList => _timeSlotList;
+  RxList<Map<String, dynamic>> _timeSlotList =
+      new List<Map<String, dynamic>>.empty(growable: true).obs;
+  List<Map<String, dynamic>> get timeSlotList => _timeSlotList;
   set timeSlotList(value) => _timeSlotList.value = value;
 
   RxList<dynamic> _deleteSlotList = new List<dynamic>.empty(growable: true).obs;
@@ -32,6 +43,10 @@ class MakeAppointmentController extends GetxController {
     loading = true;
     await loadData();
     loading = false;
+  }
+
+  void onTimeChange(int index) async {
+    selectedTime = index;
   }
 
   bool isDate(DateTime thisDate, DateTime _selected) {
@@ -64,10 +79,24 @@ class MakeAppointmentController extends GetxController {
     return now.compareTo(date) == 0;
   }
 
+  void resetState() {
+    selectedTime = -1;
+  }
+
   Future<void> loadData() async {
     loading = true;
-    timeSlotList = await DatabaseMethods.getTimeSlotList(
+    resetState();
+    List<DateTime> _timeSlot = await DatabaseMethods.getTimeSlotList(
         doctorProfile.docId!, selectedDate);
+    List<Map<String, dynamic>> _timeSlotList =
+        new List<Map<String, dynamic>>.empty(growable: true);
+    for (int i = 0; i < _timeSlot.length; i++) {
+      _timeSlotList.add({
+        'index': i,
+        'time': _timeSlot[i],
+      });
+    }
+    timeSlotList = _timeSlotList;
     deleteSlotList = await DatabaseMethods.getTimeSlotDeleted(
         doctorProfile.docId!, selectedDate);
 
@@ -78,6 +107,26 @@ class MakeAppointmentController extends GetxController {
       timeSlotList.removeAt(element);
     });
     loading = false;
+  }
+
+  Future<bool> bookAppointment() async {
+    final bookingTime = timeSlotList[selectedTime]['time'];
+    final slotIndex = timeSlotList[selectedTime]['index'];
+    Map<String, dynamic> data = {
+      'doctor': doctorProfile.reference,
+      'patient': userEmail,
+      'status': 'Waiting',
+      'appointment_date': DateTimeHelpers.dateTimeToTimestamp(bookingTime),
+      'time_slot': slotIndex
+    };
+    bool bookSucess = await DatabaseMethods.createAppointment(data);
+    bool markSucess = await DatabaseMethods.markTimeIndex(
+        doctorProfile.docId!, selectedDate, slotIndex);
+    bool check = true;
+    if (!bookSucess || !markSucess) {
+      check = false;
+    }
+    return check;
   }
 
   @override
