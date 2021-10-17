@@ -422,6 +422,9 @@ class DatabaseMethods {
     if (timeline.containsKey('booked_slot')) {
       bookedSlot = timeline['booked_slot'];
     }
+    if (bookedSlot.contains(index)) {
+      return false;
+    }
     bookedSlot.add(index);
 
     Map<String, dynamic> data = {
@@ -436,8 +439,29 @@ class DatabaseMethods {
         .update(data)
         .then((value) => checkMark = true)
         .catchError((error) {
-      print("Delete timeline error");
+      print("Booking error");
     });
     return checkMark;
+  }
+
+  static Future<List<dynamic>> getBookedSlot(String docId, dynamic date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return new List<dynamic>.empty(growable: true);
+    }
+    List<dynamic> bookedSlot = new List<dynamic>.empty(growable: true);
+    var slot = snapshot.data() as Map<String, dynamic>;
+    if (slot.containsKey('booked_slot')) {
+      for (var timeSlot in slot['booked_slot']) {
+        bookedSlot.add(timeSlot);
+      }
+    }
+    return bookedSlot;
   }
 }

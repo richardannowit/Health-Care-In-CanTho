@@ -140,6 +140,7 @@ class SelectAppointment extends StatelessWidget {
                     crossAxisSpacing: 20,
                     children: List.generate(controller.timeSlotList.length - 1,
                         (index) {
+                      bool isValid = controller.timeSlotList[index]['valid'];
                       Color backgroundColor = Colors.white;
                       Color textColor = Color(0xff545454);
                       Color borderColor = Color(0xffB0B0B0);
@@ -147,6 +148,11 @@ class SelectAppointment extends StatelessWidget {
                         backgroundColor = Color(0xff197D84);
                         textColor = Colors.white;
                         borderColor = Color(0xff197D84);
+                      }
+                      if (!isValid) {
+                        backgroundColor = Color(0xffD6D6D6);
+                        textColor = Color(0xff747474);
+                        borderColor = Color(0xffD6D6D6);
                       }
                       return TimeSelectButton(
                         height: height * 0.1,
@@ -156,6 +162,7 @@ class SelectAppointment extends StatelessWidget {
                         borderColor: borderColor,
                         backgroundColor: backgroundColor,
                         onPressed: () {
+                          if (!isValid) return;
                           controller.onTimeChange(index);
                         },
                       );

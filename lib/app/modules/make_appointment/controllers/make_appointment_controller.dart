@@ -5,7 +5,6 @@ import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:get/get.dart';
 
 class MakeAppointmentController extends GetxController {
-  //TODO: Get book slot to check conflict
   //TODO: Create booking success screen
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
 
@@ -37,6 +36,10 @@ class MakeAppointmentController extends GetxController {
   RxList<dynamic> _deleteSlotList = new List<dynamic>.empty(growable: true).obs;
   List<dynamic> get deleteSlotList => _deleteSlotList;
   set deleteSlotList(value) => _deleteSlotList.value = value;
+
+  RxList<dynamic> _bookedSlotList = new List<dynamic>.empty(growable: true).obs;
+  List<dynamic> get bookedSlotList => _bookedSlotList;
+  set bookedSlotList(value) => _bookedSlotList.value = value;
 
   void onDateChange(DateTime newDate) async {
     selectedDate = newDate;
@@ -86,19 +89,27 @@ class MakeAppointmentController extends GetxController {
   Future<void> loadData() async {
     loading = true;
     resetState();
+    deleteSlotList = await DatabaseMethods.getTimeSlotDeleted(
+        doctorProfile.docId!, selectedDate);
+    bookedSlotList =
+        await DatabaseMethods.getBookedSlot(doctorProfile.docId!, selectedDate);
+
     List<DateTime> _timeSlot = await DatabaseMethods.getTimeSlotList(
         doctorProfile.docId!, selectedDate);
     List<Map<String, dynamic>> _timeSlotList =
         new List<Map<String, dynamic>>.empty(growable: true);
     for (int i = 0; i < _timeSlot.length; i++) {
+      bool isValid = true;
+      if (bookedSlotList.contains(i)) {
+        isValid = false;
+      }
       _timeSlotList.add({
         'index': i,
         'time': _timeSlot[i],
+        'valid': isValid,
       });
     }
     timeSlotList = _timeSlotList;
-    deleteSlotList = await DatabaseMethods.getTimeSlotDeleted(
-        doctorProfile.docId!, selectedDate);
 
     // Sort deleteSlot with desc and remove to avoid wrong index
     deleteSlotList.sort();
@@ -119,9 +130,11 @@ class MakeAppointmentController extends GetxController {
       'appointment_date': DateTimeHelpers.dateTimeToTimestamp(bookingTime),
       'time_slot': slotIndex
     };
-    bool bookSucess = await DatabaseMethods.createAppointment(data);
     bool markSucess = await DatabaseMethods.markTimeIndex(
         doctorProfile.docId!, selectedDate, slotIndex);
+    bool bookSucess =
+        markSucess ? await DatabaseMethods.createAppointment(data) : false;
+
     bool check = true;
     if (!bookSucess || !markSucess) {
       check = false;
