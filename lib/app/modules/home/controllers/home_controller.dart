@@ -70,6 +70,21 @@ class HomeController extends GetxController {
     Get.offAllNamed(Routes.LOGIN);
   }
 
+  Future<void> cancelAppointment(int index) async {
+    bool isCancel =
+        await DatabaseMethods.deleteAppointment(appointmentList[index]);
+    if (!isCancel) {
+      Get.snackbar(
+        "Cancel appointment error!",
+        "You can't delete this appointment.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+    // print(appointmentList[index].doctor!.email);
+    loadData();
+  }
+
   Future loadData() async {
     loading = true;
     user = _auth.currentUser;

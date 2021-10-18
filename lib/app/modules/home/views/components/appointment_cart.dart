@@ -10,9 +10,11 @@ class AppointmentCard extends StatelessWidget {
     this.date,
     this.time,
     this.status,
+    required this.onCancel,
   }) : super(key: key);
 
   final String? doctor_image, doctor_name, specialist, date, time, status;
+  final GestureTapCallback onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -116,9 +118,7 @@ class AppointmentCard extends StatelessWidget {
                   "Cancel appointment",
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
-                onPressed: () {
-                  //
-                },
+                onPressed: onCancel,
               ),
             ),
           ),
