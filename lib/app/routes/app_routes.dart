@@ -16,6 +16,7 @@ abstract class Routes {
   static const SCHEDULE_DOCTOR = _Paths.SCHEDULE_DOCTOR;
   static const DOCTORPERSIONALPAGE = _Paths.DOCTORPERSIONALPAGE;
   static const MAKE_APPOINTMENT = _Paths.MAKE_APPOINTMENT;
+  static const BOOKED_SUCCESS = _Paths.BOOKED_SUCCESS;
 }
 
 abstract class _Paths {
@@ -31,4 +32,5 @@ abstract class _Paths {
   static const SCHEDULE_DOCTOR = '/schedule-doctor';
   static const DOCTORPERSIONALPAGE = '/doctorpersionalpage';
   static const MAKE_APPOINTMENT = '/make-appointment';
+  static const BOOKED_SUCCESS = '/booked-success';
 }

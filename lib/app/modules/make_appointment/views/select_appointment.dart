@@ -5,6 +5,7 @@ import 'package:flutter_healthcare/app/modules/make_appointment/views/calendar_l
 import 'package:flutter_healthcare/app/modules/make_appointment/views/components/custom_button.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/components/time_select_button.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/constant.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class SelectAppointment extends StatelessWidget {
@@ -182,11 +183,7 @@ class SelectAppointment extends StatelessWidget {
                   onConfirm: () async {
                     bool checkBooking = await controller.bookAppointment();
                     if (checkBooking) {
-                      Get.snackbar(
-                        "Booking",
-                        "Booking successfull.",
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
+                      Get.toNamed(Routes.BOOKED_SUCCESS);
                     } else {
                       Get.snackbar(
                         "Booking",
