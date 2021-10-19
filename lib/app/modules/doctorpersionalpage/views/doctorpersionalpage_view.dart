@@ -61,7 +61,10 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                         width: size.width * 0.6,
                         height: 40,
                         child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(Routes.MAKE_APPOINTMENT,
+                                  arguments: controller.doctor);
+                            },
                             child: Text(
                               'Book Appoinment',
                               style: TextStyle(

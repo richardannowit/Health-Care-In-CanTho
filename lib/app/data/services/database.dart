@@ -165,6 +165,7 @@ class DatabaseMethods {
         if (doctorRef.exists) {
           final doctorJson = doctorRef.data() as Map<String, dynamic>;
           doctorJson['reference'] = doctorRef.reference;
+          doctorJson['docId'] = doctorRef.id;
           doctorModel = DoctorModel.fromJson(doctorJson);
         }
       }
@@ -413,5 +414,132 @@ class DatabaseMethods {
         .doc(docId)
         .collection('reviews')
         .add(reviewData);
+  }
+
+  static Future<bool> createAppointment(Map<String, dynamic> data) async {
+    bool isSuccess = true;
+    await _firestore
+        .collection('appointments')
+        .add(data)
+        .then((value) => isSuccess = true)
+        .catchError((error) => isSuccess = false);
+    ;
+    return isSuccess;
+  }
+
+  static Future<bool> markTimeIndex(
+      String docId, DateTime date, int index) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return false;
+    }
+
+    var timeline = snapshot.data() as Map<String, dynamic>;
+    List<dynamic> bookedSlot = List<dynamic>.empty(growable: true);
+    if (timeline.containsKey('booked_slot')) {
+      bookedSlot = timeline['booked_slot'];
+    }
+    if (bookedSlot.contains(index)) {
+      return false;
+    }
+    bookedSlot.add(index);
+
+    Map<String, dynamic> data = {
+      'booked_slot': FieldValue.arrayUnion(bookedSlot),
+    };
+    bool checkMark = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .update(data)
+        .then((value) => checkMark = true)
+        .catchError((error) {
+      print("Booking error");
+    });
+    return checkMark;
+  }
+
+  static Future<List<dynamic>> getBookedSlot(String docId, dynamic date) async {
+    String _date = DateTimeHelpers.dateTimeToDate(date);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      return new List<dynamic>.empty(growable: true);
+    }
+    List<dynamic> bookedSlot = new List<dynamic>.empty(growable: true);
+    var slot = snapshot.data() as Map<String, dynamic>;
+    if (slot.containsKey('booked_slot')) {
+      for (var timeSlot in slot['booked_slot']) {
+        bookedSlot.add(timeSlot);
+      }
+    }
+    return bookedSlot;
+  }
+
+  static Future<bool> deleteAppointment(AppointmentModel appointment) async {
+    dynamic appointmentRef = appointment.reference;
+    dynamic slot = appointment.time_slot;
+    dynamic docId = appointment.doctor!.docId;
+    DateTime _dateTime =
+        DateTimeHelpers.timestampsToDateTime(appointment.appointment_date!);
+
+    //Delete from appointments
+    bool checkDeleteFromAppointments = true;
+    appointmentRef
+        .delete()
+        .then((value) => checkDeleteFromAppointments = true)
+        .catchError((error) => checkDeleteFromAppointments = false);
+    if (!checkDeleteFromAppointments) {
+      print('Delete from appointments error');
+      return false;
+    }
+    //Delete from schedule of doctor
+    String _date = DateTimeHelpers.dateTimeToDate(_dateTime);
+    var snapshot = await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .get();
+    if (!snapshot.exists) {
+      print('snapshot does not exists');
+      return false;
+    }
+
+    var timeline = snapshot.data() as Map<String, dynamic>;
+    List<dynamic> bookedSlot = List<dynamic>.empty(growable: true);
+    if (timeline.containsKey('booked_slot')) {
+      bookedSlot = timeline['booked_slot'];
+    }
+
+    List<dynamic> slotList = new List<dynamic>.empty(growable: true);
+    slotList.add(slot);
+    Map<String, dynamic> data = {
+      'booked_slot': FieldValue.arrayRemove(slotList),
+    };
+    bool checkDeleteFromDoctor = false;
+    await _firestore
+        .collection('doctors')
+        .doc(docId)
+        .collection('timeline')
+        .doc(_date)
+        .update(data)
+        .then((value) => checkDeleteFromDoctor = true)
+        .catchError((error) {
+      print("Cancel Appointment error");
+    });
+    return checkDeleteFromDoctor;
   }
 }

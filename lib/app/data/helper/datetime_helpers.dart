@@ -19,7 +19,7 @@ class DateTimeHelpers {
     var datetime =
         DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
 
-    return DateFormat('HH:mm a').format(datetime);
+    return DateFormat('HH:mm').format(datetime);
   }
 
   static String dateTimeToDate(DateTime date) {
@@ -33,5 +33,9 @@ class DateTimeHelpers {
   static DateTime timeOfDayToDateTime(DateTime date, TimeOfDay time) {
     return new DateTime(
         date.year, date.month, date.day, time.hour, time.minute);
+  }
+
+  static Timestamp dateTimeToTimestamp(DateTime datetime) {
+    return Timestamp.fromDate(datetime);
   }
 }

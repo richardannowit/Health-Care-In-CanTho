@@ -10,16 +10,18 @@ class AppointmentCard extends StatelessWidget {
     this.date,
     this.time,
     this.status,
+    required this.onCancel,
   }) : super(key: key);
 
   final String? doctor_image, doctor_name, specialist, date, time, status;
+  final GestureTapCallback onCancel;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 350,
       margin: EdgeInsets.only(right: 15),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 22, vertical: 12),
       decoration: BoxDecoration(
         color: Color(0xff107163),
         borderRadius: BorderRadius.circular(10),
@@ -78,6 +80,7 @@ class AppointmentCard extends StatelessWidget {
                         Icons.watch_later,
                         color: Colors.white,
                       ),
+                      SizedBox(width: 5),
                       Text(
                         time!,
                         style: smallTextStyle.copyWith(color: Colors.white),
@@ -90,7 +93,8 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.fiber_manual_record,
-                        color: Colors.green,
+                        color:
+                            status == 'Waiting' ? Colors.yellow : Colors.green,
                       ),
                       Text(
                         status!,
@@ -114,9 +118,7 @@ class AppointmentCard extends StatelessWidget {
                   "Cancel appointment",
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
-                onPressed: () {
-                  //
-                },
+                onPressed: onCancel,
               ),
             ),
           ),

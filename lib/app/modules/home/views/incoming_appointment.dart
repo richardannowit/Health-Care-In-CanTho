@@ -14,6 +14,33 @@ class IncomingAppointment extends StatelessWidget {
   final Size size;
 
   final HomeController controller = Get.find();
+  showDialog(
+      {String? content, String? confirmText, void Function()? onConfirm}) {
+    Get.defaultDialog(
+      confirm: TextButton(
+        onPressed: () {
+          onConfirm!();
+          Get.back();
+        },
+        child: Text(
+          confirmText ?? 'Confirm',
+          style: TextStyle(color: Colors.red),
+        ),
+      ),
+      cancel: TextButton(
+        onPressed: () {
+          Get.back();
+        },
+        child: Text('Cancel'),
+      ),
+      titlePadding: EdgeInsets.only(top: 15, bottom: 15),
+      title: 'Confirmation',
+      confirmTextColor: Colors.white,
+      buttonColor: Colors.red,
+      radius: 14,
+      middleText: content ?? "Do you want?",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +111,18 @@ class IncomingAppointment extends StatelessWidget {
                       controller.appointmentList[index].doctor!.specialist,
                   date: DateTimeHelpers.timestampsToDate(
                       controller.appointmentList[index].appointment_date!),
-                  time: "10:30 AM",
-                  status: "Active",
+                  time: DateTimeHelpers.timestampsToTime(
+                      controller.appointmentList[index].appointment_date!),
+                  status: controller.appointmentList[index].status!,
+                  onCancel: () {
+                    showDialog(
+                      content: 'Do you want to Delete Appointment?',
+                      confirmText: 'Delete',
+                      onConfirm: () {
+                        controller.cancelAppointment(index);
+                      },
+                    );
+                  },
                 );
               },
             ),
