@@ -8,10 +8,12 @@ class InfomationUser extends StatelessWidget {
     required this.size,
     required this.name,
     required this.bmi,
+    required this.scaffoldKey,
   }) : super(key: key);
 
   final Size size;
   final String name, bmi;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   final HomeController controller = Get.find();
 
@@ -56,7 +58,7 @@ class InfomationUser extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              controller.signOut();
+              scaffoldKey.currentState!.openEndDrawer();
             },
             child: Container(
               margin: EdgeInsets.only(right: 20),

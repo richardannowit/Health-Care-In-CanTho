@@ -8,6 +8,8 @@ import 'package:flutter_healthcare/app/modules/booked_success/bindings/booked_su
 import 'package:flutter_healthcare/app/modules/booked_success/views/booked_success_view.dart';
 import 'package:flutter_healthcare/app/modules/conversation/bindings/conversation_binding.dart';
 import 'package:flutter_healthcare/app/modules/conversation/views/conversation_view.dart';
+import 'package:flutter_healthcare/app/modules/doctorinformation/bindings/doctorinformation_binding.dart';
+import 'package:flutter_healthcare/app/modules/doctorinformation/views/doctorinformation_view.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/bindings/doctorpersionalpage_binding.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/doctorpersionalpage_view.dart';
 import 'package:flutter_healthcare/app/modules/doctors_list/bindings/doctor_list_binding.dart';
@@ -26,6 +28,8 @@ import 'package:flutter_healthcare/app/modules/schedule_doctor/bindings/schedule
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/schedule_doctor_view.dart';
 import 'package:flutter_healthcare/app/modules/splash/bindings/splash_binding.dart';
 import 'package:flutter_healthcare/app/modules/splash/views/splash_view.dart';
+import 'package:flutter_healthcare/app/modules/userinformation/bindings/userinformation_binding.dart';
+import 'package:flutter_healthcare/app/modules/userinformation/views/userinformation_view.dart';
 
 part 'app_routes.dart';
 
@@ -99,6 +103,16 @@ class AppPages {
       name: _Paths.BOOKED_SUCCESS,
       page: () => BookedSuccessView(),
       binding: BookedSuccessBinding(),
+    ),
+    GetPage(
+      name: _Paths.USERINFORMATION,
+      page: () => UserinformationView(),
+      binding: UserinformationBinding(),
+    ),
+    GetPage(
+      name: _Paths.DOCTORINFORMATION,
+      page: () => DoctorinformationView(),
+      binding: DoctorinformationBinding(),
     ),
   ];
 }
