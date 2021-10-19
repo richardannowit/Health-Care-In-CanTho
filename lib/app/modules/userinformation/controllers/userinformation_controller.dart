@@ -118,7 +118,7 @@ class UserinformationController extends GetxController {
       initName = userInfo.name!;
     }
     if (userInfo.height == 0) {
-      newUserInfo.height = 1.6;
+      newUserInfo.height = 160;
       initHeight = '';
     } else {
       newUserInfo.height = userInfo.height;

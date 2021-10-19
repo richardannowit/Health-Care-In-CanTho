@@ -91,7 +91,7 @@ class UpdateView extends StatelessWidget {
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 10),
-                                        child: Text('Numberphone: '),
+                                        child: Text('Phone number: '),
                                       )
                                     ],
                                   ),

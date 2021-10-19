@@ -113,7 +113,7 @@ class UserinformationView extends GetView<UserinformationController> {
     return Container(
       key: Key('1'),
       width: MediaQuery.of(context).size.width - 40,
-      height: 460,
+      height: 550,
       decoration: inforStyle,
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -176,7 +176,7 @@ class UserinformationView extends GetView<UserinformationController> {
                                 style: textStyle,
                               ),
                               Text(
-                                ' m',
+                                ' cm',
                                 style: textStyle,
                               )
                             ],
@@ -515,11 +515,11 @@ class UserinformationView extends GetView<UserinformationController> {
   }
 
   Widget EnterHeight() => Container(
-        width: 80,
+        width: 85,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Height(m):'),
+            Text('Height (cm):'),
             TextFormField(
               initialValue: controller.initHeight,
               onSaved: (value) {
@@ -531,18 +531,18 @@ class UserinformationView extends GetView<UserinformationController> {
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value != '') if (double.tryParse(value!)! <= 0 ||
-                    double.tryParse(value)! >= 2.5) return 'Incorrect';
+                    double.tryParse(value)! >= 250) return 'Incorrect';
               },
             ),
           ],
         ),
       );
   Widget EnterWeight() => Container(
-        width: 80,
+        width: 85,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Weight(kg):'),
+            Text('Weight (kg):'),
             TextFormField(
                 initialValue: controller.initWeight,
                 onSaved: (value) {
