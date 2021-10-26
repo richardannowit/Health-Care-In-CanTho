@@ -11,7 +11,6 @@ class DoctorinformationView extends GetView<DoctorinformationController> {
   @override
   Widget build(BuildContext context) {
     controller.loadData();
-    controller.getReviewList();
     return Obx(() => Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
@@ -203,7 +202,7 @@ class DoctorinformationView extends GetView<DoctorinformationController> {
       ]));
 
   Widget doctorInforUserViewMode(BuildContext context) {
-    if (controller.doctorInfo.email == null) {
+    if (controller.loading) {
       return Container(
         key: Key('2'),
         decoration: detailStyle,

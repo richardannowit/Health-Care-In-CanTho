@@ -505,6 +505,7 @@ class DatabaseMethods {
       print('Delete from appointments error');
       return false;
     }
+
     //Delete from schedule of doctor
     String _date = DateTimeHelpers.dateTimeToDate(_dateTime);
     var snapshot = await _firestore

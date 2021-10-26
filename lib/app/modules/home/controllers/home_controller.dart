@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_healthcare/app/data/helper/calculate_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
@@ -88,6 +89,32 @@ class HomeController extends GetxController {
   Future loadData() async {
     loading = true;
     user = _auth.currentUser;
+    var doctorSnap = await FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(user!.uid)
+        .get();
+    if (doctorSnap.exists) {
+      var doctor = doctorSnap.data() as Map<String, dynamic>;
+      if (!doctor.containsKey('address')) {
+        Get.offAllNamed(Routes.DOCTORINFORMATION);
+        return;
+      }
+    } else {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get();
+      if (userSnap.exists) {
+        var user = userSnap.data() as Map<String, dynamic>;
+        if (!user.containsKey('address')) {
+          Get.offAllNamed(Routes.USERINFORMATION);
+          return;
+        }
+      } else {
+        Get.offAllNamed(Routes.CHOOSEROLE);
+        return;
+      }
+    }
     var isDoctor = await DatabaseMethods.isDoctor(user!.uid);
     if (isDoctor) {
       await Get.offAllNamed(Routes.HOME_DOCTOR);

@@ -26,7 +26,7 @@ class ForgotpasswordView extends GetView<ForgotpasswordController> {
     return Scaffold(
         body: Center(
             child: Container(
-                height: MediaQuery.of(context).size.height / 2.8,
+                height: 320,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -37,7 +37,7 @@ class ForgotpasswordView extends GetView<ForgotpasswordController> {
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width - 40,
-                        height: MediaQuery.of(context).size.height / 3.8,
+                        height: 220,
                         padding:
                             EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                         decoration: formStyle,

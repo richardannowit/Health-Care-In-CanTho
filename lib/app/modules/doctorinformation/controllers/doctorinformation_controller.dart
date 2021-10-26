@@ -36,7 +36,7 @@ class DoctorinformationController extends GetxController {
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
 
-  RxBool _isUpdate = true.obs;
+  RxBool _isUpdate = false.obs;
   bool get isUpdate => _isUpdate.value;
   set isUpdate(value) => _isUpdate.value = value;
 
@@ -62,20 +62,16 @@ class DoctorinformationController extends GetxController {
   set hint(value) => _hint.value = value;
 
   loadData() async {
+    loading = true;
     doctorInfo = await databaseMethods.getDoctorById(doctorId);
     listAddress = await databaseMethods.getDistricts();
-    removeNullFields();
-  }
-
-  getReviewList() async {
-    loading = true;
     reviewList = await DatabaseMethods.getReviews(doctorId);
+    removeNullFields();
     loading = false;
   }
 
   removeNullFields() {
     if (doctorInfo.email == null) {
-      isUpdate = false;
       doctorInfo.email = FirebaseAuth.instance.currentUser!.email;
     }
 
@@ -110,8 +106,10 @@ class DoctorinformationController extends GetxController {
     } else {
       if (doctorInfo.address!.name == 'NULL')
         addressName = 'Waiting for your update';
-      else
+      else {
         addressName = doctorInfo.address!.name! + ', Cần Thơ';
+        isUpdate = true;
+      }
     }
   }
 
