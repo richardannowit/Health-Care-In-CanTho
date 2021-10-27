@@ -98,6 +98,9 @@ class HomeController extends GetxController {
       if (!doctor.containsKey('address')) {
         Get.offAllNamed(Routes.DOCTORINFORMATION);
         return;
+      } else {
+        await Get.offAllNamed(Routes.HOME_DOCTOR);
+        return;
       }
     } else {
       var userSnap = await FirebaseFirestore.instance
@@ -114,11 +117,6 @@ class HomeController extends GetxController {
         Get.offAllNamed(Routes.CHOOSEROLE);
         return;
       }
-    }
-    var isDoctor = await DatabaseMethods.isDoctor(user!.uid);
-    if (isDoctor) {
-      await Get.offAllNamed(Routes.HOME_DOCTOR);
-      return;
     }
     userInfo = await getUserInfo();
     appointmentList = await getAppointmentList();
