@@ -183,6 +183,7 @@ class SelectAppointment extends StatelessWidget {
                   onConfirm: () async {
                     bool checkBooking = await controller.bookAppointment();
                     if (checkBooking) {
+                      controller.createSchedule();
                       Get.toNamed(Routes.BOOKED_SUCCESS);
                     } else {
                       Get.snackbar(

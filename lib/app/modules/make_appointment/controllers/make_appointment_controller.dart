@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
+import 'package:flutter_healthcare/app/data/notifications/notifications.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:get/get.dart';
 
@@ -140,6 +141,13 @@ class MakeAppointmentController extends GetxController {
       check = false;
     }
     return check;
+  }
+
+  void createSchedule() {
+    DateTime bookingTime = timeSlotList[selectedTime]['time'];
+    DateTime reminderTime = bookingTime.subtract(const Duration(minutes: 30));
+    String doctorName = doctorProfile.name ?? "";
+    createReminderNotification(reminderTime, doctorName, bookingTime);
   }
 
   @override
