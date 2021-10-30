@@ -96,7 +96,7 @@ class HomeController extends GetxController {
     if (doctorSnap.exists) {
       var doctor = doctorSnap.data() as Map<String, dynamic>;
       if (!doctor.containsKey('address')) {
-        Get.offAllNamed(Routes.DOCTORINFORMATION);
+        Get.offAllNamed(Routes.DOCTORINFORMATION, arguments: "isFirst");
         return;
       } else {
         await Get.offAllNamed(Routes.HOME_DOCTOR);
@@ -110,7 +110,7 @@ class HomeController extends GetxController {
       if (userSnap.exists) {
         var user = userSnap.data() as Map<String, dynamic>;
         if (!user.containsKey('address')) {
-          Get.offAllNamed(Routes.USERINFORMATION);
+          Get.offAllNamed(Routes.USERINFORMATION, arguments: "isFirst");
           return;
         }
       } else {

@@ -6,9 +6,11 @@ import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/review.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
+import 'package:flutter_healthcare/app/modules/doctorinformation/views/updateview.dart';
 import 'package:get/get.dart';
 
 class DoctorinformationController extends GetxController {
+  var isFirst = Get.arguments;
   late List<AddressModel> listAddress;
   final String doctorId = FirebaseAuth.instance.currentUser!.uid;
   final String? email = FirebaseAuth.instance.currentUser!.email;
@@ -68,6 +70,15 @@ class DoctorinformationController extends GetxController {
     reviewList = await DatabaseMethods.getReviews(doctorId);
     removeNullFields();
     loading = false;
+    checkIsFrist();
+  }
+
+  checkIsFrist() {
+    if (isFirst != null) {
+      isFirst = null;
+      makeHint();
+      Get.to(UpdateView());
+    }
   }
 
   removeNullFields() {
