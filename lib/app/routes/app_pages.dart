@@ -4,6 +4,8 @@ import 'package:flutter_healthcare/app/modules/Signup/bindings/signup_binding.da
 import 'package:flutter_healthcare/app/modules/Signup/views/signup_view.dart';
 import 'package:flutter_healthcare/app/modules/appointments/bindings/appointments_binding.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/appointments_view.dart';
+import 'package:flutter_healthcare/app/modules/appointments_doctor/bindings/appointments_doctor_binding.dart';
+import 'package:flutter_healthcare/app/modules/appointments_doctor/views/appointments_doctor_view.dart';
 import 'package:flutter_healthcare/app/modules/booked_success/bindings/booked_success_binding.dart';
 import 'package:flutter_healthcare/app/modules/booked_success/views/booked_success_view.dart';
 import 'package:flutter_healthcare/app/modules/conversation/bindings/conversation_binding.dart';
@@ -113,6 +115,11 @@ class AppPages {
       name: _Paths.DOCTORINFORMATION,
       page: () => DoctorinformationView(),
       binding: DoctorinformationBinding(),
+    ),
+    GetPage(
+      name: _Paths.APPOINTMENTS_DOCTOR,
+      page: () => AppointmentsDoctorView(),
+      binding: AppointmentsDoctorBinding(),
     ),
   ];
 }

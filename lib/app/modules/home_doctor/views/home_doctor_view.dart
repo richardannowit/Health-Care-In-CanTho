@@ -10,6 +10,17 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Hi, Doctor ' + controller.doctorProfile.name!,
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
         body: Center(
           child: Obx(() {
             if (controller.loading) {
@@ -17,10 +28,9 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
             }
             return Column(
               children: [
-                Text(
-                  'Hi, I am a doctor, My name is ' +
-                      controller.doctorProfile.name!,
-                  style: TextStyle(fontSize: 20),
+                TextButton(
+                  onPressed: () => Get.toNamed(Routes.APPOINTMENTS_DOCTOR),
+                  child: Text('List Appointment'),
                 ),
                 TextButton(
                   onPressed: () {

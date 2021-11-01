@@ -408,6 +408,12 @@ class DatabaseMethods {
     return snapshot.docs.first.reference;
   }
 
+  static Future<DocumentReference<Object?>> getDoctorRef(String docRef) async {
+    DocumentSnapshot snapshot =
+        await _firestore.collection('doctors').doc(docRef).get();
+    return snapshot.reference;
+  }
+
   static upLoadReview(reviewData, String docId) {
     _firestore
         .collection('doctors')
