@@ -12,7 +12,7 @@ class ScheduleDoctorView extends GetView<ScheduleDoctorController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schedule of doctor'),
+        title: Text('Lịch trình làm việc'),
         centerTitle: true,
       ),
       // backgroundColor: Color(0xffFFF9F6),
