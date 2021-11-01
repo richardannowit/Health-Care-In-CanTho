@@ -64,7 +64,7 @@ class DoctorsList extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: 20),
           child: Obx(() {
             var doctorList = controller.doctorList;
             if (doctorList.length == 0) {
