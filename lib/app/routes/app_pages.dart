@@ -6,6 +6,8 @@ import 'package:flutter_healthcare/app/modules/appointments/bindings/appointment
 import 'package:flutter_healthcare/app/modules/appointments/views/appointments_view.dart';
 import 'package:flutter_healthcare/app/modules/booked_success/bindings/booked_success_binding.dart';
 import 'package:flutter_healthcare/app/modules/booked_success/views/booked_success_view.dart';
+import 'package:flutter_healthcare/app/modules/chooserole/bindings/chooserole_binding.dart';
+import 'package:flutter_healthcare/app/modules/chooserole/views/chooserole_view.dart';
 import 'package:flutter_healthcare/app/modules/conversation/bindings/conversation_binding.dart';
 import 'package:flutter_healthcare/app/modules/conversation/views/conversation_view.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/bindings/doctorinformation_binding.dart';
@@ -113,6 +115,11 @@ class AppPages {
       name: _Paths.DOCTORINFORMATION,
       page: () => DoctorinformationView(),
       binding: DoctorinformationBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHOOSEROLE,
+      page: () => ChooseroleView(),
+      binding: ChooseroleBinding(),
     ),
   ];
 }

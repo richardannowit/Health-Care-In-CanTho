@@ -87,7 +87,7 @@ class SignupController extends GetxController {
   void createUser() async {
     try {
       CollectionReference reference =
-          FirebaseFirestore.instance.collection('users');
+          FirebaseFirestore.instance.collection('newUsers');
 
       Map<String, dynamic> userData = {
         'name': this.name,

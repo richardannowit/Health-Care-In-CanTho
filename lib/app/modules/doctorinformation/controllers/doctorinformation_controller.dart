@@ -6,9 +6,11 @@ import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/models/review.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
+import 'package:flutter_healthcare/app/modules/doctorinformation/views/updateview.dart';
 import 'package:get/get.dart';
 
 class DoctorinformationController extends GetxController {
+  var isFirst = Get.arguments;
   late List<AddressModel> listAddress;
   final String doctorId = FirebaseAuth.instance.currentUser!.uid;
   final String? email = FirebaseAuth.instance.currentUser!.email;
@@ -36,7 +38,7 @@ class DoctorinformationController extends GetxController {
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
 
-  RxBool _isUpdate = true.obs;
+  RxBool _isUpdate = false.obs;
   bool get isUpdate => _isUpdate.value;
   set isUpdate(value) => _isUpdate.value = value;
 
@@ -62,20 +64,25 @@ class DoctorinformationController extends GetxController {
   set hint(value) => _hint.value = value;
 
   loadData() async {
+    loading = true;
     doctorInfo = await databaseMethods.getDoctorById(doctorId);
     listAddress = await databaseMethods.getDistricts();
+    reviewList = await DatabaseMethods.getReviews(doctorId);
     removeNullFields();
+    loading = false;
+    checkIsFrist();
   }
 
-  getReviewList() async {
-    loading = true;
-    reviewList = await DatabaseMethods.getReviews(doctorId);
-    loading = false;
+  checkIsFrist() {
+    if (isFirst != null) {
+      isFirst = null;
+      makeHint();
+      Get.to(UpdateView());
+    }
   }
 
   removeNullFields() {
     if (doctorInfo.email == null) {
-      isUpdate = false;
       doctorInfo.email = FirebaseAuth.instance.currentUser!.email;
     }
 
@@ -110,8 +117,10 @@ class DoctorinformationController extends GetxController {
     } else {
       if (doctorInfo.address!.name == 'NULL')
         addressName = 'Waiting for your update';
-      else
+      else {
         addressName = doctorInfo.address!.name! + ', Cần Thơ';
+        isUpdate = true;
+      }
     }
   }
 
