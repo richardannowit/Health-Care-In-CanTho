@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/appointment_cart.dart';
@@ -48,7 +49,7 @@ class IncomingAppointment extends StatelessWidget {
       children: [
         Container(
           width: size.width,
-          margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+          margin: EdgeInsets.only(top: 30, right: 20, left: 20),
           child: Stack(
             fit: StackFit.loose,
             children: [
@@ -73,11 +74,10 @@ class IncomingAppointment extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        "See all",
+                        "Xem thêm",
                         style: TextStyle(
-                          color: Color(0xff016565),
-                          fontSize: 18,
-                          fontFamily: 'Roboto',
+                          color: primaryColor,
+                          fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -96,8 +96,8 @@ class IncomingAppointment extends StatelessWidget {
             );
           }
           return Container(
-            margin: EdgeInsets.only(top: 30),
-            height: size.height * 0.22,
+            margin: EdgeInsets.only(top: 20, left: 20),
+            height: size.height * 0.18,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
@@ -105,6 +105,7 @@ class IncomingAppointment extends StatelessWidget {
               itemCount: controller.appointmentList.length,
               itemBuilder: (_, index) {
                 return AppointmentCard(
+                  height: size.height * 0.18,
                   doctor_image: 'assets/images/avt_doctor.png',
                   doctor_name: controller.appointmentList[index].doctor!.name,
                   specialist:
@@ -114,6 +115,9 @@ class IncomingAppointment extends StatelessWidget {
                   time: DateTimeHelpers.timestampsToTime(
                       controller.appointmentList[index].appointment_date!),
                   status: controller.appointmentList[index].status!,
+                  onMessage: () {
+                    //
+                  },
                   onCancel: () {
                     showDialog(
                       content: 'Xác nhận huỷ lịch hẹn?',
