@@ -51,7 +51,7 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
                   controller.signOut();
                 },
                 child: Text('Log out'),
-              )
+              ),
             ],
           ),
         ),
