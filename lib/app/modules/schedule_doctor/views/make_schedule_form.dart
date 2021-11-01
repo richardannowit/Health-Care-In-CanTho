@@ -23,7 +23,7 @@ class MakeScheduleForm extends StatelessWidget {
               Center(
                 child: Container(
                   child: Text(
-                    "Make your schedule",
+                    "Lập lịch trình",
                     style: TextStyle(
                       color: Color(0xff016565),
                       fontSize: 18,
@@ -74,7 +74,7 @@ class MakeScheduleForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TimePicker(
-                    label: "Time Start",
+                    label: "Thời gian bắt đầu",
                     selectedTime:
                         '${controller.timeStart.hour.toString().padLeft(2, '0')}:${controller.timeStart.minute.toString().padLeft(2, '0')}',
                     onPress: () async {
@@ -83,7 +83,7 @@ class MakeScheduleForm extends StatelessWidget {
                     },
                   ),
                   TimePicker(
-                    label: "Time Finish",
+                    label: "Thời gian kết thúc",
                     selectedTime:
                         '${controller.timeFinish.hour.toString().padLeft(2, '0')}:${controller.timeFinish.minute.toString().padLeft(2, '0')}',
                     onPress: () async {
@@ -97,7 +97,7 @@ class MakeScheduleForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TimePicker(
-                    label: "Time Relax Start",
+                    label: "Thời gian nghĩ ngơi",
                     selectedTime:
                         '${controller.timeRelaxStart.hour.toString().padLeft(2, '0')}:${controller.timeRelaxStart.minute.toString().padLeft(2, '0')}',
                     onPress: () async {
@@ -106,7 +106,7 @@ class MakeScheduleForm extends StatelessWidget {
                     },
                   ),
                   TimePicker(
-                    label: "Time Relax Finish",
+                    label: "",
                     selectedTime:
                         '${controller.timeRelaxFinish.hour.toString().padLeft(2, '0')}:${controller.timeRelaxFinish.minute.toString().padLeft(2, '0')}',
                     onPress: () async {
@@ -121,7 +121,7 @@ class MakeScheduleForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TimePicker(
-                    label: "Duration per patient",
+                    label: "Thời gian khám mỗi bệnh nhân",
                     selectedTime:
                         '${controller.duration.hour.toString().padLeft(2, '0')}:${controller.duration.minute.toString().padLeft(2, '0')}',
                     onPress: () async {
@@ -135,7 +135,7 @@ class MakeScheduleForm extends StatelessWidget {
                 margin: EdgeInsets.only(top: 30),
                 child: ButtonCustom(
                   color: Color(0xff3668FC),
-                  text: "Make Schedule",
+                  text: "Xong",
                   onPressed: () {
                     controller.makeSchedule();
                   },

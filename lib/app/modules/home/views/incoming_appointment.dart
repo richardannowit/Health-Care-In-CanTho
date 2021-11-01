@@ -23,7 +23,7 @@ class IncomingAppointment extends StatelessWidget {
           Get.back();
         },
         child: Text(
-          confirmText ?? 'Confirm',
+          confirmText ?? 'Đồng ý',
           style: TextStyle(color: Colors.red),
         ),
       ),
@@ -31,10 +31,10 @@ class IncomingAppointment extends StatelessWidget {
         onPressed: () {
           Get.back();
         },
-        child: Text('Cancel'),
+        child: Text('Huỷ bỏ'),
       ),
       titlePadding: EdgeInsets.only(top: 15, bottom: 15),
-      title: 'Confirmation',
+      title: 'Xác nhận',
       confirmTextColor: Colors.white,
       buttonColor: Colors.red,
       radius: 14,
@@ -54,12 +54,12 @@ class IncomingAppointment extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  "Incoming Appointment",
+                  "Các cuộc hẹn sắp đến",
                   style: TextStyle(
-                    color: Color(0xff016565),
-                    fontSize: 18,
+                    color: Color(0xff5F6468),
+                    fontSize: 16,
                     fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
@@ -92,7 +92,7 @@ class IncomingAppointment extends StatelessWidget {
           if (controller.appointmentList.length == 0) {
             return Container(
               margin: EdgeInsets.only(top: 30),
-              child: Text("No appointment yet"),
+              child: Text("Bạn không có cuộc hẹn nào"),
             );
           }
           return Container(
@@ -116,8 +116,8 @@ class IncomingAppointment extends StatelessWidget {
                   status: controller.appointmentList[index].status!,
                   onCancel: () {
                     showDialog(
-                      content: 'Do you want to Delete Appointment?',
-                      confirmText: 'Delete',
+                      content: 'Xác nhận huỷ lịch hẹn?',
+                      confirmText: 'Xác nhận',
                       onConfirm: () {
                         controller.cancelAppointment(index);
                       },

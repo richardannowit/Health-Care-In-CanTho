@@ -29,7 +29,7 @@ class DoctorsList extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  "Doctors List",
+                  "Tìm bác sĩ quanh bạn",
                   style: TextStyle(
                     color: Color(0xff016565),
                     fontSize: 18,
@@ -68,7 +68,7 @@ class DoctorsList extends StatelessWidget {
           child: Obx(() {
             var doctorList = controller.doctorList;
             if (doctorList.length == 0) {
-              return Text("Doctors in your area is empty");
+              return Text("Không có bác sĩ nào trong khu vực của bạn");
             }
             return ConstrainedBox(
               constraints:

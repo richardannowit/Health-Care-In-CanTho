@@ -16,7 +16,7 @@ class TimePicker extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             label,

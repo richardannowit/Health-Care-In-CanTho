@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/notifications/notifications.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/component/ratingdialog.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/constants.dart';
 
@@ -138,7 +139,9 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   RawMaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      makeNotification();
+                    },
                     child: Icon(
                       Icons.phone,
                       color: Colors.white,
@@ -149,7 +152,9 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                     padding: EdgeInsets.all(12),
                   ),
                   RawMaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      cancelScheduledNotifications();
+                    },
                     child: Icon(
                       Icons.message,
                       color: Colors.white,
