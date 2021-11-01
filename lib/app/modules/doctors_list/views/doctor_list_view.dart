@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_appbar.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_appbar_with_actions.dart';
 import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -13,38 +16,30 @@ class DoctorsListView extends GetView<DoctorListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          'Doctor List',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-          ),
-        ),
-        leading: BackButton(
-          onPressed: () {
-            Get.back();
-          },
-          color: Colors.black,
-        ),
+      appBar: CustomAppBar(
+        title: 'Doctor List',
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          Container(
-            height: 51,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-              child: _buildCategoriesRow(),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(4, 10, 4, 0),
-              child: Obx(() => _buildDoctorList(controller.districtName.value)),
-            ),
+          Background(height: MediaQuery.of(context).size.height),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 51,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+                  child: _buildCategoriesRow(),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 10, 4, 0),
+                  child: Obx(
+                      () => _buildDoctorList(controller.districtName.value)),
+                ),
+              ),
+            ],
           ),
         ],
       ),
