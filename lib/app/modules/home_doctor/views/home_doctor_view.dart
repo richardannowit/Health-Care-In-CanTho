@@ -10,40 +10,50 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: Obx(() {
+        appBar: AppBar(
+          title: Obx(() {
             if (controller.loading) {
               return CircularProgressIndicator();
             }
-            return Column(
-              children: [
-                Text(
-                  'Hi, I am a doctor, My name is ' +
-                      controller.doctorProfile.name!,
-                  style: TextStyle(fontSize: 20),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.SCHEDULE_DOCTOR,
-                        arguments: controller.doctorProfile);
-                  },
-                  child: Text('Make Schedules'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.DOCTORINFORMATION);
-                  },
-                  child: Text('Information'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    controller.signOut();
-                  },
-                  child: Text('Log out'),
-                )
-              ],
+            return Text(
+              'Hi, Doctor ' + controller.doctorProfile.name!,
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black,
+              ),
             );
           }),
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: () => Get.toNamed(Routes.APPOINTMENTS_DOCTOR),
+                child: Text('List Appointment'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.toNamed(Routes.SCHEDULE_DOCTOR,
+                      arguments: controller.doctorProfile);
+                },
+                child: Text('Make Schedules'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.toNamed(Routes.DOCTORINFORMATION);
+                },
+                child: Text('Information'),
+              ),
+              TextButton(
+                onPressed: () {
+                  controller.signOut();
+                },
+                child: Text('Log out'),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 
 class AppointmentModel {
-  String? patient, status;
+  String? patient, status, name;
   int? time_slot;
   Timestamp? appointment_date;
   DocumentReference? doctorRef;
@@ -16,6 +16,7 @@ class AppointmentModel {
     this.appointment_date,
     this.time_slot,
     this.reference,
+    this.name,
   });
 
   AppointmentModel.fromJson(Map<String, dynamic> json) {
