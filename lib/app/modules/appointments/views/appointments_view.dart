@@ -132,11 +132,11 @@ class AppointmentsView extends GetView<AppointmentsController> {
       onTap: () {
         if (controller.statusFilter != text) {
           if (text == "All") {
-            controller.less.value = "z";
-            controller.greater.value = "a";
+            controller.less.value = "Z";
+            controller.greater.value = "A";
           } else {
-            controller.less.value = text.toLowerCase();
-            controller.greater.value = text.toLowerCase();
+            controller.less.value = text;
+            controller.greater.value = text;
           }
           controller.statusFilter = text;
         }

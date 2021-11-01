@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 
 class AppointmentsController extends GetxController {
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
-  RxString less = "z".obs;
-  RxString greater = "a".obs;
+  RxString less = "Z".obs;
+  RxString greater = "A".obs;
   String statusFilter = "All";
   CollectionReference<Map<String, dynamic>> dbUserRef =
       FirebaseFirestore.instance.collection('doctors');
