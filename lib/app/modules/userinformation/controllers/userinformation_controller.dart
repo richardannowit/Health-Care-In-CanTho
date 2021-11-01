@@ -7,6 +7,7 @@ import 'package:flutter_healthcare/app/data/services/database.dart';
 import 'package:get/get.dart';
 
 class UserinformationController extends GetxController {
+  var isFrist = Get.arguments;
   late List<AddressModel> listAddress;
   late AddressModel address;
   late String dateOfBirth,
@@ -15,10 +16,11 @@ class UserinformationController extends GetxController {
       initHeight,
       initWeight,
       initPhone;
+  late int counter = 0;
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
   final String userID = FirebaseAuth.instance.currentUser!.uid;
   UserModel newUserInfo = new UserModel();
-  bool isUpdate = true, updating = false;
+  bool isUpdate = false, updating = false;
 
   Rx<UserModel> _userInfo = new UserModel().obs;
   UserModel get userInfo => _userInfo.value;
@@ -56,11 +58,20 @@ class UserinformationController extends GetxController {
     listAddress = await databaseMethods.getDistricts();
     userInfo = await databaseMethods.getUserByUID(userID);
     removeNullField();
+    isFirstEnterInformation();
+  }
+
+  isFirstEnterInformation() {
+    if (isFrist != null) {
+      flag = false;
+      visible = false;
+      makeHint();
+      isFrist = null;
+    }
   }
 
   removeNullField() {
     if (userInfo.email == null) {
-      isUpdate = false;
       userInfo.email = FirebaseAuth.instance.currentUser!.email;
     }
     if (userInfo.sex == null) {
@@ -89,10 +100,12 @@ class UserinformationController extends GetxController {
     if (userInfo.address == null) {
       addressName = 'Waiting for your update';
     } else {
-      if (userInfo.address!.name == 'NULL')
+      if (userInfo.address!.name == 'NULL') {
         addressName = 'Waiting for your update';
-      else
+      } else {
+        isUpdate = true;
         addressName = userInfo.address!.name! + ', Cần Thơ';
+      }
     }
   }
 

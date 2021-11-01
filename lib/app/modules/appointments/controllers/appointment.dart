@@ -7,16 +7,7 @@ class Appointment {
   late String specialist;
 
   Appointment(String status) {
-    switch (status) {
-      case "active":
-        this.status = "Active";
-        break;
-      case "waiting":
-        this.status = "Waiting";
-        break;
-      default:
-        this.status = "Done";
-    }
+    this.status = status;
   }
   setDoctorName(String name) {
     doctorName = name;

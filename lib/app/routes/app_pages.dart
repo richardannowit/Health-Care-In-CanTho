@@ -8,6 +8,8 @@ import 'package:flutter_healthcare/app/modules/appointments_doctor/bindings/appo
 import 'package:flutter_healthcare/app/modules/appointments_doctor/views/appointments_doctor_view.dart';
 import 'package:flutter_healthcare/app/modules/booked_success/bindings/booked_success_binding.dart';
 import 'package:flutter_healthcare/app/modules/booked_success/views/booked_success_view.dart';
+import 'package:flutter_healthcare/app/modules/chooserole/bindings/chooserole_binding.dart';
+import 'package:flutter_healthcare/app/modules/chooserole/views/chooserole_view.dart';
 import 'package:flutter_healthcare/app/modules/conversation/bindings/conversation_binding.dart';
 import 'package:flutter_healthcare/app/modules/conversation/views/conversation_view.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/bindings/doctorinformation_binding.dart';
@@ -120,6 +122,11 @@ class AppPages {
       name: _Paths.APPOINTMENTS_DOCTOR,
       page: () => AppointmentsDoctorView(),
       binding: AppointmentsDoctorBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHOOSEROLE,
+      page: () => ChooseroleView(),
+      binding: ChooseroleBinding(),
     ),
   ];
 }

@@ -126,7 +126,7 @@ class MakeAppointmentController extends GetxController {
     Map<String, dynamic> data = {
       'doctor': doctorProfile.reference,
       'patient': userEmail,
-      'status': 'Waiting',
+      'status': 'Active',
       'appointment_date': DateTimeHelpers.dateTimeToTimestamp(bookingTime),
       'time_slot': slotIndex
     };
