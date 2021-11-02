@@ -38,4 +38,9 @@ class DateTimeHelpers {
   static Timestamp dateTimeToTimestamp(DateTime datetime) {
     return Timestamp.fromDate(datetime);
   }
+
+  static String dateTimeToDateOfWeek(DateTime datetime) {
+    String dow = DateFormat('EEE').format(datetime);
+    return dow;
+  }
 }

@@ -67,7 +67,7 @@ class SelectAppointment extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      "Date",
+                      "Chọn ngày",
                       style: TextStyle(
                         color: Color(0xff016565),
                         fontSize: 20,
@@ -86,7 +86,7 @@ class SelectAppointment extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(
-                            "April",
+                            "Tháng " + controller.selectedDate.month.toString(),
                             style: TextStyle(
                               color: Color(0xff443BAD),
                               fontSize: 18,
@@ -113,7 +113,7 @@ class SelectAppointment extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      "Time",
+                      "Chọn giờ",
                       style: TextStyle(
                         color: Color(0xff016565),
                         fontSize: 20,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/controllers/make_appointment_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +51,7 @@ class CalendarList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Text(
-              DateFormat('EEE').format(thisDate),
+              DateTimeHelpers.dateTimeToDateOfWeek(thisDate),
               style: TextStyle(
                 color: textColor,
                 fontWeight: FontWeight.bold,
