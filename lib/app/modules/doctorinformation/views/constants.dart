@@ -2,10 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final textStyle = TextStyle(
-  color: Colors.black,
-  fontSize: 18,
+  color: Colors.grey[500],
+  fontSize: 20,
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w600,
+);
+
+final informationText = TextStyle(
+  color: Colors.grey[800],
+  fontSize: 20,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w600,
+);
+
+final nameText = TextStyle(
+  color: Colors.amber[700],
+  fontSize: 26,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w800,
 );
 
 final detailStyle = BoxDecoration(
@@ -47,7 +61,12 @@ final reviewBtnStyle = ButtonStyle(
   ),
 );
 
-final txtStyle = TextStyle(fontSize: 16);
+final txtStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 18,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w400,
+);
 
 final formUpdateStyle = BoxDecoration(
   color: Colors.white,

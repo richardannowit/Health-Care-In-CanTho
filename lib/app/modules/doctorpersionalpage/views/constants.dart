@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 
 final textStyle = TextStyle(
-  color: Colors.black,
-  fontSize: 18,
+  color: Colors.grey[500],
+  fontSize: 20,
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w600,
 );
@@ -32,8 +32,12 @@ final cardStyle = BoxDecoration(
         topRight: Radius.circular(10),
         bottomLeft: Radius.circular(10),
         bottomRight: Radius.circular(10)),
-    border: Border.all(color: Colors.blueAccent));
-
+    boxShadow: [
+      BoxShadow(
+        color: primaryColor,
+        blurRadius: 5,
+      ),
+    ]);
 final bgColor = Colors.blue[300];
 
 final reviewBtnStyle = ButtonStyle(
@@ -47,4 +51,30 @@ final reviewBtnStyle = ButtonStyle(
   ),
 );
 
-final txtStyle = TextStyle(fontSize: 16);
+final txtStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 18,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w400,
+);
+
+final nameText = TextStyle(
+  color: Colors.amber[700],
+  fontSize: 26,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w800,
+);
+
+final informationText = TextStyle(
+  color: Colors.grey[500],
+  fontSize: 22,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w600,
+);
+
+final keyText = TextStyle(
+  color: Colors.grey[800],
+  fontSize: 22,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w600,
+);

@@ -15,8 +15,8 @@ class UserinformationController extends GetxController {
       initName,
       initHeight,
       initWeight,
+      infor = "",
       initPhone;
-  late int counter = 0;
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
   final String userID = FirebaseAuth.instance.currentUser!.uid;
   UserModel newUserInfo = new UserModel();
@@ -30,9 +30,9 @@ class UserinformationController extends GetxController {
   String get userName => _userName.value;
   set userName(value) => _userName.value = value;
 
-  RxBool _flag = true.obs;
-  bool get flag => _flag.value;
-  set flag(value) => _flag.value = value;
+  RxBool _loading = true.obs;
+  bool get loading => _loading.value;
+  set loading(value) => _loading.value = value;
 
   RxBool _sex = true.obs;
   bool get sex => _sex.value;
@@ -55,15 +55,22 @@ class UserinformationController extends GetxController {
   }
 
   loadData() async {
+    loading = true;
     listAddress = await databaseMethods.getDistricts();
     userInfo = await databaseMethods.getUserByUID(userID);
     removeNullField();
     isFirstEnterInformation();
+    infor = userInfo.sex! +
+        " - " +
+        userInfo.height!.toString() +
+        " cm - " +
+        userInfo.weight!.toString() +
+        " kg";
+    loading = false;
   }
 
   isFirstEnterInformation() {
     if (isFrist != null) {
-      flag = false;
       visible = false;
       makeHint();
       isFrist = null;
@@ -75,10 +82,10 @@ class UserinformationController extends GetxController {
       userInfo.email = FirebaseAuth.instance.currentUser!.email;
     }
     if (userInfo.sex == null) {
-      userInfo.sex = 'None';
+      userInfo.sex = 'Không';
     }
     if (userInfo.name == null) {
-      userName = 'Waiting for your update';
+      userName = 'Chờ bạn cập nhật';
     } else {
       userName = userInfo.name;
     }
@@ -89,19 +96,19 @@ class UserinformationController extends GetxController {
       userInfo.weight = 0;
     }
     if (userInfo.phone == null) {
-      userInfo.phone = 'Waiting for your update';
+      userInfo.phone = 'Chờ bạn cập nhật';
     }
 
     if (userInfo.dateOfBirth == null) {
-      dateOfBirth = 'Waiting for your update';
+      dateOfBirth = 'Chờ bạn cập nhật';
     } else {
       dateOfBirth = DateTimeHelpers.timestampsToDate(userInfo.dateOfBirth!);
     }
     if (userInfo.address == null) {
-      addressName = 'Waiting for your update';
+      addressName = 'Chờ bạn cập nhật';
     } else {
       if (userInfo.address!.name == 'NULL') {
-        addressName = 'Waiting for your update';
+        addressName = 'Chờ bạn cập nhật';
       } else {
         isUpdate = true;
         addressName = userInfo.address!.name! + ', Cần Thơ';
@@ -113,7 +120,7 @@ class UserinformationController extends GetxController {
     updating = true;
     newUserInfo.addressRef = listAddress[0].reference;
     hint = listAddress[0].name;
-    if (userInfo.sex == 'None') {
+    if (userInfo.sex == 'Không') {
       newUserInfo.sex = 'Nam';
       sex = true;
     } else {
@@ -144,7 +151,7 @@ class UserinformationController extends GetxController {
       newUserInfo.weight = userInfo.weight;
       initWeight = userInfo.weight.toString();
     }
-    if (userInfo.phone == 'Waiting for your update') {
+    if (userInfo.phone == 'Chờ bạn cập nhật') {
       newUserInfo.phone = 'Ex: 0971002636';
       initPhone = '';
     } else {

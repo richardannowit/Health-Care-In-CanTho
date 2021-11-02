@@ -30,7 +30,7 @@ class DoctorinformationController extends GetxController {
   IconData get viewMode => _viewMode.value;
   set viewMode(value) => _viewMode.value = value;
 
-  RxBool _flag = true.obs;
+  RxBool _flag = false.obs;
   bool get flag => _flag.value;
   set flag(value) => _flag.value = value;
 

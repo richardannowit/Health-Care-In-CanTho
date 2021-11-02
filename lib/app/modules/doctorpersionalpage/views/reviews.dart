@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
@@ -27,7 +28,7 @@ class Reviews extends StatelessWidget {
             fit: StackFit.loose,
             children: [
               Container(
-                child: Text("Review", style: textStyle),
+                child: Text("Nhận xét", style: textStyle),
               ),
             ],
           ),
@@ -36,17 +37,19 @@ class Reviews extends StatelessWidget {
           if (controller.loading) return buildProgressIndicator(context);
           if (controller.reviewList.isEmpty) return buildNullCard(context);
           return Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            color: Colors.white,
-            height: size.height * 0.19,
-            padding: EdgeInsets.all(10),
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              scrollDirection: Axis.horizontal,
+            height: 152,
+            child: CarouselSlider.builder(
+              options: CarouselOptions(
+                  height: MediaQuery.of(context).size.width + 50,
+                  viewportFraction: 1,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                  onPageChanged: (index, reason) {}),
               itemCount: controller.reviewList.length,
-              itemBuilder: (_, index) {
+              itemBuilder: (context, index, realIndex) {
                 return ReviewCard(
+                  size: size,
                   content: controller.reviewList[index].content,
                   score: controller.reviewList[index].score,
                   date: DateTimeHelpers.timestampsToDate(
@@ -63,9 +66,7 @@ class Reviews extends StatelessWidget {
 
   Widget buildProgressIndicator(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-        color: Colors.white,
-        height: size.height * 0.19,
+        height: 152,
         padding: EdgeInsets.all(10),
         child: Center(
           child: CircularProgressIndicator(),
@@ -74,24 +75,15 @@ class Reviews extends StatelessWidget {
 
   Widget buildNullCard(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-        color: Colors.white,
-        height: size.height * 0.19,
+        height: 152,
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'No review yet!!',
+              'Hiện tại chưa có nhận xét nào!!',
               style: textStyle,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                'Be the first to review ' + controller.doctor.name!,
-                style: txtStyle,
-              ),
-            )
           ],
         ));
   }
