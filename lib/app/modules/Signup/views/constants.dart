@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 
 final formStyle = BoxDecoration(
   color: Colors.white,
@@ -29,6 +30,37 @@ final inputStyle = InputDecoration(
     Icons.person,
   ),
 );
+
+InputDecoration _buildDecorationTextFormField(
+    {required String hintText, required IconData icon}) {
+  return InputDecoration(
+    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+    hintText: hintText,
+    focusColor: primaryColor,
+    prefixIcon: Icon(
+      icon,
+      color: primaryColor,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      borderSide: BorderSide(
+        color: primaryColor,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      borderSide: BorderSide(color: primaryColor),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      borderSide: BorderSide(color: secondaryColor),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      borderSide: BorderSide(color: secondaryColor),
+    ),
+  );
+}
 
 final buttonStyle = ButtonStyle(
   backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
