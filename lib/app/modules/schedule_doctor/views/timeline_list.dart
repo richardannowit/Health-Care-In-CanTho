@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/dialog.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/controllers/schedule_doctor_controller.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/timeline_card.dart';
 import 'package:get/get.dart';
@@ -8,34 +9,6 @@ class TimeLineList extends StatelessWidget {
   TimeLineList({Key? key}) : super(key: key);
 
   final ScheduleDoctorController controller = Get.find();
-
-  showDialog(
-      {String? content, String? confirmText, void Function()? onConfirm}) {
-    Get.defaultDialog(
-      confirm: TextButton(
-        onPressed: () {
-          onConfirm!();
-          Get.back();
-        },
-        child: Text(
-          confirmText ?? 'Confirm',
-          style: TextStyle(color: Colors.red),
-        ),
-      ),
-      cancel: TextButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text('Cancel'),
-      ),
-      titlePadding: EdgeInsets.only(top: 15, bottom: 15),
-      title: 'Confirmation',
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.red,
-      radius: 14,
-      middleText: content ?? "Do you want?",
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +21,7 @@ class TimeLineList extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  "Your schedule",
+                  "Giờ khám của bạn",
                   style: TextStyle(
                     color: Color(0xff016565),
                     fontSize: 18,
@@ -62,9 +35,11 @@ class TimeLineList extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     onTap: () {
-                      showDialog(
-                        content: 'Do you want to delete all?',
-                        confirmText: 'Delete',
+                      DialogHelper.showDialog(
+                        title: "Xác nhận",
+                        content:
+                            'Bạn có muốn xoá tất cả lịch trình trong ngày này?',
+                        confirmText: 'Xoá tất cả',
                         onConfirm: () {
                           controller.deleteTimeLine();
                         },
@@ -73,7 +48,7 @@ class TimeLineList extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        "Delete All",
+                        "Xoá tất cả",
                         style: TextStyle(
                           color: Colors.red,
                           fontSize: 18,
@@ -114,9 +89,9 @@ class TimeLineList extends StatelessWidget {
                     timeFinish: DateTimeHelpers.dateTimeToTime(
                         controller.timeSlotList[index + 1]),
                     onPressed: () {
-                      showDialog(
-                        content: 'Do you want to delete?',
-                        confirmText: 'Delete',
+                      DialogHelper.showDialog(
+                        content: 'Bạn có muốn xoá khung giờ này?',
+                        confirmText: 'Xoá',
                         onConfirm: () {
                           controller.deleteTimeSlot(index);
                         },

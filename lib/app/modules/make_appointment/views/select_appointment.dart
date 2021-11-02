@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/dialog.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/controllers/make_appointment_controller.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/calendar_list.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/components/time_select_button.dart';
@@ -177,9 +178,10 @@ class SelectAppointment extends StatelessWidget {
               height: 43,
               onPressed: () {
                 //Check chon ngay gio r moi submit duoc
-                showDialog(
-                  content: 'Do you want to booking?',
-                  confirmText: 'Confirm',
+                DialogHelper.showDialog(
+                  title: "Xác nhận đặt lịch?",
+                  content: 'Lịch hẹn sẽ được đặt theo thời gian bạn đã chọn,',
+                  confirmText: 'Đồng ý',
                   onConfirm: () async {
                     bool checkBooking = await controller.bookAppointment();
                     if (checkBooking) {
@@ -187,8 +189,8 @@ class SelectAppointment extends StatelessWidget {
                       Get.toNamed(Routes.BOOKED_SUCCESS);
                     } else {
                       Get.snackbar(
-                        "Booking",
-                        "Booking fail cause conflict with others.",
+                        "Đặt lịch",
+                        "Đặt lịch lỗi do bị trùng giờ đặt với người khác.",
                         snackPosition: SnackPosition.BOTTOM,
                       );
                     }

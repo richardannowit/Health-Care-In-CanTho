@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
+import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/dialog.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/appointment_cart.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -15,33 +17,6 @@ class IncomingAppointment extends StatelessWidget {
   final Size size;
 
   final HomeController controller = Get.find();
-  showDialog(
-      {String? content, String? confirmText, void Function()? onConfirm}) {
-    Get.defaultDialog(
-      confirm: TextButton(
-        onPressed: () {
-          onConfirm!();
-          Get.back();
-        },
-        child: Text(
-          confirmText ?? 'Đồng ý',
-          style: TextStyle(color: Colors.red),
-        ),
-      ),
-      cancel: TextButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text('Huỷ bỏ'),
-      ),
-      titlePadding: EdgeInsets.only(top: 15, bottom: 15),
-      title: 'Xác nhận',
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.red,
-      radius: 14,
-      middleText: content ?? "Do you want?",
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,10 +91,14 @@ class IncomingAppointment extends StatelessWidget {
                       controller.appointmentList[index].appointment_date!),
                   status: controller.appointmentList[index].status!,
                   onMessage: () {
-                    //
+                    CreateChatRoom().createChatroomAndStartConversation(
+                        controller.appointmentList[index].doctor!.email
+                            .toString(),
+                        controller.appointmentList[index].doctor!.name
+                            .toString());
                   },
                   onCancel: () {
-                    showDialog(
+                    DialogHelper.showDialog(
                       content: 'Xác nhận huỷ lịch hẹn?',
                       confirmText: 'Xác nhận',
                       onConfirm: () {
