@@ -90,13 +90,12 @@ class IncomingAppointment extends StatelessWidget {
                   time: DateTimeHelpers.timestampsToTime(
                       controller.appointmentList[index].appointment_date!),
                   status: controller.appointmentList[index].status!,
-                  onMessage: () {
-                    CreateChatRoom().createChatroomAndStartConversation(
-                        controller.appointmentList[index].doctor!.email
-                            .toString(),
-                        controller.appointmentList[index].doctor!.name
-                            .toString());
-                  },
+                  onMessage: () => CreateChatRoom()
+                      .createChatroomAndStartConversation(
+                          controller.appointmentList[index].doctor!.email
+                              .toString(),
+                          controller.appointmentList[index].doctor!.name
+                              .toString()),
                   onCancel: () {
                     DialogHelper.showDialog(
                       content: 'Xác nhận huỷ lịch hẹn?',
