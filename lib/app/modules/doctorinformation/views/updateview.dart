@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
+import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/controllers/doctorinformation_controller.dart';
 import 'package:get/get.dart';
@@ -11,284 +14,324 @@ class UpdateView extends StatelessWidget {
 
   final DoctorinformationController controller = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final textFeildBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      borderSide: BorderSide(color: primaryColor));
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
             body: Form(
           key: _formKey,
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 26),
-                  child: IconButton(
+          child: Stack(
+            children: [
+              Background(height: MediaQuery.of(context).size.height),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 26),
+                    child: IconButton(
                       onPressed: () {
                         Get.back();
                       },
-                      icon: Icon(Icons.arrow_back_ios)),
-                ),
-                Expanded(
-                  child: Center(
+                      icon: Icon(Icons.arrow_back_ios),
+                      color: primaryColor,
+                    ),
+                  ),
+                  Expanded(
                     child: SingleChildScrollView(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 40,
-                        height: 640,
-                        decoration: formUpdateStyle,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        child: Container(
+                          height: 700,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(
-                                'Enter your information',
-                                style: textStyle,
-                              ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.person,
-                                          color: Colors.blue,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: Text('Name: '),
-                                        )
-                                      ],
-                                    ),
-                                    TextFormField(
-                                      initialValue: controller.initName,
-                                      decoration: InputDecoration(
-                                          hintText: controller.newDoctor.name),
-                                      onSaved: (value) {
-                                        if (value != '')
-                                          controller.newDoctor.name = value;
-                                      },
-                                      validator: (value) {
-                                        if (value == '' &&
-                                            controller.newDoctor.name ==
-                                                'Ex: Vo Tu Thien')
-                                          return 'The name field cannot be empty!';
-                                      },
-                                    ),
-                                  ],
+                                padding: const EdgeInsets.only(bottom: 30),
+                                child: Text(
+                                  'Nhập vào thông tin',
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 26,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w800,
+                                  ),
                                 ),
                               ),
-                              Column(
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.phone,
-                                        color: Colors.blue,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text('Phone number: '),
-                                      )
-                                    ],
+                                  Icon(
+                                    Icons.person,
+                                    color: primaryColor,
                                   ),
-                                  TextFormField(
-                                    initialValue: controller.initPhone,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: InputDecoration(
-                                        hintText: controller.newDoctor.phone),
-                                    onSaved: (value) {
-                                      if (value != '')
-                                        controller.newDoctor.phone = value;
-                                    },
-                                    validator: (value) {
-                                      if (value == '' &&
-                                          controller.newDoctor.phone ==
-                                              'Ex: 0812305346')
-                                        return 'The phone field cannot be empty!';
-                                      if (value != '' &&
-                                          !GetUtils.isPhoneNumber(value!))
-                                        return 'Incorrect!';
-                                    },
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Tên: ',
+                                      style: textStyle,
+                                    ),
                                   )
                                 ],
                               ),
-                              Column(
+                              TextFormField(
+                                style: informationText,
+                                initialValue: controller.initName,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 20),
+                                  border: textFeildBorder,
+                                  enabledBorder: textFeildBorder,
+                                  focusedBorder: textFeildBorder,
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide:
+                                          BorderSide(color: secondaryColor)),
+                                  disabledBorder: textFeildBorder,
+                                  hintText: controller.newDoctor.name,
+                                  hintStyle: textStyle,
+                                ),
+                                onSaved: (value) {
+                                  if (value != '')
+                                    controller.newDoctor.name = value;
+                                },
+                                validator: (value) {
+                                  if (value == '' &&
+                                      controller.newDoctor.name ==
+                                          'Ex: Vo Tu Thien')
+                                    return 'Hãy nhập vào tên!';
+                                },
+                              ),
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.architecture,
-                                        color: Colors.blue,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text('Specialist: '),
-                                      )
-                                    ],
+                                  Icon(
+                                    Icons.phone,
+                                    color: primaryColor,
                                   ),
-                                  TextFormField(
-                                    initialValue: controller.initSpecialist,
-                                    decoration: InputDecoration(
-                                        hintText:
-                                            controller.newDoctor.specialist),
-                                    onSaved: (value) {
-                                      if (value != '')
-                                        controller.newDoctor.specialist = value;
-                                    },
-                                    validator: (value) {
-                                      if (value == '' &&
-                                          controller.newDoctor.specialist ==
-                                              'Ex: Heart')
-                                        return 'The specialist field cannot be empty!';
-                                    },
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Số điện thoại: ',
+                                      style: textStyle,
+                                    ),
                                   )
                                 ],
                               ),
-                              Column(
+                              TextFormField(
+                                style: informationText,
+                                initialValue: controller.initPhone,
+                                keyboardType: TextInputType.phone,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 20),
+                                  border: textFeildBorder,
+                                  enabledBorder: textFeildBorder,
+                                  focusedBorder: textFeildBorder,
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide:
+                                          BorderSide(color: secondaryColor)),
+                                  disabledBorder: textFeildBorder,
+                                  hintText: controller.newDoctor.phone,
+                                  hintStyle: textStyle,
+                                ),
+                                onSaved: (value) {
+                                  if (value != '')
+                                    controller.newDoctor.phone = value;
+                                },
+                                validator: (value) {
+                                  if (value == '' &&
+                                      controller.newDoctor.phone ==
+                                          'Ex: 0812305346') return '!';
+                                  if (value != '' &&
+                                      !GetUtils.isPhoneNumber(value!))
+                                    return 'Số điện thoại không hợp lệ!';
+                                },
+                              ),
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.app_registration_rounded,
-                                        color: Colors.blue,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text('About me: '),
-                                      )
-                                    ],
+                                  Icon(
+                                    Icons.architecture,
+                                    color: primaryColor,
                                   ),
-                                  TextFormField(
-                                    initialValue: controller.initAbout,
-                                    decoration: InputDecoration(
-                                        hintText: controller.newDoctor.about),
-                                    onSaved: (value) {
-                                      if (value != '')
-                                        controller.newDoctor.about = value;
-                                    },
-                                    validator: (value) {
-                                      if (value == '' &&
-                                          controller.newDoctor.about ==
-                                              'Ex: Renowned doctor who participated in heart transplants abroad')
-                                        return 'The about field cannot be empty!';
-                                    },
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Chuyên khoa: ',
+                                      style: textStyle,
+                                    ),
                                   )
                                 ],
                               ),
-                              Column(
+                              TextFormField(
+                                style: informationText,
+                                initialValue: controller.initSpecialist,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 20),
+                                    border: textFeildBorder,
+                                    enabledBorder: textFeildBorder,
+                                    focusedBorder: textFeildBorder,
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide:
+                                            BorderSide(color: secondaryColor)),
+                                    disabledBorder: textFeildBorder,
+                                    hintText: controller.newDoctor.specialist,
+                                    hintStyle: textStyle),
+                                onSaved: (value) {
+                                  if (value != '')
+                                    controller.newDoctor.specialist = value;
+                                },
+                                validator: (value) {
+                                  if (value == '' &&
+                                      controller.newDoctor.specialist ==
+                                          'Ex: Heart')
+                                    return 'Hãy nhập vào chuyên khoa!';
+                                },
+                              ),
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.home_work,
-                                        color: Colors.blue,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text('Center address: '),
-                                      )
-                                    ],
+                                  Icon(
+                                    Icons.app_registration_rounded,
+                                    color: primaryColor,
                                   ),
-                                  TextFormField(
-                                    initialValue: controller.initCenterAddreess,
-                                    decoration: InputDecoration(
-                                        hintText:
-                                            controller.newDoctor.centeraddress),
-                                    onSaved: (value) {
-                                      if (value != '')
-                                        controller.newDoctor.centeraddress =
-                                            value;
-                                    },
-                                    validator: (value) {
-                                      if (value == '' &&
-                                          controller.newDoctor.centeraddress ==
-                                              'Ex: 331 Ba Thang Hai Street, Hung Loi')
-                                        return 'The center adress field cannot be empty!';
-                                    },
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Giới thiệu: ',
+                                      style: textStyle,
+                                    ),
                                   )
                                 ],
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              TextFormField(
+                                style: informationText,
+                                initialValue: controller.initAbout,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 20),
+                                    border: textFeildBorder,
+                                    enabledBorder: textFeildBorder,
+                                    focusedBorder: textFeildBorder,
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide:
+                                            BorderSide(color: secondaryColor)),
+                                    disabledBorder: textFeildBorder,
+                                    hintText: controller.newDoctor.about,
+                                    hintStyle: textStyle),
+                                onSaved: (value) {
+                                  if (value != '')
+                                    controller.newDoctor.about = value;
+                                },
+                                validator: (value) {
+                                  if (value == '' &&
+                                      controller.newDoctor.about ==
+                                          'Ex: Renowned doctor who participated in heart transplants abroad')
+                                    return 'Hãy nhập vào giới thiệu!';
+                                },
+                              ),
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.location_on_rounded,
-                                          color: Colors.blue),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Text('Address: '),
-                                      ),
-                                      DropdownButton<AddressModel>(
-                                        items: controller.listAddress
-                                            .map((AddressModel value) {
-                                          return DropdownMenuItem<AddressModel>(
-                                            value: value,
-                                            child: Text(value.name!),
-                                          );
-                                        }).toList(),
-                                        menuMaxHeight: 150,
-                                        onChanged: (value) {
-                                          controller.hint = value!.name;
-                                          controller.newDoctor.addressRef =
-                                              value.reference;
-                                        },
-                                        hint: DropdownMenuItem<String>(
-                                          value: controller.hint,
-                                          child: Text(controller.hint),
-                                        ),
-                                      )
-                                    ],
+                                  Icon(
+                                    Icons.home_work,
+                                    color: primaryColor,
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Địa chỉ trung tâm: ',
+                                      style: textStyle,
+                                    ),
+                                  )
                                 ],
                               ),
-                              Container(
-                                width: 100,
-                                height: 40,
-                                margin: EdgeInsets.only(top: 0),
-                                child: TextButton(
-                                    onPressed: () {
-                                      if (!_formKey.currentState!.validate())
-                                        return;
-                                      _formKey.currentState!.save();
-                                      FocusScope.of(context).unfocus();
-                                      controller.updateDoctorInfo();
-                                      controller.loadData();
-                                      Get.back();
+                              TextFormField(
+                                style: informationText,
+                                initialValue: controller.initCenterAddreess,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 20),
+                                    border: textFeildBorder,
+                                    enabledBorder: textFeildBorder,
+                                    focusedBorder: textFeildBorder,
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide:
+                                            BorderSide(color: secondaryColor)),
+                                    disabledBorder: textFeildBorder,
+                                    hintText:
+                                        controller.newDoctor.centeraddress,
+                                    hintStyle: textStyle),
+                                onSaved: (value) {
+                                  if (value != '')
+                                    controller.newDoctor.centeraddress = value;
+                                },
+                                validator: (value) {
+                                  if (value == '' &&
+                                      controller.newDoctor.centeraddress ==
+                                          'Ex: 331 Ba Thang Hai Street, Hung Loi')
+                                    return 'Hãy nhập vào địa chỉ trung tâm!';
+                                },
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.location_on_rounded,
+                                      color: primaryColor),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Text(
+                                      'Địa chỉ: ',
+                                      style: textStyle,
+                                    ),
+                                  ),
+                                  DropdownButton<AddressModel>(
+                                    items: controller.listAddress
+                                        .map((AddressModel value) {
+                                      return DropdownMenuItem<AddressModel>(
+                                        value: value,
+                                        child: Text(value.name!),
+                                      );
+                                    }).toList(),
+                                    menuMaxHeight: 150,
+                                    onChanged: (value) {
+                                      controller.hint = value!.name;
+                                      controller.newDoctor.addressRef =
+                                          value.reference;
                                     },
-                                    style: buttonStyle,
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 4),
-                                          child: Icon(Icons.done,
-                                              color: Colors.white),
-                                        ),
-                                        Text(
-                                          'Confirm',
-                                          style: TextStyle(color: Colors.white),
-                                        )
-                                      ],
-                                    )),
-                              )
+                                    hint: DropdownMenuItem<String>(
+                                      value: controller.hint,
+                                      child: Text(controller.hint),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              CustomButton(
+                                  width: 96,
+                                  height: 46,
+                                  onPressed: () {
+                                    if (!_formKey.currentState!.validate())
+                                      return;
+                                    _formKey.currentState!.save();
+                                    FocusScope.of(context).unfocus();
+                                    controller.updateDoctorInfo();
+                                    controller.loadData();
+                                    Get.back();
+                                  },
+                                  text: 'Xong')
                             ],
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         )));
   }

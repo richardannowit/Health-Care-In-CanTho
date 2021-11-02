@@ -3,7 +3,8 @@ import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
-import 'package:flutter_healthcare/app/modules/appointments/controllers/appointment.dart';
+import 'package:flutter_healthcare/app/data/helper/dialog.dart';
+import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/components/appointnent_card.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
@@ -55,11 +56,11 @@ class AppointmentsView extends GetView<AppointmentsController> {
   }
 
   Widget buildList(BuildContext context) {
-    var streamBuilder = StreamBuilder<List<Appointment>>(
+    var streamBuilder = StreamBuilder<List<AppointmentModel>>(
         stream:
             controller.getData(controller.less.value, controller.greater.value),
         builder: (BuildContext context,
-            AsyncSnapshot<List<Appointment>> appointmentsSnapshot) {
+            AsyncSnapshot<List<AppointmentModel>> appointmentsSnapshot) {
           if (appointmentsSnapshot.hasError)
             return new Text('Error: ${appointmentsSnapshot.error}');
           switch (appointmentsSnapshot.connectionState) {
@@ -70,21 +71,32 @@ class AppointmentsView extends GetView<AppointmentsController> {
                 return buildNullList(context);
               }
               return new ListView(
-                  children: appointmentsSnapshot.data!.map((Appointment app) {
+                  children:
+                      appointmentsSnapshot.data!.map((AppointmentModel app) {
                 return Container(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: AppointmentCard(
                     height: MediaQuery.of(context).size.height * 0.18,
                     doctor_image: 'assets/images/avt_doctor.png',
-                    doctor_name: app.doctorName,
-                    specialist: app.specialist,
-                    date: DateTimeHelpers.timestampsToDate(app.dateTime),
-                    time: DateTimeHelpers.timestampsToTime(app.dateTime),
+                    doctor_name: app.doctor!.name,
+                    specialist: app.doctor!.specialist,
+                    date:
+                        DateTimeHelpers.timestampsToDate(app.appointment_date!),
+                    time:
+                        DateTimeHelpers.timestampsToTime(app.appointment_date!),
                     status: app.status,
                     onMessage: () => CreateChatRoom()
                         .createChatroomAndStartConversation(
-                            app.doctorEmail, app.doctorName),
-                    onCancel: () {},
+                            app.doctor!.email!, app.doctor!.email!),
+                    onCancel: () {
+                      DialogHelper.showDialog(
+                        content: 'Xác nhận huỷ lịch hẹn?',
+                        confirmText: 'Xác nhận',
+                        onConfirm: () {
+                          controller.cancelAppointment(app);
+                        },
+                      );
+                    },
                   ),
                 );
               }).toList());
