@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/home/views/components/doctors_card.dart';
@@ -23,7 +24,7 @@ class DoctorsList extends StatelessWidget {
       children: [
         Container(
           width: size.width,
-          margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+          margin: EdgeInsets.only(top: 30, right: 20, left: 20),
           child: Stack(
             fit: StackFit.loose,
             children: [
@@ -31,10 +32,10 @@ class DoctorsList extends StatelessWidget {
                 child: Text(
                   "Tìm bác sĩ quanh bạn",
                   style: TextStyle(
-                    color: Color(0xff016565),
-                    fontSize: 18,
+                    color: Color(0xff5F6468),
+                    fontSize: 16,
                     fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
@@ -48,11 +49,10 @@ class DoctorsList extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        "See all",
+                        "Xem thêm",
                         style: TextStyle(
-                          color: Color(0xff016565),
-                          fontSize: 18,
-                          fontFamily: 'Roboto',
+                          color: primaryColor,
+                          fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -64,15 +64,15 @@ class DoctorsList extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 10, right: 20),
+          margin: EdgeInsets.only(top: 20),
           child: Obx(() {
             var doctorList = controller.doctorList;
             if (doctorList.length == 0) {
               return Text("Không có bác sĩ nào trong khu vực của bạn");
             }
             return ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxHeight: size.height / 2, minHeight: 100.0),
+              constraints: BoxConstraints(
+                  maxHeight: size.height / 2.5, minHeight: 100.0),
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),

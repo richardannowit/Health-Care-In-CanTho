@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
@@ -20,55 +21,104 @@ class InfomationUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
-      margin: EdgeInsets.only(top: 20, left: 20),
-      child: Stack(
-        fit: StackFit.loose,
+      margin: EdgeInsets.only(top: 20, right: 20, left: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: Text(
-                  'Hi, ' + name,
-                  style: TextStyle(
-                    color: Color(0xff363636),
-                    fontSize: 25,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
+              InkWell(
+                onTap: () {
+                  scaffoldKey.currentState!.openDrawer();
+                },
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  child: CircleAvatar(
+                    child: Image(
+                      image: AssetImage('assets/images/avt_patient.png'),
+                    ),
                   ),
                 ),
               ),
-              Container(
-                width: size.width * 0.25,
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Text(
-                  'BMI: ' + bmi,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              BMIWidget(bmi: bmi, size: size),
             ],
           ),
-          GestureDetector(
-            onTap: () {
-              scaffoldKey.currentState!.openEndDrawer();
-            },
-            child: Container(
-              margin: EdgeInsets.only(right: 20),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset("assets/images/profile_img.png"),
-              ),
-            ),
-          )
+          SizedBox(height: 15),
+          HelloText(name: name)
         ],
+      ),
+    );
+  }
+}
+
+class HelloText extends StatelessWidget {
+  const HelloText({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          "Xin chào, ",
+          style: TextStyle(
+            fontFamily: "Roboto",
+            color: Color(0xff898484),
+            fontSize: 24,
+            letterSpacing: 3.5,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        SizedBox(height: 10),
+        Text(
+          name,
+          style: TextStyle(
+            color: Color(0xff7B7171),
+            fontSize: 26,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class BMIWidget extends StatelessWidget {
+  const BMIWidget({
+    Key? key,
+    required this.size,
+    required this.bmi,
+  }) : super(key: key);
+
+  final Size size;
+  final String bmi;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size.width * 0.25,
+      margin: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: primaryColor),
+      ),
+      child: Text(
+        'BMI: ' + bmi,
+        style: TextStyle(
+          color: primaryColor,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
