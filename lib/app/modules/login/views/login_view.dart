@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
+import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_textformfield.dart';
 import 'package:flutter_healthcare/app/modules/Signup/views/signup_view.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
@@ -10,193 +13,207 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 100, 24, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset('assets/images/bs_login.png'),
-            Padding(
-              padding: const EdgeInsets.only(left: 4, top: 8),
+      body: Stack(
+        children: [
+          Container(
+            child: Background(
+              height: MediaQuery.of(context).size.height,
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 100, 24, 0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Welcome to',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Healthcare',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w500,
+                  Center(
+                    child: ClipOval(
+                      child: Container(
+                        height: 115,
+                        width: 115,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey[200],
+                          child: Center(
+                            child: Text(
+                              'LOGO',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Center(
+                      child: Text(
+                        'Đăng nhập',
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  _buildLoginForm(context),
                 ],
               ),
             ),
-            _buildLoginForm(context),
-          ],
-        ),
+          ),
+        ],
       ),
-    ));
+    );
   }
 
-  Color primaryColor() {
-    return Color.fromARGB(255, 252, 217, 133);
-  }
+  // Color primaryColor() {
+  //   return Color.fromARGB(255, 252, 217, 133);
+  // }
 
   Form _buildLoginForm(BuildContext context) {
     return Form(
         key: controller.formKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(24, 60, 24, 0),
-              child: PhysicalModel(
-                color: Colors.white,
-                elevation: 6,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(46, 30, 46, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: buildDecorationTextFormField(
+                        hintText: 'Email...', icon: Icons.person),
+                    validator: (value) {
+                      if (!GetUtils.isEmail(value!)) {
+                        return "Please enter a valid email";
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      controller.email = value!;
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: buildDecorationTextFormField(
+                        hintText: 'Mật khẩu...', icon: Icons.lock),
+                    validator: (value) {
+                      if (value == null || value.isEmpty || value.length < 6) {
+                        return 'Please enter the correct password!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      controller.password = value!;
+                    },
+                  ),
+                  SizedBox(height: 46),
+                  InkWell(
+                    onTap: () => controller.handleSignIn(context),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: primaryColor,
+                      ),
+                      child: Text(
+                        'Đăng nhập',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            InkWell(
+              onTap: () => Get.toNamed(Routes.FORGOTPASSWORD),
+              child: TextButton(
+                onPressed: () {
+                  Get.offAllNamed(Routes.FORGOTPASSWORD);
+                },
+                child: Text('Quên mật khẩu?',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey,
+                    )),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(26, 16, 26, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '___________',
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+                    child: Text(
+                      'hoặc đăng nhập với',
+                      style: TextStyle(
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                  ),
+                  Text(
+                    '___________',
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 80, right: 80, top: 24),
+              child: InkWell(
+                onTap: () => controller.signInWithGoogle(),
                 borderRadius: BorderRadius.circular(30),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 12.5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: primaryColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, top: 8.0, right: 40),
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            hintText: 'Email...',
-                            icon: Icon(
-                              Icons.email,
-                              color: primaryColor(),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: primaryColor(),
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            return RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(value!)
-                                ? null
-                                : "Please enter a valid email";
-                          },
-                          onSaved: (value) {
-                            controller.email = value!;
-                          },
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/images/google_icon.png',
+                          height: 24,
+                          width: 24,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 40),
-                        child: TextFormField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Password...',
-                            icon: Icon(
-                              Icons.lock,
-                              color: primaryColor(),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: primaryColor(),
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.length < 6) {
-                              return 'Please enter the correct password!';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            controller.password = value!;
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          child: TextButton(
-                            onPressed: () {
-                              Get.offAllNamed(Routes.FORGOTPASSWORD);
-                            },
-                            child: Text('Forgot Password?',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey,
-                                )),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(32, 20, 32, 8),
-                        child: InkWell(
-                          onTap: () => controller.handleSignIn(context),
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(vertical: 14),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(
-                                color: primaryColor(),
-                                width: 2,
-                              ),
-                            ),
-                            child: Text(
-                              'SIGN IN',
-                              style: TextStyle(
-                                color: primaryColor(),
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          'GOOGLE',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, top: 16),
-              child: InkWell(
-                onTap: () => controller.signInWithGoogle(),
-                child: PhysicalModel(
-                  color: Colors.grey,
-                  elevation: 4,
-                  borderRadius: BorderRadius.circular(30),
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(vertical: 14),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: primaryColor(),
-                    ),
-                    child: Text(
-                      'SIGN IN WITH GOOGLE',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                   ),
                 ),
               ),
@@ -206,7 +223,10 @@ class LoginView extends GetView<LoginController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Don't have an Account? ",
+                  "Don't have Account? ",
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -215,7 +235,7 @@ class LoginView extends GetView<LoginController> {
                   child: Text(
                     'Register now',
                     style: TextStyle(
-                      color: primaryColor(),
+                      color: primaryColor,
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                     ),

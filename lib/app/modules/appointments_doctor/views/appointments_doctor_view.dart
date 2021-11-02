@@ -17,32 +17,56 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
     return SafeArea(
       child: Scaffold(
           key: _scaffoldKey,
-          appBar: AppBar(
-              backgroundColor: Colors.white,
-              title: Text('Appointments', style: TextStyle(color: fgColor)),
-              centerTitle: true,
-              actions: <Widget>[
-                new IconButton(
-                    onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
-                    icon: new Icon(
-                      Icons.filter_list_alt,
-                      color: fgColor,
-                    ))
-              ],
-              leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: fgColor,
+          // appBar: AppBar(
+          //     backgroundColor: Colors.white,
+          //     title: Text('Appointments', style: TextStyle(color: fgColor)),
+          //     centerTitle: true,
+          //     actions: <Widget>[
+          //       new IconButton(
+          //           onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+          //           icon: new Icon(
+          //             Icons.filter_list_alt,
+          //             color: fgColor,
+          //           ))
+          //     ],
+          //     leading: IconButton(
+          //         icon: Icon(
+          //           Icons.arrow_back,
+          //           color: fgColor,
+          //         ),
+          //         onPressed: () {
+          //           Get.toNamed(Routes.HOME);
+          //         })),
+          // endDrawer: buildDrawer(context),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 70,
+              ),
+              Container(
+                height: 100,
+                width: 100,
+                padding: EdgeInsets.only(left: 10),
+                child: ClipOval(
+                  child: CircleAvatar(
+                    child: Image.asset(
+                      'assets/images/doctor2.png',
+                      scale: 6.3,
+                    ),
+                    backgroundColor: Colors.grey[300],
                   ),
-                  onPressed: () {
-                    Get.toNamed(Routes.HOME);
-                  })),
-          endDrawer: buildDrawer(context),
-          body: Container(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Obx(() {
-              return buildDoctorList(context);
-            }),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Obx(() {
+                    return buildDoctorList(context);
+                  }),
+                ),
+              ),
+            ],
           )),
     );
   }
