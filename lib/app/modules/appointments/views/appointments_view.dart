@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
+import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/modules/appointments/controllers/appointment.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/components/appointnent_card.dart';
-import 'package:flutter_healthcare/app/modules/appointments/views/constants.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:get/get.dart';
 
@@ -18,30 +20,36 @@ class AppointmentsView extends GetView<AppointmentsController> {
           key: _scaffoldKey,
           appBar: AppBar(
               backgroundColor: Colors.white,
-              title: Text('Appointments', style: TextStyle(color: fgColor)),
+              title:
+                  Text('Appointments', style: TextStyle(color: primaryColor)),
               centerTitle: true,
               actions: <Widget>[
                 new IconButton(
                     onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
                     icon: new Icon(
                       Icons.filter_list_alt,
-                      color: fgColor,
+                      color: primaryColor,
                     ))
               ],
               leading: IconButton(
                   icon: Icon(
-                    Icons.arrow_back,
-                    color: fgColor,
+                    Icons.arrow_back_ios_new,
+                    color: primaryColor,
                   ),
                   onPressed: () {
                     Get.toNamed(Routes.HOME);
                   })),
           endDrawer: buildDrawer(context),
-          body: Container(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Obx(() {
-              return buildList(context);
-            }),
+          body: Stack(
+            children: [
+              Background(height: MediaQuery.of(context).size.height),
+              Container(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Obx(() {
+                  return buildList(context);
+                }),
+              ),
+            ],
           )),
     );
   }
@@ -64,22 +72,21 @@ class AppointmentsView extends GetView<AppointmentsController> {
               return new ListView(
                   children: appointmentsSnapshot.data!.map((Appointment app) {
                 return Container(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Slidable(
-                        child: AppointmentCard(
-                          image: 'assets/images/tooth.png',
-                          name: app.specialist,
-                          appointment: app,
-                        ),
-                        actionPane: SlidableDrawerActionPane(),
-                        actionExtentRatio: 0.2,
-                        secondaryActions: <Widget>[
-                          IconSlideAction(
-                            caption: 'Cancel',
-                            icon: Icons.cancel,
-                            onTap: () {},
-                          )
-                        ]));
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: AppointmentCard(
+                    height: MediaQuery.of(context).size.height * 0.18,
+                    doctor_image: 'assets/images/avt_doctor.png',
+                    doctor_name: app.doctorName,
+                    specialist: app.specialist,
+                    date: DateTimeHelpers.timestampsToDate(app.dateTime),
+                    time: DateTimeHelpers.timestampsToTime(app.dateTime),
+                    status: app.status,
+                    onMessage: () => CreateChatRoom()
+                        .createChatroomAndStartConversation(
+                            app.doctorEmail, app.doctorName),
+                    onCancel: () {},
+                  ),
+                );
               }).toList());
           }
         });
@@ -150,7 +157,7 @@ class AppointmentsView extends GetView<AppointmentsController> {
       margin: const EdgeInsets.only(top: 20),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.red[400],
+        color: primaryColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -162,7 +169,7 @@ class AppointmentsView extends GetView<AppointmentsController> {
           ),
           Container(
             padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-            child: Text('Sorry, no appointment yet!',
+            child: Text('Danh sách rỗng!',
                 style: TextStyle(fontSize: 20, color: Colors.white)),
           )
         ],

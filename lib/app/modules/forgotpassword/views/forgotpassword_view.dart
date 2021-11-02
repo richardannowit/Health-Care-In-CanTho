@@ -9,6 +9,9 @@ import '../controllers/forgotpassword_controller.dart';
 
 class ForgotpasswordView extends GetView<ForgotpasswordController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final textFeildBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      borderSide: BorderSide(color: primaryColor));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +50,7 @@ class ForgotpasswordView extends GetView<ForgotpasswordController> {
                             ),
                           ),
                           Container(
-                            height: 90,
+                            height: 100,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -89,29 +92,15 @@ class ForgotpasswordView extends GetView<ForgotpasswordController> {
                                       contentPadding:
                                           const EdgeInsets.symmetric(
                                               vertical: 0, horizontal: 20),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide:
-                                              BorderSide(color: primaryColor)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide:
-                                              BorderSide(color: primaryColor)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide:
-                                              BorderSide(color: primaryColor)),
+                                      border: textFeildBorder,
+                                      enabledBorder: textFeildBorder,
+                                      focusedBorder: textFeildBorder,
                                       errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
                                           borderSide: BorderSide(
                                               color: secondaryColor)),
-                                      disabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide:
-                                              BorderSide(color: primaryColor)),
+                                      disabledBorder: textFeildBorder,
                                     ),
                                   ),
                                 ),
