@@ -30,7 +30,7 @@ class UserinformationView extends GetView<UserinformationController> {
                       Get.snackbar('Hãy cập nhật thông tin của bạn',
                           'Để sử dụng các tính năng khác thông tin của bạn là rất cần thiết');
                     } else {
-                      Get.offAllNamed(Routes.HOME);
+                      Get.offAndToNamed(Routes.HOME);
                     }
                   },
                   child: Image.asset(
@@ -41,8 +41,8 @@ class UserinformationView extends GetView<UserinformationController> {
               ),
               Flexible(
                 child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 500),
-                    child: controller.loading
+                    duration: Duration(milliseconds: 300),
+                    child: controller.loading && controller.checkload
                         ? buildLoading()
                         : buildView(context)),
               ),
@@ -64,7 +64,7 @@ class UserinformationView extends GetView<UserinformationController> {
   }
 
   Widget buildLoading() => Center(child: CircularProgressIndicator());
-  Widget buildView(BuildContext context) => Container(
+  Widget buildView(BuildContext context) => Obx(() => Container(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,5 +201,5 @@ class UserinformationView extends GetView<UserinformationController> {
             )
           ],
         ),
-      );
+      ));
 }

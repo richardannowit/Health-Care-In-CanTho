@@ -160,12 +160,11 @@ class ChooseroleView extends GetView<ChooseroleController> {
                                       if (controller.isDoctor) {
                                         await controller
                                             .transInformation('doctors');
-                                        Get.offAllNamed(
-                                            Routes.DOCTORINFORMATION);
+                                        Get.toNamed(Routes.DOCTORINFORMATION);
                                       } else {
                                         await controller
                                             .transInformation('users');
-                                        Get.offAllNamed(Routes.USERINFORMATION);
+                                        Get.toNamed(Routes.USERINFORMATION);
                                       }
                                     }
                                   },

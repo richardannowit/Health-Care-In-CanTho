@@ -76,7 +76,8 @@ class HomeView extends GetView<HomeController> {
                     icon: Icons.person,
                     iconColor: Colors.blue,
                     onPressed: () {
-                      Get.toNamed(Routes.USERINFORMATION);
+                      Get.toNamed(Routes.USERINFORMATION,
+                          arguments: controller.userInfo);
                     }),
                 buildMenuItem(
                     text: 'Log out',

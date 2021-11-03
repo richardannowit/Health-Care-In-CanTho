@@ -4,6 +4,7 @@ import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/common/widgets/custom_appbar.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
+import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/controllers/userinformation_controller.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/constants.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ class UpdateUserInformationView extends StatelessWidget {
       borderRadius: BorderRadius.circular(30),
       borderSide: BorderSide(color: primaryColor));
   final UserinformationController controller = Get.find();
+  final HomeController homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,8 @@ class UpdateUserInformationView extends StatelessWidget {
               _formKey.currentState!.save();
               FocusScope.of(context).unfocus();
               controller.updateUserInfo();
-              controller.loadData();
+              controller.reLoadUserInfor();
+              homeController.loadData();
               Get.back();
             },
             label: Icon(Icons.done),

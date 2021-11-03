@@ -14,25 +14,27 @@ class UserinformationController extends GetxController {
   bool isFirst = false;
   late List<AddressModel> listAddress;
   late AddressModel address;
-  late String dateOfBirth,
-      addressName,
-      initName,
-      initHeight,
-      initWeight,
-      infor = "",
-      initPhone;
+  late String initName, initHeight, initWeight, infor = "", initPhone;
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
   final String userID = FirebaseAuth.instance.currentUser!.uid;
   UserModel newUserInfo = new UserModel();
-  bool isUpdate = false;
+  bool isUpdate = false, checkload = true;
 
   Rx<UserModel> _userInfo = new UserModel().obs;
   UserModel get userInfo => _userInfo.value;
   set userInfo(value) => _userInfo.value = value;
 
-  Rx<String> _userName = '...'.obs;
+  Rx<String> _userName = "".obs;
   String get userName => _userName.value;
   set userName(value) => _userName.value = value;
+
+  Rx<String> _dateOfBirth = "".obs;
+  String get dateOfBirth => _dateOfBirth.value;
+  set dateOfBirth(value) => _dateOfBirth.value = value;
+
+  Rx<String> _addressName = "".obs;
+  String get addressName => _addressName.value;
+  set addressName(value) => _addressName.value = value;
 
   Rx<Color> _bgCheckBox = Colors.white.obs;
   Color get bgCheckBox => _bgCheckBox.value;
@@ -58,11 +60,26 @@ class UserinformationController extends GetxController {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  loadData() async {
-    loading = true;
-    listAddress = await databaseMethods.getDistricts();
+  reLoadUserInfor() async {
     userInfo = await databaseMethods.getUserByUID(userID);
     removeNullField();
+    infor = userInfo.sex! +
+        " - " +
+        userInfo.height!.toString() +
+        " cm - " +
+        userInfo.weight!.toString() +
+        " kg";
+  }
+
+  loadData() async {
+    loading = true;
+    if (Get.arguments != null && checkload) {
+      userInfo = Get.arguments;
+    } else {
+      userInfo = await databaseMethods.getUserByUID(userID);
+    }
+    removeNullField();
+    listAddress = await databaseMethods.getDistricts();
     isFirstEnterInformation();
     infor = userInfo.sex! +
         " - " +
@@ -71,6 +88,7 @@ class UserinformationController extends GetxController {
         userInfo.weight!.toString() +
         " kg";
     loading = false;
+    checkload = false;
   }
 
   isFirstEnterInformation() {
