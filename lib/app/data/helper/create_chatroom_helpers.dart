@@ -8,6 +8,7 @@ class CreateChatRoom {
   createChatroomAndStartConversation(String userName, String name) {
     try {
       Constants.chatRoomId = getChatRoomId(Constants.myName, userName);
+
       List<String> users = [Constants.myName, userName];
       Map<String, dynamic> chatRoomMap = {
         "users": users,
@@ -23,7 +24,6 @@ class CreateChatRoom {
   }
 
   getChatRoomId(String a, String b) {
-    print("$b\_$a");
     if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
       return "$b\_$a";
     } else {
