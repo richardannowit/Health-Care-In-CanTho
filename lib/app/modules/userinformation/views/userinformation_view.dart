@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
-import 'package:flutter_healthcare/app/common/widgets/custom_appbar.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/update_userinformation.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -28,8 +27,8 @@ class UserinformationView extends GetView<UserinformationController> {
                   radius: 30,
                   onTap: () {
                     if (!controller.isUpdate) {
-                      Get.snackbar('Please update your information',
-                          'To use other features please update your information');
+                      Get.snackbar('Hãy cập nhật thông tin của bạn',
+                          'Để sử dụng các tính năng khác thông tin của bạn là rất cần thiết');
                     } else {
                       Get.offAllNamed(Routes.HOME);
                     }

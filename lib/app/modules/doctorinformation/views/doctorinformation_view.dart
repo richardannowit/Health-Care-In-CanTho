@@ -254,8 +254,12 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Get.offNamed(Routes.DOCTORINFORMATION);
-                        Get.back();
+                        if (!controller.isUpdate) {
+                          Get.snackbar('Hãy cập nhật thông tin của bạn',
+                              'Để sử dụng các tính năng khác thông tin của bạn là rất cần thiết');
+                        } else {
+                          Get.offAllNamed(Routes.HOME);
+                        }
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,

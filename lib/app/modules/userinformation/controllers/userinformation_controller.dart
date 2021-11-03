@@ -7,12 +7,11 @@ import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
-import 'package:flutter_healthcare/app/modules/doctorinformation/views/updateview.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/update_userinformation.dart';
 import 'package:get/get.dart';
 
 class UserinformationController extends GetxController {
-  var isFrist = Get.arguments;
+  bool isFirst = false;
   late List<AddressModel> listAddress;
   late AddressModel address;
   late String dateOfBirth,
@@ -75,10 +74,10 @@ class UserinformationController extends GetxController {
   }
 
   isFirstEnterInformation() {
-    if (isFrist != null) {
+    if (isFirst) {
       makeHint();
       Get.to(UpdateUserInformationView());
-      isFrist = null;
+      isFirst = false;
     }
   }
 
@@ -111,9 +110,11 @@ class UserinformationController extends GetxController {
     }
     if (userInfo.address == null) {
       addressName = 'Chờ bạn cập nhật';
+      isFirst = true;
     } else {
       if (userInfo.address!.name == 'NULL') {
         addressName = 'Chờ bạn cập nhật';
+        isFirst = true;
       } else {
         isUpdate = true;
         addressName = userInfo.address!.name! + ', Cần Thơ';

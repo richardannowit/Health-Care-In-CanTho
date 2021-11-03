@@ -38,7 +38,7 @@ class Reviews extends StatelessWidget {
                   height: MediaQuery.of(context).size.width + 50,
                   viewportFraction: 1,
                   initialPage: 0,
-                  enableInfiniteScroll: true,
+                  enableInfiniteScroll: false,
                   autoPlay: true,
                   onPageChanged: (index, reason) {}),
               itemCount: controller.reviewList.length,

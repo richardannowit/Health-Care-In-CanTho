@@ -10,7 +10,7 @@ import 'package:flutter_healthcare/app/modules/doctorinformation/views/updatevie
 import 'package:get/get.dart';
 
 class DoctorinformationController extends GetxController {
-  var isFirst = Get.arguments;
+  bool isFirst = false;
   late List<AddressModel> listAddress;
   final String doctorId = FirebaseAuth.instance.currentUser!.uid;
   final String? email = FirebaseAuth.instance.currentUser!.email;
@@ -74,8 +74,8 @@ class DoctorinformationController extends GetxController {
   }
 
   checkIsFrist() {
-    if (isFirst != null) {
-      isFirst = null;
+    if (isFirst) {
+      isFirst = false;
       makeHint();
       Get.to(UpdateView());
     }
@@ -114,10 +114,12 @@ class DoctorinformationController extends GetxController {
 
     if (doctorInfo.address == null) {
       addressName = 'Waiting for your update';
+      isFirst = true;
     } else {
-      if (doctorInfo.address!.name == 'NULL')
+      if (doctorInfo.address!.name == 'NULL') {
         addressName = 'Waiting for your update';
-      else {
+        isFirst = true;
+      } else {
         addressName = doctorInfo.address!.name! + ', Cần Thơ';
         isUpdate = true;
       }
