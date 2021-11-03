@@ -25,8 +25,9 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
               Background(height: MediaQuery.of(context).size.height),
               AnimatedSwitcher(
                   duration: Duration(milliseconds: 500),
-                  child:
-                      controller.loading ? buildLoading() : buildView(context)),
+                  child: controller.loading && controller.checkLoad
+                      ? buildLoading()
+                      : buildView(context)),
             ],
           ),
         ));
@@ -258,7 +259,8 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                           Get.snackbar('Hãy cập nhật thông tin của bạn',
                               'Để sử dụng các tính năng khác thông tin của bạn là rất cần thiết');
                         } else {
-                          Get.offAllNamed(Routes.HOME);
+                          Get.toNamed(Routes.HOME_DOCTOR);
+                          Get.delete<DoctorinformationController>();
                         }
                       },
                       icon: Icon(

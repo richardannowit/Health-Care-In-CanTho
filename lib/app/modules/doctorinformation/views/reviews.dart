@@ -14,6 +14,7 @@ class Reviews extends StatelessWidget {
   final Size size;
   @override
   Widget build(BuildContext context) {
+    controller.getReviewList();
     return Column(
       children: [
         Container(
@@ -29,7 +30,7 @@ class Reviews extends StatelessWidget {
           ),
         ),
         Obx(() {
-          if (controller.loading) return buildProgressIndicator(context);
+          if (controller.reviewLoading) return buildProgressIndicator(context);
           if (controller.reviewList.isEmpty) return buildNullCard(context);
           return Container(
             height: 152,

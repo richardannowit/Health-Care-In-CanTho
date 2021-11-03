@@ -10,7 +10,7 @@ import 'package:flutter_healthcare/app/modules/doctorinformation/views/updatevie
 import 'package:get/get.dart';
 
 class DoctorinformationController extends GetxController {
-  bool isFirst = false;
+  bool isFirst = false, checkLoad = true, checkLoadRevew = true;
   late List<AddressModel> listAddress;
   final String doctorId = FirebaseAuth.instance.currentUser!.uid;
   final String? email = FirebaseAuth.instance.currentUser!.email;
@@ -38,6 +38,10 @@ class DoctorinformationController extends GetxController {
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
 
+  RxBool _reviewLoading = true.obs;
+  bool get reviewLoading => _reviewLoading.value;
+  set reviewLoading(value) => _reviewLoading.value = value;
+
   RxBool _isUpdate = false.obs;
   bool get isUpdate => _isUpdate.value;
   set isUpdate(value) => _isUpdate.value = value;
@@ -59,18 +63,36 @@ class DoctorinformationController extends GetxController {
   List<ReviewModel> get reviewList => _reviewList;
   set reviewList(value) => _reviewList.value = value;
 
-  RxString _hint = 'Ninh Kieu'.obs;
+  RxString _hint = 'Ninh Kiều'.obs;
   String get hint => _hint.value;
   set hint(value) => _hint.value = value;
 
+  reLoadData() async {
+    doctorInfo = await databaseMethods.getDoctorById(doctorId);
+    removeNullFields();
+  }
+
   loadData() async {
     loading = true;
-    doctorInfo = await databaseMethods.getDoctorById(doctorId);
+    if (Get.arguments != null && checkLoad) {
+      doctorInfo = Get.arguments;
+    } else {
+      doctorInfo = await databaseMethods.getDoctorById(doctorId);
+    }
     listAddress = await databaseMethods.getDistricts();
-    reviewList = await DatabaseMethods.getReviews(doctorId);
     removeNullFields();
     loading = false;
+    checkLoad = false;
     checkIsFrist();
+  }
+
+  getReviewList() async {
+    if (checkLoadRevew) {
+      reviewLoading = true;
+      reviewList = await DatabaseMethods.getReviews(doctorId);
+      reviewLoading = false;
+      checkLoadRevew = false;
+    }
   }
 
   checkIsFrist() {

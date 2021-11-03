@@ -80,7 +80,8 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
                     icon: Icons.person,
                     iconColor: Colors.blue,
                     onPressed: () {
-                      Get.toNamed(Routes.DOCTORINFORMATION);
+                      Get.toNamed(Routes.DOCTORINFORMATION,
+                          arguments: controller.doctorProfile);
                     }),
                 buildMenuItem(
                     text: 'Đăng xuất',

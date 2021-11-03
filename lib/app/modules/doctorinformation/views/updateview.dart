@@ -5,6 +5,7 @@ import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/controllers/doctorinformation_controller.dart';
+import 'package:flutter_healthcare/app/modules/home_doctor/controllers/home_doctor_controller.dart';
 import 'package:get/get.dart';
 
 import 'constants.dart';
@@ -13,6 +14,7 @@ class UpdateView extends StatelessWidget {
   UpdateView({Key? key}) : super(key: key);
 
   final DoctorinformationController controller = Get.find();
+  final HomeDoctorController homeDoctorController = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final textFeildBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(30),
@@ -326,7 +328,8 @@ class UpdateView extends StatelessWidget {
                                     _formKey.currentState!.save();
                                     FocusScope.of(context).unfocus();
                                     controller.updateDoctorInfo();
-                                    controller.loadData();
+                                    controller.reLoadData();
+                                    homeDoctorController.loadData();
                                     Get.back();
                                   },
                                   text: 'Xong')
