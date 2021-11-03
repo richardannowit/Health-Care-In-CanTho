@@ -65,7 +65,7 @@ class UserinformationView extends GetView<UserinformationController> {
 
   Widget buildLoading() => Center(child: CircularProgressIndicator());
   Widget buildView(BuildContext context) => Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,

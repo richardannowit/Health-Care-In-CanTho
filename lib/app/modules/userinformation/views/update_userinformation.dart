@@ -72,7 +72,6 @@ class UpdateUserInformationView extends StatelessWidget {
                 Container(
                   width: 300,
                   child: TextFormField(
-                    textInputAction: TextInputAction.next,
                     style: informationText,
                     initialValue: controller.initName,
                     onSaved: (value) {
@@ -80,7 +79,8 @@ class UpdateUserInformationView extends StatelessWidget {
                     },
                     validator: (value) {
                       if (value == '' &&
-                          controller.newUserInfo.name == 'Ex: Nguyen Van A')
+                          controller.newUserInfo.name ==
+                              'VD: Biện Thành Trương')
                         return 'Hãy nhập vào tên của bạn!';
                     },
                     decoration: InputDecoration(
@@ -124,9 +124,9 @@ class UpdateUserInformationView extends StatelessWidget {
                           ),
                           Expanded(
                             child: TextFormField(
+                              keyboardType: TextInputType.phone,
                               initialValue: controller.initPhone,
                               style: informationText,
-                              textInputAction: TextInputAction.next,
                               onSaved: (value) {
                                 if (value != '')
                                   controller.newUserInfo.phone = value;
@@ -134,7 +134,7 @@ class UpdateUserInformationView extends StatelessWidget {
                               validator: (value) {
                                 if (value == '' &&
                                     controller.newUserInfo.phone ==
-                                        'Ex: 0971002636')
+                                        'VD: 0971002636')
                                   return 'Hãy nhập vào số điện thoại của bạn!';
                                 if (value != '' &&
                                     !GetUtils.isPhoneNumber(value!)) {
@@ -171,7 +171,7 @@ class UpdateUserInformationView extends StatelessWidget {
                           Expanded(
                             child: TextFormField(
                               style: informationText,
-                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.number,
                               initialValue: controller.initHeight,
                               onSaved: (value) {
                                 if (value != '')
@@ -217,12 +217,13 @@ class UpdateUserInformationView extends StatelessWidget {
                           ),
                           Expanded(
                             child: TextFormField(
+                              keyboardType: TextInputType.number,
                               initialValue: controller.initWeight,
                               style: informationText,
-                              textInputAction: TextInputAction.next,
                               onSaved: (value) {
-                                controller.newUserInfo.weight =
-                                    double.tryParse(value!);
+                                if (value != '')
+                                  controller.newUserInfo.weight =
+                                      double.tryParse(value!);
                               },
                               validator: (value) {
                                 if (value != '') if (double.tryParse(value!)! <=
@@ -360,12 +361,12 @@ class UpdateUserInformationView extends StatelessWidget {
                               style: keyText,
                             ),
                           ),
-                          TextButton(
+                          Obx(() => TextButton(
                               onPressed: () => pickDate(context),
                               child: Text(
                                 controller.getText(),
                                 style: informationText,
-                              ))
+                              )))
                         ],
                       ),
                     ]),
@@ -375,7 +376,7 @@ class UpdateUserInformationView extends StatelessWidget {
         ],
       ));
   Future pickDate(BuildContext context) async {
-    final initialDate = DateTime.now();
+    final initialDate = controller.date;
     final newDate = await showDatePicker(
       context: context,
       initialDate: initialDate,

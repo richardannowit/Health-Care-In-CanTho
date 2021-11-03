@@ -360,7 +360,7 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        controller.doctorInfo.address.name,
+                        controller.addressName,
                         style: textStyle,
                       ),
                       Container(

@@ -87,37 +87,37 @@ class DoctorinformationController extends GetxController {
     }
 
     if (doctorInfo.name == null) {
-      doctorName = 'Wating for your update';
+      doctorName = 'Chờ bạn cập nhật';
     } else {
       doctorName = doctorInfo.name;
     }
 
     if (doctorInfo.specialist == null) {
-      specialist = 'Waiting for your update';
+      specialist = 'Chờ bạn cập nhật';
     } else {
       specialist = doctorInfo.specialist;
     }
 
     if (doctorInfo.about == null) {
-      doctorInfo.about = 'Waiting for your update';
+      doctorInfo.about = 'Chờ bạn cập nhật';
     }
 
     if (doctorInfo.rating == null) {
       doctorInfo.rating = 0;
     }
     if (doctorInfo.phone == null) {
-      doctorInfo.phone = 'Waiting for your update';
+      doctorInfo.phone = 'Chờ bạn cập nhật';
     }
     if (doctorInfo.centeraddress == null) {
-      doctorInfo.centeraddress = 'Waiting for your update';
+      doctorInfo.centeraddress = 'Chờ bạn cập nhật';
     }
 
     if (doctorInfo.address == null) {
-      addressName = 'Waiting for your update';
+      addressName = 'Chờ bạn cập nhật';
       isFirst = true;
     } else {
       if (doctorInfo.address!.name == 'NULL') {
-        addressName = 'Waiting for your update';
+        addressName = 'Chờ bạn cập nhật';
         isFirst = true;
       } else {
         addressName = doctorInfo.address!.name! + ', Cần Thơ';
@@ -131,7 +131,7 @@ class DoctorinformationController extends GetxController {
     newDoctor.addressRef = listAddress[0].reference;
     newDoctor.email = FirebaseAuth.instance.currentUser!.email;
     if (doctorInfo.name == null) {
-      newDoctor.name = 'Ex: Vo Tu Thien';
+      newDoctor.name = 'VD: Võ Tứ Thiên';
       initName = '';
     } else {
       newDoctor.name = doctorInfo.name;
@@ -139,16 +139,16 @@ class DoctorinformationController extends GetxController {
     }
 
     if (doctorInfo.specialist == null) {
-      newDoctor.specialist = 'Ex: Heart';
+      newDoctor.specialist = 'VD: Tim mạch';
       initSpecialist = '';
     } else {
       newDoctor.specialist = doctorInfo.specialist;
       initSpecialist = doctorInfo.specialist!;
     }
 
-    if (doctorInfo.about == 'Waiting for your update') {
+    if (doctorInfo.about == 'Chờ bạn cập nhật') {
       newDoctor.about =
-          'Ex: Renowned doctor who participated in heart transplants abroad';
+          'VD: Bác sĩ nổi tiếng từng tham gia cấy ghép tim ở nước ngoài';
       initAbout = '';
     } else {
       newDoctor.about = doctorInfo.about;
@@ -160,15 +160,15 @@ class DoctorinformationController extends GetxController {
     } else {
       newDoctor.rating = doctorInfo.rating;
     }
-    if (doctorInfo.phone == 'Waiting for your update') {
-      newDoctor.phone = 'Ex: 0812305346';
+    if (doctorInfo.phone == 'Chờ bạn cập nhật') {
+      newDoctor.phone = 'VD: 0812305346';
       initPhone = '';
     } else {
       newDoctor.phone = doctorInfo.phone;
       initPhone = doctorInfo.phone!;
     }
-    if (doctorInfo.centeraddress == 'Waiting for your update') {
-      newDoctor.centeraddress = 'Ex: 331 Ba Thang Hai Street, Hung Loi';
+    if (doctorInfo.centeraddress == 'Chờ bạn cập nhật') {
+      newDoctor.centeraddress = 'VD: 331 Đường Ba Tháng Hai, Hưng lợi';
       initCenterAddreess = '';
     } else {
       newDoctor.centeraddress = doctorInfo.centeraddress;

@@ -17,7 +17,7 @@ final informationText = TextStyle(
 
 final nameText = TextStyle(
   color: Colors.amber[700],
-  fontSize: 26,
+  fontSize: 24,
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w800,
 );

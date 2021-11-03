@@ -161,13 +161,11 @@ class ChooseroleView extends GetView<ChooseroleController> {
                                         await controller
                                             .transInformation('doctors');
                                         Get.offAllNamed(
-                                            Routes.DOCTORINFORMATION,
-                                            arguments: "isFirst");
+                                            Routes.DOCTORINFORMATION);
                                       } else {
                                         await controller
                                             .transInformation('users');
-                                        Get.offAllNamed(Routes.USERINFORMATION,
-                                            arguments: "isFirst");
+                                        Get.offAllNamed(Routes.USERINFORMATION);
                                       }
                                     }
                                   },

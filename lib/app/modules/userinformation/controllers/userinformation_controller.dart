@@ -140,7 +140,7 @@ class UserinformationController extends GetxController {
       }
     }
     if (userInfo.name == null) {
-      newUserInfo.name = 'Ex: Nguyen Van A';
+      newUserInfo.name = 'VD: Biện Thành Trương';
       initName = '';
     } else {
       newUserInfo.name = userInfo.name;
@@ -161,7 +161,7 @@ class UserinformationController extends GetxController {
       initWeight = userInfo.weight.toString();
     }
     if (userInfo.phone == 'Chờ bạn cập nhật') {
-      newUserInfo.phone = 'Ex: 0971002636';
+      newUserInfo.phone = 'VD: 0971002636';
       initPhone = '';
     } else {
       newUserInfo.phone = userInfo.phone;

@@ -100,7 +100,7 @@ class UpdateView extends StatelessWidget {
                                 validator: (value) {
                                   if (value == '' &&
                                       controller.newDoctor.name ==
-                                          'Ex: Vo Tu Thien')
+                                          'VD: Võ Tứ Thiên')
                                     return 'Hãy nhập vào tên!';
                                 },
                               ),
@@ -144,7 +144,8 @@ class UpdateView extends StatelessWidget {
                                 validator: (value) {
                                   if (value == '' &&
                                       controller.newDoctor.phone ==
-                                          'Ex: 0812305346') return '!';
+                                          'VD: 0812305346')
+                                    return 'Hãy nhập vào số điện thoại!';
                                   if (value != '' &&
                                       !GetUtils.isPhoneNumber(value!))
                                     return 'Số điện thoại không hợp lệ!';
@@ -188,7 +189,7 @@ class UpdateView extends StatelessWidget {
                                 validator: (value) {
                                   if (value == '' &&
                                       controller.newDoctor.specialist ==
-                                          'Ex: Heart')
+                                          'VD: Tim mạch')
                                     return 'Hãy nhập vào chuyên khoa!';
                                 },
                               ),
@@ -230,7 +231,7 @@ class UpdateView extends StatelessWidget {
                                 validator: (value) {
                                   if (value == '' &&
                                       controller.newDoctor.about ==
-                                          'Ex: Renowned doctor who participated in heart transplants abroad')
+                                          'VD: Bác sĩ nổi tiếng từng tham gia cấy ghép tim ở nước ngoài')
                                     return 'Hãy nhập vào giới thiệu!';
                                 },
                               ),
@@ -273,7 +274,7 @@ class UpdateView extends StatelessWidget {
                                 validator: (value) {
                                   if (value == '' &&
                                       controller.newDoctor.centeraddress ==
-                                          'Ex: 331 Ba Thang Hai Street, Hung Loi')
+                                          'VD: 331 Đường Ba Tháng Hai, Hưng lợi')
                                     return 'Hãy nhập vào địa chỉ trung tâm!';
                                 },
                               ),
