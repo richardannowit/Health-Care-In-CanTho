@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
-import 'package:flutter_healthcare/app/modules/home/views/constants.dart';
+import 'package:flutter_healthcare/app/modules/appointments/views/constants.dart';
 
 class AppointmentCard extends StatelessWidget {
   AppointmentCard({
@@ -26,7 +26,6 @@ class AppointmentCard extends StatelessWidget {
     return Container(
       width: 340,
       height: height,
-      margin: EdgeInsets.only(right: 15),
       padding: EdgeInsets.symmetric(horizontal: 22, vertical: 12),
       decoration: BoxDecoration(
         color: primaryColor,
@@ -47,6 +46,7 @@ class AppointmentCard extends StatelessWidget {
               children: [
                 CloseButton(onCancel: onCancel),
                 AppointmentInfo(
+                  status: status!,
                   doctor_name: doctor_name,
                   specialist: specialist,
                   date: date,
@@ -95,12 +95,14 @@ class AppointmentInfo extends StatelessWidget {
     required this.specialist,
     required this.date,
     required this.time,
+    required this.status,
   }) : super(key: key);
 
   final String? doctor_name;
   final String? specialist;
   final String? date;
   final String? time;
+  final String status;
 
   @override
   Widget build(BuildContext context) {
@@ -114,13 +116,25 @@ class AppointmentInfo extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  doctor_name!,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      doctor_name!,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Icon(
+                        Icons.fiber_manual_record,
+                        color: getColor(status),
+                        size: 26,
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(height: 5),
                 Text(
@@ -171,6 +185,21 @@ class AppointmentInfo extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Color getColor(String status) {
+    var color = Colors.white;
+    switch (status) {
+      case 'Waiting':
+        color = waitingColor;
+        break;
+      case 'Active':
+        color = activeColor;
+        break;
+      default:
+        color = doneColor;
+    }
+    return color;
   }
 }
 

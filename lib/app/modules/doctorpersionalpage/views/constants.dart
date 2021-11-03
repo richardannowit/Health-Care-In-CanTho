@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/common/constant.dart';
 
 final textStyle = TextStyle(
   color: Colors.grey[500],
@@ -26,18 +25,16 @@ final detailStyle = BoxDecoration(
 );
 
 final cardStyle = BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(10),
-        topRight: Radius.circular(10),
-        bottomLeft: Radius.circular(10),
-        bottomRight: Radius.circular(10)),
-    boxShadow: [
-      BoxShadow(
-        color: primaryColor,
-        blurRadius: 5,
-      ),
-    ]);
+  color: Colors.white,
+  borderRadius: BorderRadius.circular(20),
+  boxShadow: [
+    BoxShadow(
+      offset: Offset(0, 5),
+      blurRadius: 10,
+      color: Colors.grey.withOpacity(0.23),
+    ),
+  ],
+);
 final bgColor = Colors.blue[300];
 
 final reviewBtnStyle = ButtonStyle(
