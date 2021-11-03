@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
+import 'package:flutter_healthcare/app/modules/doctorinformation/views/updateview.dart';
+import 'package:flutter_healthcare/app/modules/userinformation/views/update_userinformation.dart';
 import 'package:get/get.dart';
 
 class UserinformationController extends GetxController {
@@ -20,7 +25,7 @@ class UserinformationController extends GetxController {
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
   final String userID = FirebaseAuth.instance.currentUser!.uid;
   UserModel newUserInfo = new UserModel();
-  bool isUpdate = false, updating = false;
+  bool isUpdate = false;
 
   Rx<UserModel> _userInfo = new UserModel().obs;
   UserModel get userInfo => _userInfo.value;
@@ -30,6 +35,10 @@ class UserinformationController extends GetxController {
   String get userName => _userName.value;
   set userName(value) => _userName.value = value;
 
+  Rx<Color> _bgCheckBox = Colors.white.obs;
+  Color get bgCheckBox => _bgCheckBox.value;
+  set bgCheckBox(value) => _bgCheckBox.value = value;
+
   RxBool _loading = true.obs;
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
@@ -38,11 +47,7 @@ class UserinformationController extends GetxController {
   bool get sex => _sex.value;
   set sex(value) => _sex.value = value;
 
-  RxBool _visible = true.obs;
-  bool get visible => _visible.value;
-  set visible(value) => _visible.value = value;
-
-  RxString _hint = 'Ninh Kieu'.obs;
+  RxString _hint = 'Ninh Kiều'.obs;
   String get hint => _hint.value;
   set hint(value) => _hint.value = value;
 
@@ -71,8 +76,8 @@ class UserinformationController extends GetxController {
 
   isFirstEnterInformation() {
     if (isFrist != null) {
-      visible = false;
       makeHint();
+      Get.to(UpdateUserInformationView());
       isFrist = null;
     }
   }
@@ -117,18 +122,21 @@ class UserinformationController extends GetxController {
   }
 
   makeHint() {
-    updating = true;
     newUserInfo.addressRef = listAddress[0].reference;
     hint = listAddress[0].name;
     if (userInfo.sex == 'Không') {
       newUserInfo.sex = 'Nam';
       sex = true;
+      bgCheckBox = primaryColor;
     } else {
       newUserInfo.sex = userInfo.sex;
-      if (userInfo.sex == 'Nam')
+      if (userInfo.sex == 'Nam') {
         sex = true;
-      else
+        bgCheckBox = primaryColor;
+      } else {
         sex = false;
+        bgCheckBox = Colors.white;
+      }
     }
     if (userInfo.name == null) {
       newUserInfo.name = 'Ex: Nguyen Van A';
@@ -177,7 +185,6 @@ class UserinformationController extends GetxController {
         .collection('users')
         .doc(userID)
         .set(newUserInfo.toJson());
-    updating = false;
     isUpdate = true;
   }
 

@@ -294,7 +294,10 @@ class UpdateView extends StatelessWidget {
                                         .map((AddressModel value) {
                                       return DropdownMenuItem<AddressModel>(
                                         value: value,
-                                        child: Text(value.name!),
+                                        child: Text(
+                                          value.name!,
+                                          style: informationText,
+                                        ),
                                       );
                                     }).toList(),
                                     menuMaxHeight: 150,
@@ -305,7 +308,10 @@ class UpdateView extends StatelessWidget {
                                     },
                                     hint: DropdownMenuItem<String>(
                                       value: controller.hint,
-                                      child: Text(controller.hint),
+                                      child: Text(
+                                        controller.hint,
+                                        style: informationText,
+                                      ),
                                     ),
                                   )
                                 ],

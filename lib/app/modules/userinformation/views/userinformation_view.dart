@@ -4,6 +4,7 @@ import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/common/widgets/custom_appbar.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/update_userinformation.dart';
+import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 
@@ -14,12 +15,31 @@ class UserinformationView extends GetView<UserinformationController> {
   Widget build(BuildContext context) {
     controller.loadData();
     return Obx(() => Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Center(
             child: Stack(children: [
           Background(height: MediaQuery.of(context).size.height),
           Column(
             children: [
-              CustomAppBar(title: ''),
+              AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                leading: InkWell(
+                  radius: 30,
+                  onTap: () {
+                    if (!controller.isUpdate) {
+                      Get.snackbar('Please update your information',
+                          'To use other features please update your information');
+                    } else {
+                      Get.offAllNamed(Routes.HOME);
+                    }
+                  },
+                  child: Image.asset(
+                    'assets/images/arrow.png',
+                    scale: 2.1,
+                  ),
+                ),
+              ),
               Flexible(
                 child: AnimatedSwitcher(
                     duration: Duration(milliseconds: 500),
@@ -35,6 +55,7 @@ class UserinformationView extends GetView<UserinformationController> {
           width: 60,
           child: FloatingActionButton.extended(
             onPressed: () {
+              controller.makeHint();
               Get.to(UpdateUserInformationView());
             },
             label: Icon(Icons.mode),
