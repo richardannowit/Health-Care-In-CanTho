@@ -26,7 +26,7 @@ class CustomAppBarWithActions extends StatelessWidget
         padding: const EdgeInsets.only(top: 4),
         child: Text(
           title,
-          style: TextStyle(fontSize: 22, color: primaryColor),
+          style: TextStyle(fontSize: 22, color: Colors.grey[600]),
         ),
       ),
       backgroundColor: Colors.transparent,

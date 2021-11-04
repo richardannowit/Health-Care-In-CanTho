@@ -37,6 +37,10 @@ class ScheduleDoctorController extends GetxController {
   TimeOfDay get duration => _duration.value;
   set duration(value) => _duration.value = value;
 
+  Rx<Duration> _restTime = new Duration(hours: 00, minutes: 30).obs;
+  Duration get restTime => _restTime.value;
+  set restTime(value) => _restTime.value = value;
+
   RxList<DateTime> _timeSlotList = new List<DateTime>.empty(growable: true).obs;
   List<DateTime> get timeSlotList => _timeSlotList;
   set timeSlotList(value) => _timeSlotList.value = value;
@@ -69,20 +73,40 @@ class ScheduleDoctorController extends GetxController {
   }
 
   void deleteTimeLine() async {
-    // TODO: Check have booking does not accept delete
-    await DatabaseMethods.deleteTimeLineOfDoctor(
+    bool isAbleDelete = await DatabaseMethods.deleteTimeLineOfDoctor(
         doctorProfile.docId!, selectedDate);
+    if (!isAbleDelete) {
+      Get.snackbar(
+        "Không xoá được!",
+        "Bạn không thể xoá được do đã có người đặt.",
+      );
+    } else {
+      Get.snackbar(
+        "Xoá thành công!",
+        "Bạn đã xoá thành công.",
+      );
+    }
+
     loading = true;
     await loadData();
     loading = false;
   }
 
   void deleteTimeSlot(int index) async {
-    // TODO: Check have booking does not accept delete
     loading = true;
-    await DatabaseMethods.deleteTimeSlot(
+    bool isAbleDelete = await DatabaseMethods.deleteTimeSlot(
         doctorProfile.docId!, selectedDate, index);
-
+    if (!isAbleDelete) {
+      Get.snackbar(
+        "Không xoá được!",
+        "Bạn không thể xoá được do đã có người đặt.",
+      );
+    } else {
+      Get.snackbar(
+        "Xoá thành công!",
+        "Bạn đã xoá khung giờ thành công.",
+      );
+    }
     await loadData();
     loading = false;
   }
@@ -92,6 +116,9 @@ class ScheduleDoctorController extends GetxController {
         doctorProfile.docId!, selectedDate);
     timeSlotList = await DatabaseMethods.getTimeSlotList(
         doctorProfile.docId!, selectedDate);
+    if (deleteSlotList.length > 0) {
+      restTime = timeSlotList[1].difference(timeSlotList[0]);
+    }
   }
 
   bool isLessThanNow(DateTime date) {

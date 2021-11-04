@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 class Header extends StatelessWidget {
   Header({
     required this.height,
+    required this.name,
+    required this.specialist,
     Key? key,
   }) : super(key: key);
 
   final height;
+  final String name, specialist;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class Header extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Dr. Dang Khoa',
+              name,
               style: TextStyle(
                 color: Color(0xff734B10),
                 fontWeight: FontWeight.bold,
@@ -40,15 +43,12 @@ class Header extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Heart',
+              "Khoa " + specialist,
               style: TextStyle(
                 color: Color(0xff164220),
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
               ),
-            ),
-            SizedBox(
-              height: 10,
             ),
           ],
         ),

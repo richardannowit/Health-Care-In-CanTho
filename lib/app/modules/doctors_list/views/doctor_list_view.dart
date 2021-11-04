@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/common/widgets/custom_appbar.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_appbar_with_actions.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -34,8 +36,8 @@ class DoctorsListView extends GetView<DoctorListController> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(4, 10, 4, 0),
-                  child:
-                      Obx(() => buildDoctorList(controller.districtName.value)),
+                  child: Obx(() =>
+                      _buildDoctorList(context, controller.districtName.value)),
                 ),
               ),
             ],
@@ -45,14 +47,13 @@ class DoctorsListView extends GetView<DoctorListController> {
     );
   }
 
-  FutureBuilder<List<DoctorModel>> buildDoctorList(district) {
+  FutureBuilder<List<DoctorModel>> _buildDoctorList(context, district) {
+    Size size = MediaQuery.of(context).size;
     return FutureBuilder(
       future: controller.databaseMethods.getDoctorsByDistrict(district),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return LoadingScreen(height: size.height);
         else {
           var doctors = snapshot.data as List<DoctorModel>;
           if (doctors.length == 0)

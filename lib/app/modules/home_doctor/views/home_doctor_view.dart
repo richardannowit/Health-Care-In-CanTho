@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/modules/home/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/home_doctor/views/incoming_appointment.dart';
 import 'package:flutter_healthcare/app/modules/home_doctor/views/infomation.dart';
@@ -37,12 +38,7 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
                 onRefresh: () => controller.loadData(),
                 child: Obx(() {
                   if (controller.loading == true) {
-                    return Container(
-                      height: size.height,
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
+                    return LoadingScreen(height: size.height);
                   }
                   return Container(
                     margin: EdgeInsets.only(top: 20),
@@ -80,7 +76,8 @@ class HomeDoctorView extends GetView<HomeDoctorController> {
                     icon: Icons.person,
                     iconColor: Colors.blue,
                     onPressed: () {
-                      Get.toNamed(Routes.DOCTORINFORMATION);
+                      Get.toNamed(Routes.DOCTORINFORMATION,
+                          arguments: controller.doctorProfile);
                     }),
                 buildMenuItem(
                     text: 'Đăng xuất',

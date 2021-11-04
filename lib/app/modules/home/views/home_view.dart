@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/home/views/doctors_list.dart';
 import 'package:flutter_healthcare/app/modules/home/views/incoming_appointment.dart';
@@ -28,12 +29,7 @@ class HomeView extends GetView<HomeController> {
                 onRefresh: () => controller.loadData(),
                 child: Obx(() {
                   if (controller.loading == true) {
-                    return Container(
-                      height: size.height,
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
+                    return LoadingScreen(height: size.height);
                   }
                   return Container(
                     margin: EdgeInsets.only(top: 20),
@@ -72,14 +68,15 @@ class HomeView extends GetView<HomeController> {
             child: ListView(
               children: <Widget>[
                 buildMenuItem(
-                    text: 'User information',
+                    text: 'Thông tin người dùng',
                     icon: Icons.person,
                     iconColor: Colors.blue,
                     onPressed: () {
-                      Get.toNamed(Routes.USERINFORMATION);
+                      Get.toNamed(Routes.USERINFORMATION,
+                          arguments: controller.userInfo);
                     }),
                 buildMenuItem(
-                    text: 'Log out',
+                    text: 'Đăng xuất',
                     icon: Icons.logout,
                     iconColor: Colors.blue,
                     onPressed: () {

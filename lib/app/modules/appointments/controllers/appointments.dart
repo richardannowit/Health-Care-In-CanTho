@@ -1,8 +1,10 @@
-import 'appointment.dart';
+import 'package:flutter_healthcare/app/data/models/appointment.dart';
 
-sortAppointment(List<Appointment> appointments) {
-  List<Appointment> done = new List<Appointment>.empty(growable: true);
-  List<Appointment> notYet = new List<Appointment>.empty(growable: true);
+sortAppointment(List<AppointmentModel> appointments) {
+  List<AppointmentModel> done =
+      new List<AppointmentModel>.empty(growable: true);
+  List<AppointmentModel> notYet =
+      new List<AppointmentModel>.empty(growable: true);
 
   for (var appointment in appointments) {
     if (appointment.status == 'Done') {
@@ -13,13 +15,13 @@ sortAppointment(List<Appointment> appointments) {
   }
 
   int i, j;
-  Appointment temp;
+  AppointmentModel temp;
   for (i = 0; i < notYet.length - 1; i++) {
     for (j = i + 1; j < notYet.length; j++) {
       dynamic dj = new DateTime.fromMicrosecondsSinceEpoch(
-          notYet[j].dateTime.microsecondsSinceEpoch);
+          notYet[j].appointment_date!.microsecondsSinceEpoch);
       dynamic di = new DateTime.fromMicrosecondsSinceEpoch(
-          notYet[i].dateTime.microsecondsSinceEpoch);
+          notYet[i].appointment_date!.microsecondsSinceEpoch);
       if (di.isAfter(dj)) {
         temp = notYet[j];
         notYet[j] = notYet[i];

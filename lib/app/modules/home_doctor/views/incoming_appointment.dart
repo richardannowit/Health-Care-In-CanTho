@@ -91,9 +91,9 @@ class IncomingAppointment extends StatelessWidget {
                   status: controller.appointmentList[index].status!,
                   onMessage: () {
                     CreateChatRoom().createChatroomAndStartConversation(
-                        controller.appointmentList[index].doctor!.email
+                        controller.appointmentList[index].patientModel!.email
                             .toString(),
-                        controller.appointmentList[index].doctor!.name
+                        controller.appointmentList[index].patientModel!.name
                             .toString());
                   },
                   onCancel: () {
