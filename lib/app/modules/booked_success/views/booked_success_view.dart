@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_healthcare/app/modules/booked_success/views/components/custom_button.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
+import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
@@ -12,48 +14,55 @@ class BookedSuccessView extends GetView<BookedSuccessController> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage('assets/images/success.gif'),
-                  height: 150.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    'Appointment Booked Successfully!',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Color(0xFF303030),
+          Background(height: size.height),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/images/success.gif'),
+                      height: 150.0,
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        'Đặt lịch hẹn thành công!',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: Text(
+                  'Chúng tôi sẽ thông báo cho bạn ngay khi bác sĩ chấp nhận lịch hẹn.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Color(0xFFA3A3A3),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Text(
-              'We will contact you as soon as possible. Please be available on time.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15.0,
-                color: Color(0xFF808080),
               ),
-            ),
-          ),
-          CustomButton(
-            width: size.width * 0.5,
-            height: size.height * 0.05,
-            text: "Return to Home Page",
-            onPressed: () {
-              Get.offAllNamed(Routes.HOME);
-            },
+              CustomButton(
+                width: size.width * 0.6,
+                height: size.height * 0.05,
+                text: "Trở về màn hình chính",
+                onPressed: () {
+                  Get.offAllNamed(Routes.HOME);
+                },
+              ),
+            ],
           ),
         ],
       ),

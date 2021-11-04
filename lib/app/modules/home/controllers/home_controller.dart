@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_healthcare/app/data/helper/calculate_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/constants.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
@@ -89,6 +90,8 @@ class HomeController extends GetxController {
   Future loadData() async {
     loading = true;
     user = _auth.currentUser;
+    Constants.myName =
+        (await HelperFunctions.getUserEmailSharedPreference()) ?? '';
     var doctorSnap = await FirebaseFirestore.instance
         .collection('doctors')
         .doc(user!.uid)

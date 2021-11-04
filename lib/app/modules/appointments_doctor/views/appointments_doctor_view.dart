@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
+import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_appbar_with_actions.dart';
+import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/dialog.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/constants.dart';
+import 'package:flutter_healthcare/app/modules/home_doctor/views/components/appointment_cart.dart';
 import 'package:flutter_healthcare/app/modules/home_doctor/views/components/appointment_doctor_card.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -16,58 +22,28 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          key: _scaffoldKey,
-          // appBar: AppBar(
-          //     backgroundColor: Colors.white,
-          //     title: Text('Appointments', style: TextStyle(color: fgColor)),
-          //     centerTitle: true,
-          //     actions: <Widget>[
-          //       new IconButton(
-          //           onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
-          //           icon: new Icon(
-          //             Icons.filter_list_alt,
-          //             color: fgColor,
-          //           ))
-          //     ],
-          //     leading: IconButton(
-          //         icon: Icon(
-          //           Icons.arrow_back,
-          //           color: fgColor,
-          //         ),
-          //         onPressed: () {
-          //           Get.toNamed(Routes.HOME);
-          //         })),
-          // endDrawer: buildDrawer(context),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 70,
+        key: _scaffoldKey,
+        appBar: CustomAppBarWithActions(
+          title: 'Danh sách cuộc hẹn',
+          function: () => _scaffoldKey.currentState!.openEndDrawer(),
+          urlImage: 'assets/images/filter.png',
+          scale: 1.4,
+        ),
+        endDrawer: buildDrawer(context),
+        body: Stack(
+          children: [
+            Background(height: MediaQuery.of(context).size.height),
+            Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: Obx(
+                () {
+                  return buildDoctorList(context);
+                },
               ),
-              Container(
-                height: 100,
-                width: 100,
-                padding: EdgeInsets.only(left: 10),
-                child: ClipOval(
-                  child: CircleAvatar(
-                    child: Image.asset(
-                      'assets/images/doctor2.png',
-                      scale: 6.3,
-                    ),
-                    backgroundColor: Colors.grey[300],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Obx(() {
-                    return buildDoctorList(context);
-                  }),
-                ),
-              ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -87,33 +63,47 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
                 return buildNullList(context);
               }
               return Padding(
-                padding: const EdgeInsets.only(bottom: 15),
+                padding: const EdgeInsets.only(left: 16),
                 child: new ListView(
                     children:
                         appointmentsSnapshot.data!.map((AppointmentModel app) {
                   return Container(
-                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: Slidable(
-                          child: AppointmentDoctorCard(
-                            user_image: 'assets/images/avt_user.png',
-                            user_name: app.name,
-                            email: app.patient,
-                            date: DateTimeHelpers.timestampsToDate(
-                                app.appointment_date!),
-                            time: DateTimeHelpers.timestampsToTime(
-                                app.appointment_date!),
-                            status: app.status!,
-                            onChat: () {},
-                          ),
-                          actionPane: SlidableDrawerActionPane(),
-                          actionExtentRatio: 0.2,
-                          secondaryActions: <Widget>[
-                            IconSlideAction(
-                              caption: 'Cancel',
-                              icon: Icons.cancel,
-                              onTap: () {},
-                            )
-                          ]));
+                    child: Slidable(
+                      child: AppointmentCard(
+                        height: MediaQuery.of(context).size.height * 0.18,
+                        doctor_image: 'assets/images/avt_doctor.png',
+                        doctor_name: app.name,
+                        // email: app.patient,
+                        date: DateTimeHelpers.timestampsToDate(
+                            app.appointment_date!),
+                        time: DateTimeHelpers.timestampsToTime(
+                            app.appointment_date!),
+                        status: app.status!,
+                        onMessage: () {
+                          CreateChatRoom().createChatroomAndStartConversation(
+                              app.patient.toString(), app.name.toString());
+                        },
+                        onCancel: () {
+                          DialogHelper.showDialog(
+                            content: 'Xác nhận huỷ lịch hẹn?',
+                            confirmText: 'Xác nhận',
+                            onConfirm: () {
+                              // controller.cancelAppointment(index);
+                            },
+                          );
+                        },
+                      ),
+                      actionPane: SlidableDrawerActionPane(),
+                      actionExtentRatio: 0.2,
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Cancel',
+                          icon: Icons.cancel,
+                          onTap: () {},
+                        )
+                      ],
+                    ),
+                  );
                 }).toList()),
               );
           }

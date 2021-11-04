@@ -40,11 +40,14 @@ class CustomAppBarWithActions extends StatelessWidget
         ),
       ),
       actions: [
-        InkWell(
-          onTap: function,
-          child: Image.asset(
-            urlImage,
-            scale: scale,
+        Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: InkWell(
+            onTap: function,
+            child: Image.asset(
+              urlImage,
+              scale: scale,
+            ),
           ),
         )
       ],

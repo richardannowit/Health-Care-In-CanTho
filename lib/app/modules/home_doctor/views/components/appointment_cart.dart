@@ -24,9 +24,9 @@ class AppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 350,
+      // width: 350,
       height: height,
-      margin: EdgeInsets.only(right: 15),
+      margin: EdgeInsets.only(right: 15, bottom: 20),
       padding: EdgeInsets.symmetric(horizontal: 22, vertical: 12),
       decoration: BoxDecoration(
         color: primaryColor,
@@ -120,15 +120,6 @@ class AppointmentInfo extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "Khoa " + specialist!,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 
 class TimePicker extends StatelessWidget {
   TimePicker({
@@ -22,6 +23,7 @@ class TimePicker extends StatelessWidget {
             label,
             style: TextStyle(
               fontWeight: FontWeight.bold,
+              color: primaryColor,
             ),
           ),
           Container(
@@ -61,7 +63,7 @@ class TimePicker extends StatelessWidget {
                   IconButton(
                     onPressed: null,
                     icon: Icon(
-                      Icons.calendar_today_outlined,
+                      Icons.watch_later,
                       color: Color(0xff3668FC),
                     ),
                   ),

@@ -19,7 +19,7 @@ class HomeView extends GetView<HomeController> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.white,
-        endDrawer: buildDrawer(context),
+        drawer: buildDrawer(context),
         body: Stack(
           children: [
             Background(height: size.height),
@@ -36,11 +36,8 @@ class HomeView extends GetView<HomeController> {
                     );
                   }
                   return Container(
-                    margin: EdgeInsets.only(top: 20, left: 20),
+                    margin: EdgeInsets.only(top: 20),
                     width: size.width,
-                    // decoration: BoxDecoration(
-                    //   color: Colors.grey[100],
-                    // ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

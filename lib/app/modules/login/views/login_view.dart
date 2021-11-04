@@ -223,7 +223,7 @@ class LoginView extends GetView<LoginController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Don't have Account? ",
+                  "Bạn chưa có tài khoản? ",
                   style: TextStyle(
                     color: Colors.grey[600],
                   ),
@@ -233,10 +233,10 @@ class LoginView extends GetView<LoginController> {
                     Get.to(SignupView());
                   },
                   child: Text(
-                    'Register now',
+                    'Đăng ký',
                     style: TextStyle(
                       color: primaryColor,
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

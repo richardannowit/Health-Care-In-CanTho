@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class Header extends StatelessWidget {
   Header({
@@ -17,17 +16,6 @@ class Header extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(Icons.arrow_back_ios)),
-                IconButton(onPressed: () {}, icon: Icon(Icons.menu))
-              ],
-            ),
             Container(
               width: 100,
               height: 100,
