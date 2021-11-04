@@ -57,38 +57,40 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
             children: [
               buildPersionalView(),
               Expanded(
-                child: Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        //color: Colors.blue[50],
-                        width: MediaQuery.of(context).size.width,
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Giới thiệu', style: textStyle),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    controller.doctor.about!,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: txtStyle,
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          //color: Colors.blue[50],
+                          width: MediaQuery.of(context).size.width,
+                          child: Container(
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Giới thiệu', style: textStyle),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: Text(
+                                      controller.doctor.about!,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: txtStyle,
+                                    ),
                                   ),
-                                ),
-                              ]),
+                                ]),
+                          ),
                         ),
-                      ),
-                      Reviews(
-                        controller: controller,
-                        size: size,
-                        docId: controller.doctor.docId!,
-                      ),
-                      buildRatingBar(context),
-                      buildLocationView(),
-                    ],
+                        Reviews(
+                          controller: controller,
+                          size: size,
+                          docId: controller.doctor.docId!,
+                        ),
+                        buildRatingBar(context),
+                        buildLocationView(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -206,41 +208,45 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                       size: 54,
                       color: primaryColor,
                     )),
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        controller.doctor.address.name,
-                        style: textStyle,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          controller.doctor.centeraddress!,
-                          style: txtStyle,
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.doctor.address.name,
+                          style: textStyle,
                         ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.phone,
-                              size: 16,
-                              color: primaryColor,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                controller.doctor.phone!,
-                                style: txtStyle,
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Text(
+                            controller.doctor.centeraddress!,
+                            style: txtStyle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.phone,
+                                size: 16,
+                                color: primaryColor,
                               ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  controller.doctor.phone!,
+                                  style: txtStyle,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],

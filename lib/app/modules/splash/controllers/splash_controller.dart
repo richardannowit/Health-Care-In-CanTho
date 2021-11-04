@@ -11,9 +11,9 @@ class SplashController extends GetxController {
   var bgColor = MaterialStateProperty.all<Color>(Colors.white).obs;
   var fgColor = MaterialStateProperty.all<Color>(primaryColor).obs;
   final urlImages = [
-    'assets/images/first_start_image_1.png',
-    'assets/images/first_start_image_2.png',
-    'assets/images/first_start_image_3.png'
+    'assets/images/first_start_screen_1.png',
+    'assets/images/first_start_screen_2.png',
+    'assets/images/first_start_screen_3.png'
   ];
   final textBelowImages = [
     'Đặt lịch hẹn',

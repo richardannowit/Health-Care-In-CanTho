@@ -23,10 +23,9 @@ class ChooseroleView extends GetView<ChooseroleController> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image(
-                            image: AssetImage(
-                                'assets/images/first_start_icon.png'),
-                            width: 186,
-                            height: 100),
+                            image: AssetImage('assets/images/logo.png'),
+                            width: 300,
+                            height: 80),
                         Container(
                           height: 380,
                           child: Column(
@@ -255,7 +254,7 @@ class ChooseroleView extends GetView<ChooseroleController> {
                   Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Text(
-                      'Hỗ trợ sắp xếp lịch cho công việc',
+                      'Hỗ trợ xếp lịch cho công việc',
                       style: normalText,
                     ),
                   )
@@ -389,7 +388,7 @@ class ChooseroleView extends GetView<ChooseroleController> {
                   Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Text(
-                      'Đánh giá và xem đánh giá về bác sĩ',
+                      'Cùng đánh giá về bác sĩ',
                       style: normalText,
                     ),
                   )

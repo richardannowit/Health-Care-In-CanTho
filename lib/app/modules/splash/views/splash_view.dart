@@ -20,19 +20,18 @@ class SplashView extends GetView<SplashController> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Image(
-                                  image: AssetImage(
-                                      'assets/images/first_start_icon.png'),
-                                  width: 186,
-                                  height: 100),
+                                  image: AssetImage('assets/images/logo.png'),
+                                  width: 300,
+                                  height: 80),
                               CarouselSlider.builder(
                                 carouselController:
                                     controller.carouselController,
                                 options: CarouselOptions(
                                     height:
-                                        MediaQuery.of(context).size.width + 50,
+                                        MediaQuery.of(context).size.width - 16,
                                     viewportFraction: 1,
                                     initialPage: 0,
                                     enableInfiniteScroll: false,
@@ -90,7 +89,7 @@ class SplashView extends GetView<SplashController> {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fill,
                         image: AssetImage(urlImage),
                       ),
                     ),

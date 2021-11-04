@@ -23,7 +23,24 @@ class UpdateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-            body: Form(
+        floatingActionButton: Container(
+          height: 60,
+          width: 60,
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              if (!_formKey.currentState!.validate()) return;
+              _formKey.currentState!.save();
+              FocusScope.of(context).unfocus();
+              controller.updateDoctorInfo();
+              controller.reLoadData();
+              homeDoctorController.loadData();
+              Get.back();
+            },
+            label: Icon(Icons.done),
+            backgroundColor: primaryColor,
+          ),
+        ),
+        body: Form(
           key: _formKey,
           child: Stack(
             children: [
@@ -47,7 +64,7 @@ class UpdateView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 30, right: 30),
                         child: Container(
-                          height: 700,
+                          height: 650,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -319,20 +336,6 @@ class UpdateView extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              CustomButton(
-                                  width: 96,
-                                  height: 46,
-                                  onPressed: () {
-                                    if (!_formKey.currentState!.validate())
-                                      return;
-                                    _formKey.currentState!.save();
-                                    FocusScope.of(context).unfocus();
-                                    controller.updateDoctorInfo();
-                                    controller.reLoadData();
-                                    homeDoctorController.loadData();
-                                    Get.back();
-                                  },
-                                  text: 'Xong')
                             ],
                           ),
                         ),

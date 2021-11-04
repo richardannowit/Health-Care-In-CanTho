@@ -116,34 +116,37 @@ class AppointmentInfo extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  doctor_name!,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 5),
                 Row(
                   children: [
-                    Text(
-                      doctor_name!,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 0),
                       child: Icon(
                         Icons.fiber_manual_record,
                         color: getColor(status),
                         size: 26,
                       ),
-                    )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        "Khoa " + specialist!,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "Khoa " + specialist!,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300,
-                  ),
                 ),
               ],
             ),

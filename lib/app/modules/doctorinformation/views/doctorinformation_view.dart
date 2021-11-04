@@ -40,16 +40,19 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
         children: [
           buildPersionalView(),
           Expanded(
-            child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 500),
-                child: controller.flag
-                    ? buildDoctorViewMode(context)
-                    : buildUserVewMode(context)),
+            child: SingleChildScrollView(
+              child: AnimatedSwitcher(
+                  duration: Duration(milliseconds: 500),
+                  child: controller.flag
+                      ? buildDoctorViewMode(context)
+                      : buildUserVewMode(context)),
+            ),
           )
         ],
       );
 
   Widget buildDoctorViewMode(BuildContext context) => Container(
+        height: 500,
         key: Key('2'),
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -97,7 +100,7 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            'Phone: ',
+                            'SĐT: ',
                             style: textStyle,
                           ),
                         )
@@ -127,7 +130,7 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            'Address: ',
+                            'Địa chỉ: ',
                             style: textStyle,
                           ),
                         )
@@ -157,7 +160,7 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            'Center address: ',
+                            'Địa chỉ trung tâm: ',
                             style: textStyle,
                           ),
                         )
@@ -189,7 +192,7 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            'About me: ',
+                            'Giới thiệu: ',
                             style: textStyle,
                           ),
                         )
@@ -256,8 +259,8 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                   IconButton(
                       onPressed: () {
                         if (!controller.isUpdate) {
-                          Get.snackbar('Hãy cập nhật thông tin của bạn',
-                              'Để sử dụng các tính năng khác thông tin của bạn là rất cần thiết');
+                          Get.snackbar('Hãy cập nhật thông tin của bạn!',
+                              'Để sử dụng các tính năng khác thông tin của bạn là rất cần thiết.');
                         } else {
                           Get.toNamed(Routes.HOME_DOCTOR);
                           Get.delete<DoctorinformationController>();
@@ -356,41 +359,45 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
                       size: 54,
                       color: primaryColor,
                     )),
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        controller.addressName,
-                        style: textStyle,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          controller.doctorInfo.centeraddress ?? "",
-                          style: txtStyle,
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.addressName,
+                          style: textStyle,
                         ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.phone,
-                              size: 16,
-                              color: primaryColor,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                controller.doctorInfo.phone ?? "",
-                                style: txtStyle,
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Text(
+                            controller.doctorInfo.centeraddress ?? "",
+                            style: txtStyle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.phone,
+                                size: 16,
+                                color: primaryColor,
                               ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  controller.doctorInfo.phone ?? "",
+                                  style: txtStyle,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],
