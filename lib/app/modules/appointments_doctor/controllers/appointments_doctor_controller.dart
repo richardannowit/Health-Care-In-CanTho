@@ -11,6 +11,8 @@ class AppointmentsDoctorController extends GetxController {
   RxString greater = "a".obs;
   String statusFilter = "All";
 
+  User? user;
+
   CollectionReference<Map<String, dynamic>> dbUserRef =
       FirebaseFirestore.instance.collection('doctors');
   CollectionReference<Map<String, dynamic>> dbAppRef =
@@ -47,9 +49,23 @@ class AppointmentsDoctorController extends GetxController {
     }
   }
 
+  Rx<DoctorModel> _doctorProfile = new DoctorModel().obs;
+  DoctorModel get doctorProfile => _doctorProfile.value;
+  set doctorProfile(value) => _doctorProfile.value = value;
+
+  Future<DoctorModel> getDoctorProfile() async {
+    if (user != null) {
+      DoctorModel data = await DatabaseMethods.getDoctorProfiles(user!.uid);
+      return data;
+    }
+    return new DoctorModel();
+  }
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    user = FirebaseAuth.instance.currentUser;
+    doctorProfile = await getDoctorProfile();
   }
 
   @override

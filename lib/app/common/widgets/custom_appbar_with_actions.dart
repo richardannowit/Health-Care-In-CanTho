@@ -26,7 +26,7 @@ class CustomAppBarWithActions extends StatelessWidget
         padding: const EdgeInsets.only(top: 4),
         child: Text(
           title,
-          style: TextStyle(fontSize: 22, color: primaryColor),
+          style: TextStyle(fontSize: 22, color: Colors.grey[600]),
         ),
       ),
       backgroundColor: Colors.transparent,
@@ -40,11 +40,14 @@ class CustomAppBarWithActions extends StatelessWidget
         ),
       ),
       actions: [
-        InkWell(
-          onTap: function,
-          child: Image.asset(
-            urlImage,
-            scale: scale,
+        Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: InkWell(
+            onTap: function,
+            child: Image.asset(
+              urlImage,
+              scale: scale,
+            ),
           ),
         )
       ],
