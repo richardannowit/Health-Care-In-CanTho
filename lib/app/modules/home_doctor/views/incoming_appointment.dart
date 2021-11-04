@@ -3,8 +3,8 @@ import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/dialog.dart';
-import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
-import 'package:flutter_healthcare/app/modules/home/views/components/appointment_cart.dart';
+import 'package:flutter_healthcare/app/modules/home_doctor/controllers/home_doctor_controller.dart';
+import 'package:flutter_healthcare/app/modules/home_doctor/views/components/appointment_cart.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +16,7 @@ class IncomingAppointment extends StatelessWidget {
 
   final Size size;
 
-  final HomeController controller = Get.find();
+  final HomeDoctorController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class IncomingAppointment extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     onTap: () {
-                      Get.toNamed(Routes.APPOINTMENTS);
+                      Get.toNamed(Routes.APPOINTMENTS_DOCTOR);
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -73,19 +73,17 @@ class IncomingAppointment extends StatelessWidget {
           }
           return Container(
             margin: EdgeInsets.only(top: 20, left: 20),
-            height: size.height * 0.18,
+            height: size.height * 0.65,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
-              scrollDirection: Axis.horizontal,
               itemCount: controller.appointmentList.length,
               itemBuilder: (_, index) {
                 return AppointmentCard(
                   height: size.height * 0.18,
                   doctor_image: 'assets/images/avt_doctor.png',
-                  doctor_name: controller.appointmentList[index].doctor!.name,
-                  specialist:
-                      controller.appointmentList[index].doctor!.specialist,
+                  doctor_name:
+                      controller.appointmentList[index].patientModel!.name,
                   date: DateTimeHelpers.timestampsToDate(
                       controller.appointmentList[index].appointment_date!),
                   time: DateTimeHelpers.timestampsToTime(
@@ -93,9 +91,9 @@ class IncomingAppointment extends StatelessWidget {
                   status: controller.appointmentList[index].status!,
                   onMessage: () {
                     CreateChatRoom().createChatroomAndStartConversation(
-                        controller.appointmentList[index].doctor!.email
+                        controller.appointmentList[index].patientModel!.email
                             .toString(),
-                        controller.appointmentList[index].doctor!.name
+                        controller.appointmentList[index].patientModel!.name
                             .toString());
                   },
                   onCancel: () {
@@ -103,7 +101,7 @@ class IncomingAppointment extends StatelessWidget {
                       content: 'Xác nhận huỷ lịch hẹn?',
                       confirmText: 'Xác nhận',
                       onConfirm: () {
-                        controller.cancelAppointment(index);
+                        // controller.cancelAppointment(index);
                       },
                     );
                   },

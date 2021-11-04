@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
-import 'package:flutter_healthcare/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 class InfomationUser extends StatelessWidget {
@@ -8,15 +7,12 @@ class InfomationUser extends StatelessWidget {
     Key? key,
     required this.size,
     required this.name,
-    required this.bmi,
     required this.scaffoldKey,
   }) : super(key: key);
 
   final Size size;
-  final String name, bmi;
+  final String name;
   final GlobalKey<ScaffoldState> scaffoldKey;
-
-  final HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +40,6 @@ class InfomationUser extends StatelessWidget {
                   ),
                 ),
               ),
-              BMIWidget(bmi: bmi, size: size),
             ],
           ),
           SizedBox(height: 15),
@@ -70,7 +65,7 @@ class HelloText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          "Xin chào, ",
+          "Xin chào bác sĩ, ",
           style: TextStyle(
             fontFamily: "Roboto",
             color: Color(0xff898484),
@@ -88,38 +83,6 @@ class HelloText extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class BMIWidget extends StatelessWidget {
-  const BMIWidget({
-    Key? key,
-    required this.size,
-    required this.bmi,
-  }) : super(key: key);
-
-  final Size size;
-  final String bmi;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size.width * 0.25,
-      margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: primaryColor),
-      ),
-      child: Text(
-        'BMI: ' + bmi,
-        style: TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 }

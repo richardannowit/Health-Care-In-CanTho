@@ -178,6 +178,44 @@ class DatabaseMethods {
     return appointmentList;
   }
 
+  static Future<List<AppointmentModel>> getAppointmentsOfDoctor(
+      DocumentReference doctorRef) async {
+    QuerySnapshot snapshot = await _firestore
+        .collection('appointments')
+        .orderBy('appointment_date')
+        .where('doctor', isEqualTo: doctorRef)
+        .where('appointment_date', isGreaterThanOrEqualTo: new DateTime.now())
+        .get();
+
+    List<AppointmentModel> appointmentList = [];
+    for (var element in snapshot.docs) {
+      var appointment = element.data() as Map<String, dynamic>;
+      appointment['reference'] = element.reference;
+
+      var doctorModel = new DoctorModel();
+
+      /* Query doctor */
+      if (appointment.containsKey('doctor')) {
+        DocumentSnapshot doctorRef = await appointment['doctor'].get();
+        if (doctorRef.exists) {
+          final doctorJson = doctorRef.data() as Map<String, dynamic>;
+          doctorJson['reference'] = doctorRef.reference;
+          doctorJson['docId'] = doctorRef.id;
+          doctorModel = DoctorModel.fromJson(doctorJson);
+        }
+      }
+
+      var patientModel = await getUserModelByEmail(appointment['patient']);
+      appointment['patientModel'] = patientModel;
+
+      appointment['doctor'] = doctorModel;
+
+      appointmentList.add(AppointmentModel.fromJson(appointment));
+    }
+
+    return appointmentList;
+  }
+
   static Future<List<DoctorModel>> getDoctors(
       [DocumentReference? userAddressRef]) async {
     QuerySnapshot snapshot;
@@ -406,6 +444,32 @@ class DatabaseMethods {
         .where('email', isEqualTo: userEmail)
         .get();
     return snapshot.docs.first.reference;
+  }
+
+  static Future<UserModel> getUserModelByEmail(String userEmail) async {
+    var snapshot = await _firestore
+        .collection('users')
+        .where('email', isEqualTo: userEmail)
+        .get();
+    var userSnapshot = snapshot.docs.first;
+    if (userSnapshot.exists) {
+      Map<String, dynamic> user = userSnapshot.data();
+      user['reference'] = userSnapshot.reference;
+
+      AddressModel addressModel = new AddressModel(name: 'NULL');
+      if (user.containsKey('address')) {
+        DocumentSnapshot addressRef = await user['address'].get();
+        if (addressRef.exists) {
+          final addressJson = addressRef.data() as Map<String, dynamic>;
+          addressJson['reference'] = addressRef.reference;
+          addressModel = AddressModel.fromJson(addressJson);
+        }
+      }
+      user['address'] = addressModel;
+      return UserModel.fromJson(user);
+    }
+
+    return UserModel();
   }
 
   static Future<DocumentReference<Object?>> getDoctorRef(String docRef) async {

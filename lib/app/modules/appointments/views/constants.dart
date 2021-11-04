@@ -12,6 +12,13 @@ const mediumTextStyle = TextStyle(
   fontWeight: FontWeight.w300,
 );
 
+final fillText = TextStyle(
+  color: Colors.grey[600],
+  fontSize: 17,
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w500,
+);
+
 const largeTextStyle = TextStyle(
   fontSize: 18,
   fontFamily: 'Roboto',
@@ -28,3 +35,7 @@ final buttonStyle = ButtonStyle(
     ),
   ),
 );
+
+final activeColor = new Color.fromRGBO(70, 238, 55, 100);
+final waitingColor = new Color.fromRGBO(255, 245, 0, 100);
+final doneColor = new Color.fromRGBO(80, 234, 243, 100);

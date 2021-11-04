@@ -1,48 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/address.dart';
 import 'package:flutter_healthcare/app/data/models/user.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
+import 'package:flutter_healthcare/app/modules/userinformation/views/update_userinformation.dart';
 import 'package:get/get.dart';
 
 class UserinformationController extends GetxController {
-  var isFrist = Get.arguments;
+  bool isFirst = false;
   late List<AddressModel> listAddress;
   late AddressModel address;
-  late String dateOfBirth,
-      addressName,
-      initName,
-      initHeight,
-      initWeight,
-      initPhone;
-  late int counter = 0;
+  late String initName, initHeight, initWeight, infor = "", initPhone;
   final DatabaseMethods databaseMethods = Get.put(DatabaseMethods());
   final String userID = FirebaseAuth.instance.currentUser!.uid;
   UserModel newUserInfo = new UserModel();
-  bool isUpdate = false, updating = false;
+  bool isUpdate = false, checkload = true;
 
   Rx<UserModel> _userInfo = new UserModel().obs;
   UserModel get userInfo => _userInfo.value;
   set userInfo(value) => _userInfo.value = value;
 
-  Rx<String> _userName = '...'.obs;
+  Rx<String> _userName = "".obs;
   String get userName => _userName.value;
   set userName(value) => _userName.value = value;
 
-  RxBool _flag = true.obs;
-  bool get flag => _flag.value;
-  set flag(value) => _flag.value = value;
+  Rx<String> _dateOfBirth = "".obs;
+  String get dateOfBirth => _dateOfBirth.value;
+  set dateOfBirth(value) => _dateOfBirth.value = value;
+
+  Rx<String> _addressName = "".obs;
+  String get addressName => _addressName.value;
+  set addressName(value) => _addressName.value = value;
+
+  Rx<Color> _bgCheckBox = Colors.white.obs;
+  Color get bgCheckBox => _bgCheckBox.value;
+  set bgCheckBox(value) => _bgCheckBox.value = value;
+
+  RxBool _loading = true.obs;
+  bool get loading => _loading.value;
+  set loading(value) => _loading.value = value;
 
   RxBool _sex = true.obs;
   bool get sex => _sex.value;
   set sex(value) => _sex.value = value;
 
-  RxBool _visible = true.obs;
-  bool get visible => _visible.value;
-  set visible(value) => _visible.value = value;
-
-  RxString _hint = 'Ninh Kieu'.obs;
+  RxString _hint = 'Ninh Kiều'.obs;
   String get hint => _hint.value;
   set hint(value) => _hint.value = value;
 
@@ -54,19 +60,42 @@ class UserinformationController extends GetxController {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  loadData() async {
-    listAddress = await databaseMethods.getDistricts();
+  reLoadUserInfor() async {
     userInfo = await databaseMethods.getUserByUID(userID);
     removeNullField();
+    infor = userInfo.sex! +
+        " - " +
+        userInfo.height!.toString() +
+        " cm - " +
+        userInfo.weight!.toString() +
+        " kg";
+  }
+
+  loadData() async {
+    loading = true;
+    if (Get.arguments != null && checkload) {
+      userInfo = Get.arguments;
+    } else {
+      userInfo = await databaseMethods.getUserByUID(userID);
+    }
+    removeNullField();
+    listAddress = await databaseMethods.getDistricts();
     isFirstEnterInformation();
+    infor = userInfo.sex! +
+        " - " +
+        userInfo.height!.toString() +
+        " cm - " +
+        userInfo.weight!.toString() +
+        " kg";
+    loading = false;
+    checkload = false;
   }
 
   isFirstEnterInformation() {
-    if (isFrist != null) {
-      flag = false;
-      visible = false;
+    if (isFirst) {
       makeHint();
-      isFrist = null;
+      Get.to(UpdateUserInformationView());
+      isFirst = false;
     }
   }
 
@@ -75,10 +104,10 @@ class UserinformationController extends GetxController {
       userInfo.email = FirebaseAuth.instance.currentUser!.email;
     }
     if (userInfo.sex == null) {
-      userInfo.sex = 'None';
+      userInfo.sex = 'Không';
     }
     if (userInfo.name == null) {
-      userName = 'Waiting for your update';
+      userName = 'Chờ bạn cập nhật';
     } else {
       userName = userInfo.name;
     }
@@ -89,19 +118,21 @@ class UserinformationController extends GetxController {
       userInfo.weight = 0;
     }
     if (userInfo.phone == null) {
-      userInfo.phone = 'Waiting for your update';
+      userInfo.phone = 'Chờ bạn cập nhật';
     }
 
     if (userInfo.dateOfBirth == null) {
-      dateOfBirth = 'Waiting for your update';
+      dateOfBirth = 'Chờ bạn cập nhật';
     } else {
       dateOfBirth = DateTimeHelpers.timestampsToDate(userInfo.dateOfBirth!);
     }
     if (userInfo.address == null) {
-      addressName = 'Waiting for your update';
+      addressName = 'Chờ bạn cập nhật';
+      isFirst = true;
     } else {
       if (userInfo.address!.name == 'NULL') {
-        addressName = 'Waiting for your update';
+        addressName = 'Chờ bạn cập nhật';
+        isFirst = true;
       } else {
         isUpdate = true;
         addressName = userInfo.address!.name! + ', Cần Thơ';
@@ -110,21 +141,24 @@ class UserinformationController extends GetxController {
   }
 
   makeHint() {
-    updating = true;
     newUserInfo.addressRef = listAddress[0].reference;
     hint = listAddress[0].name;
-    if (userInfo.sex == 'None') {
+    if (userInfo.sex == 'Không') {
       newUserInfo.sex = 'Nam';
       sex = true;
+      bgCheckBox = primaryColor;
     } else {
       newUserInfo.sex = userInfo.sex;
-      if (userInfo.sex == 'Nam')
+      if (userInfo.sex == 'Nam') {
         sex = true;
-      else
+        bgCheckBox = primaryColor;
+      } else {
         sex = false;
+        bgCheckBox = Colors.white;
+      }
     }
     if (userInfo.name == null) {
-      newUserInfo.name = 'Ex: Nguyen Van A';
+      newUserInfo.name = 'VD: Biện Thành Trương';
       initName = '';
     } else {
       newUserInfo.name = userInfo.name;
@@ -144,8 +178,8 @@ class UserinformationController extends GetxController {
       newUserInfo.weight = userInfo.weight;
       initWeight = userInfo.weight.toString();
     }
-    if (userInfo.phone == 'Waiting for your update') {
-      newUserInfo.phone = 'Ex: 0971002636';
+    if (userInfo.phone == 'Chờ bạn cập nhật') {
+      newUserInfo.phone = 'VD: 0971002636';
       initPhone = '';
     } else {
       newUserInfo.phone = userInfo.phone;
@@ -170,7 +204,6 @@ class UserinformationController extends GetxController {
         .collection('users')
         .doc(userID)
         .set(newUserInfo.toJson());
-    updating = false;
     isUpdate = true;
   }
 

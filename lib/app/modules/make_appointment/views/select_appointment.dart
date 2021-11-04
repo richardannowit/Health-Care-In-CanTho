@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/dialog.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/controllers/make_appointment_controller.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/calendar_list.dart';
-import 'package:flutter_healthcare/app/modules/make_appointment/views/components/custom_button.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/components/time_select_button.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/constant.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -55,8 +56,7 @@ class SelectAppointment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      decoration: roundedContainer,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Obx(() {
         return Column(
           children: [
@@ -67,7 +67,7 @@ class SelectAppointment extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      "Date",
+                      "Chọn ngày",
                       style: TextStyle(
                         color: Color(0xff016565),
                         fontSize: 20,
@@ -86,7 +86,7 @@ class SelectAppointment extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(
-                            "April",
+                            "Tháng " + controller.selectedDate.month.toString(),
                             style: TextStyle(
                               color: Color(0xff443BAD),
                               fontSize: 18,
@@ -113,7 +113,7 @@ class SelectAppointment extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      "Time",
+                      "Chọn giờ",
                       style: TextStyle(
                         color: Color(0xff016565),
                         fontSize: 20,
@@ -173,13 +173,15 @@ class SelectAppointment extends StatelessWidget {
               ),
             ),
             CustomButton(
-              width: width * 0.5,
-              height: 40,
+              text: "Đặt lịch hẹn",
+              width: width * 0.8,
+              height: 43,
               onPressed: () {
                 //Check chon ngay gio r moi submit duoc
-                showDialog(
-                  content: 'Do you want to booking?',
-                  confirmText: 'Confirm',
+                DialogHelper.showDialog(
+                  title: "Xác nhận đặt lịch?",
+                  content: 'Lịch hẹn sẽ được đặt theo thời gian bạn đã chọn,',
+                  confirmText: 'Đồng ý',
                   onConfirm: () async {
                     bool checkBooking = await controller.bookAppointment();
                     if (checkBooking) {
@@ -187,8 +189,8 @@ class SelectAppointment extends StatelessWidget {
                       Get.toNamed(Routes.BOOKED_SUCCESS);
                     } else {
                       Get.snackbar(
-                        "Booking",
-                        "Booking fail cause conflict with others.",
+                        "Đặt lịch",
+                        "Đặt lịch lỗi do bị trùng giờ đặt với người khác.",
                         snackPosition: SnackPosition.BOTTOM,
                       );
                     }
