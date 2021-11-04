@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/dialog.dart';
@@ -57,6 +58,7 @@ class AppointmentsView extends GetView<AppointmentsController> {
   }
 
   Widget buildList(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     var streamBuilder = StreamBuilder<List<AppointmentModel>>(
         stream:
             controller.getData(controller.less.value, controller.greater.value),
@@ -66,7 +68,7 @@ class AppointmentsView extends GetView<AppointmentsController> {
             return new Text('Error: ${appointmentsSnapshot.error}');
           switch (appointmentsSnapshot.connectionState) {
             case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
+              return LoadingScreen(height: size.height);
             default:
               if (appointmentsSnapshot.data!.isEmpty) {
                 return buildNullList(context);

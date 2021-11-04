@@ -82,6 +82,7 @@ class IncomingAppointment extends StatelessWidget {
               itemBuilder: (_, index) {
                 return AppointmentCard(
                   height: size.height * 0.18,
+                  width: size.width * 0.88,
                   doctor_image: 'assets/images/avt_doctor.png',
                   doctor_name: controller.appointmentList[index].doctor!.name,
                   specialist:

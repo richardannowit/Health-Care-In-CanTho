@@ -46,7 +46,7 @@ class BookedSuccessView extends GetView<BookedSuccessController> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Text(
-                  'Chúng tôi sẽ thông báo cho bạn ngay khi bác sĩ chấp nhận lịch hẹn.',
+                  'Lịch hẹn của bạn đã được đặt thành công. Hãy đến đúng giờ nhé!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16.0,

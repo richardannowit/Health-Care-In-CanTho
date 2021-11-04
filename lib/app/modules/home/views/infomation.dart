@@ -105,19 +105,21 @@ class BMIWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width * 0.25,
+      width: size.width * 0.28,
       margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: primaryColor),
       ),
-      child: Text(
-        'BMI: ' + bmi,
-        style: TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
+      child: Center(
+        child: Text(
+          'BMI: ' + bmi,
+          style: TextStyle(
+            color: primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
