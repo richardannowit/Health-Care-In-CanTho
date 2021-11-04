@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/controllers/schedule_doctor_controller.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/button.dart';
@@ -62,12 +63,7 @@ class MakeScheduleForm extends StatelessWidget {
         ),
         Obx(() {
           if (controller.loading) {
-            return Container(
-              margin: EdgeInsets.only(top: 40),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return LoadingScreen(height: size.height * 0.7);
           }
           return Column(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,

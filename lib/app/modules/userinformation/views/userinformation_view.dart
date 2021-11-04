@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/userinformation/views/update_userinformation.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -43,7 +44,7 @@ class UserinformationView extends GetView<UserinformationController> {
                 child: AnimatedSwitcher(
                     duration: Duration(milliseconds: 300),
                     child: controller.loading && controller.checkload
-                        ? buildLoading()
+                        ? buildLoading(context)
                         : buildView(context)),
               ),
             ],
@@ -63,7 +64,11 @@ class UserinformationView extends GetView<UserinformationController> {
         )));
   }
 
-  Widget buildLoading() => Center(child: CircularProgressIndicator());
+  Widget buildLoading(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return LoadingScreen(height: size.height);
+  }
+
   Widget buildView(BuildContext context) => Obx(() => Container(
         padding: const EdgeInsets.all(24),
         child: Column(

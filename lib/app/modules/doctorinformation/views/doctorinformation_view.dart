@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/controllers/doctorinformation_controller.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/views/constants.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/views/reviews.dart';
@@ -26,15 +27,17 @@ class DoctorInformationView extends GetView<DoctorinformationController> {
               AnimatedSwitcher(
                   duration: Duration(milliseconds: 500),
                   child: controller.loading && controller.checkLoad
-                      ? buildLoading()
+                      ? buildLoading(context)
                       : buildView(context)),
             ],
           ),
         ));
   }
 
-  Widget buildLoading() =>
-      Center(key: Key('3'), child: CircularProgressIndicator());
+  Widget buildLoading(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Center(key: Key('3'), child: LoadingScreen(height: size.height));
+  }
 
   Widget buildView(BuildContext context) => Column(
         children: [

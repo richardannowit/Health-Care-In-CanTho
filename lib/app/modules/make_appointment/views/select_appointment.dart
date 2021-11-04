@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/dialog.dart';
@@ -21,42 +22,11 @@ class SelectAppointment extends StatelessWidget {
 
   final MakeAppointmentController controller = Get.find();
 
-  showDialog(
-      {String? content, String? confirmText, void Function()? onConfirm}) {
-    Get.defaultDialog(
-      confirm: TextButton(
-        onPressed: () {
-          onConfirm!();
-          Get.back();
-        },
-        child: Text(
-          confirmText ?? 'Confirm',
-          style: TextStyle(color: Colors.blue),
-        ),
-      ),
-      cancel: TextButton(
-        style: TextButton.styleFrom(
-          primary: Colors.grey,
-        ),
-        onPressed: () {
-          Get.back();
-        },
-        child: Text('Cancel'),
-      ),
-      titlePadding: EdgeInsets.only(top: 15, bottom: 15),
-      title: 'Confirmation',
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.blue,
-      radius: 14,
-      middleText: content ?? "Do you want?",
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+      padding: EdgeInsets.only(left: 20, right: 20),
       child: Obx(() {
         return Column(
           children: [
@@ -129,7 +99,7 @@ class SelectAppointment extends StatelessWidget {
               child: Container(
                 child: Obx(() {
                   if (controller.loading) {
-                    return Center(child: CircularProgressIndicator());
+                    return LoadingScreen(height: height);
                   }
                   if (controller.timeSlotList.length == 0) {
                     return Center(child: Text('Bác sĩ bận rồi :('));
@@ -177,7 +147,13 @@ class SelectAppointment extends StatelessWidget {
               width: width * 0.8,
               height: 43,
               onPressed: () {
-                //Check chon ngay gio r moi submit duoc
+                if (controller.selectedTime == -1) {
+                  Get.snackbar(
+                    "Đặt lịch",
+                    "Vui lòng chọn khung giờ.",
+                  );
+                  return;
+                }
                 DialogHelper.showDialog(
                   title: "Xác nhận đặt lịch?",
                   content: 'Lịch hẹn sẽ được đặt theo thời gian bạn đã chọn,',

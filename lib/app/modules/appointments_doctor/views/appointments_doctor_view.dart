@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/modules/appointments/views/constants.dart';
@@ -35,7 +36,7 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
                     color: fgColor,
                   ),
                   onPressed: () {
-                    Get.toNamed(Routes.HOME);
+                    Get.back();
                   })),
           endDrawer: buildDrawer(context),
           body: Container(
@@ -48,6 +49,7 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
   }
 
   Widget buildDoctorList(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     var streamBuilder = StreamBuilder<List<AppointmentModel>>(
         stream: controller.getDoctorData(
             controller.less.value, controller.greater.value),
@@ -57,7 +59,7 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
             return new Text('Error: ${appointmentsSnapshot.error}');
           switch (appointmentsSnapshot.connectionState) {
             case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
+              return LoadingScreen(height: size.height);
             default:
               if (appointmentsSnapshot.data!.isEmpty) {
                 return buildNullList(context);

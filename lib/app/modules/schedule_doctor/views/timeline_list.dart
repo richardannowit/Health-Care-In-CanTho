@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/helper/dialog.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/controllers/schedule_doctor_controller.dart';
@@ -12,6 +13,7 @@ class TimeLineList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Column(
       children: [
         Container(
@@ -65,12 +67,7 @@ class TimeLineList extends StatelessWidget {
         ),
         Obx(() {
           if (controller.loading) {
-            return Container(
-              margin: EdgeInsets.only(top: 40),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return LoadingScreen(height: size.height * 0.7);
           }
           return Container(
             margin: EdgeInsets.only(top: 10, left: 20, right: 20),
