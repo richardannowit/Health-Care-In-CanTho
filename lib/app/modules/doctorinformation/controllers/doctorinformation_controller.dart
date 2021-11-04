@@ -10,7 +10,7 @@ import 'package:flutter_healthcare/app/modules/doctorinformation/views/updatevie
 import 'package:get/get.dart';
 
 class DoctorinformationController extends GetxController {
-  var isFirst = Get.arguments;
+  bool isFirst = false, checkLoad = true, checkLoadRevew = true;
   late List<AddressModel> listAddress;
   final String doctorId = FirebaseAuth.instance.currentUser!.uid;
   final String? email = FirebaseAuth.instance.currentUser!.email;
@@ -30,13 +30,17 @@ class DoctorinformationController extends GetxController {
   IconData get viewMode => _viewMode.value;
   set viewMode(value) => _viewMode.value = value;
 
-  RxBool _flag = true.obs;
+  RxBool _flag = false.obs;
   bool get flag => _flag.value;
   set flag(value) => _flag.value = value;
 
   RxBool _loading = true.obs;
   bool get loading => _loading.value;
   set loading(value) => _loading.value = value;
+
+  RxBool _reviewLoading = true.obs;
+  bool get reviewLoading => _reviewLoading.value;
+  set reviewLoading(value) => _reviewLoading.value = value;
 
   RxBool _isUpdate = false.obs;
   bool get isUpdate => _isUpdate.value;
@@ -59,23 +63,41 @@ class DoctorinformationController extends GetxController {
   List<ReviewModel> get reviewList => _reviewList;
   set reviewList(value) => _reviewList.value = value;
 
-  RxString _hint = 'Ninh Kieu'.obs;
+  RxString _hint = 'Ninh Kiều'.obs;
   String get hint => _hint.value;
   set hint(value) => _hint.value = value;
 
+  reLoadData() async {
+    doctorInfo = await databaseMethods.getDoctorById(doctorId);
+    removeNullFields();
+  }
+
   loadData() async {
     loading = true;
-    doctorInfo = await databaseMethods.getDoctorById(doctorId);
+    if (Get.arguments != null && checkLoad) {
+      doctorInfo = Get.arguments;
+    } else {
+      doctorInfo = await databaseMethods.getDoctorById(doctorId);
+    }
     listAddress = await databaseMethods.getDistricts();
-    reviewList = await DatabaseMethods.getReviews(doctorId);
     removeNullFields();
     loading = false;
+    checkLoad = false;
     checkIsFrist();
   }
 
+  getReviewList() async {
+    if (checkLoadRevew) {
+      reviewLoading = true;
+      reviewList = await DatabaseMethods.getReviews(doctorId);
+      reviewLoading = false;
+      checkLoadRevew = false;
+    }
+  }
+
   checkIsFrist() {
-    if (isFirst != null) {
-      isFirst = null;
+    if (isFirst) {
+      isFirst = false;
       makeHint();
       Get.to(UpdateView());
     }
@@ -87,37 +109,39 @@ class DoctorinformationController extends GetxController {
     }
 
     if (doctorInfo.name == null) {
-      doctorName = 'Wating for your update';
+      doctorName = 'Chờ bạn cập nhật';
     } else {
       doctorName = doctorInfo.name;
     }
 
     if (doctorInfo.specialist == null) {
-      specialist = 'Waiting for your update';
+      specialist = 'Chờ bạn cập nhật';
     } else {
       specialist = doctorInfo.specialist;
     }
 
     if (doctorInfo.about == null) {
-      doctorInfo.about = 'Waiting for your update';
+      doctorInfo.about = 'Chờ bạn cập nhật';
     }
 
     if (doctorInfo.rating == null) {
       doctorInfo.rating = 0;
     }
     if (doctorInfo.phone == null) {
-      doctorInfo.phone = 'Waiting for your update';
+      doctorInfo.phone = 'Chờ bạn cập nhật';
     }
     if (doctorInfo.centeraddress == null) {
-      doctorInfo.centeraddress = 'Waiting for your update';
+      doctorInfo.centeraddress = 'Chờ bạn cập nhật';
     }
 
     if (doctorInfo.address == null) {
-      addressName = 'Waiting for your update';
+      addressName = 'Chờ bạn cập nhật';
+      isFirst = true;
     } else {
-      if (doctorInfo.address!.name == 'NULL')
-        addressName = 'Waiting for your update';
-      else {
+      if (doctorInfo.address!.name == 'NULL') {
+        addressName = 'Chờ bạn cập nhật';
+        isFirst = true;
+      } else {
         addressName = doctorInfo.address!.name! + ', Cần Thơ';
         isUpdate = true;
       }
@@ -129,7 +153,7 @@ class DoctorinformationController extends GetxController {
     newDoctor.addressRef = listAddress[0].reference;
     newDoctor.email = FirebaseAuth.instance.currentUser!.email;
     if (doctorInfo.name == null) {
-      newDoctor.name = 'Ex: Vo Tu Thien';
+      newDoctor.name = 'VD: Võ Tứ Thiên';
       initName = '';
     } else {
       newDoctor.name = doctorInfo.name;
@@ -137,16 +161,16 @@ class DoctorinformationController extends GetxController {
     }
 
     if (doctorInfo.specialist == null) {
-      newDoctor.specialist = 'Ex: Heart';
+      newDoctor.specialist = 'VD: Tim mạch';
       initSpecialist = '';
     } else {
       newDoctor.specialist = doctorInfo.specialist;
       initSpecialist = doctorInfo.specialist!;
     }
 
-    if (doctorInfo.about == 'Waiting for your update') {
+    if (doctorInfo.about == 'Chờ bạn cập nhật') {
       newDoctor.about =
-          'Ex: Renowned doctor who participated in heart transplants abroad';
+          'VD: Bác sĩ nổi tiếng từng tham gia cấy ghép tim ở nước ngoài';
       initAbout = '';
     } else {
       newDoctor.about = doctorInfo.about;
@@ -158,15 +182,15 @@ class DoctorinformationController extends GetxController {
     } else {
       newDoctor.rating = doctorInfo.rating;
     }
-    if (doctorInfo.phone == 'Waiting for your update') {
-      newDoctor.phone = 'Ex: 0812305346';
+    if (doctorInfo.phone == 'Chờ bạn cập nhật') {
+      newDoctor.phone = 'VD: 0812305346';
       initPhone = '';
     } else {
       newDoctor.phone = doctorInfo.phone;
       initPhone = doctorInfo.phone!;
     }
-    if (doctorInfo.centeraddress == 'Waiting for your update') {
-      newDoctor.centeraddress = 'Ex: 331 Ba Thang Hai Street, Hung Loi';
+    if (doctorInfo.centeraddress == 'Chờ bạn cập nhật') {
+      newDoctor.centeraddress = 'VD: 331 Đường Ba Tháng Hai, Hưng lợi';
       initCenterAddreess = '';
     } else {
       newDoctor.centeraddress = doctorInfo.centeraddress;
