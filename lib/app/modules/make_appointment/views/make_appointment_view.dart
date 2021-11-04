@@ -27,7 +27,11 @@ class MakeAppointmentView extends GetView<MakeAppointmentController> {
           Container(
             child: Column(
               children: [
-                Header(height: screenHeight * 0.25),
+                Header(
+                  height: screenHeight * 0.25,
+                  name: controller.doctorProfile.name!,
+                  specialist: controller.doctorProfile.specialist!,
+                ),
                 SelectAppointment(
                     height: screenHeight * 0.75, width: screenWidth),
               ],

@@ -347,16 +347,27 @@ class DatabaseMethods {
       String docId, DateTime date) async {
     String _date = DateTimeHelpers.dateTimeToDate(date);
     bool deleteSuccess = false;
-    await _firestore
+    var timelines = await _firestore
         .collection('doctors')
         .doc(docId)
         .collection('timeline')
-        .doc(_date)
-        .delete()
-        .then((value) => deleteSuccess = true)
-        .catchError((error) {
-      print('Delete time line of doctor error');
-    });
+        .doc(_date);
+    DocumentSnapshot timeLineData = await timelines.get();
+    if (timeLineData.exists) {
+      Map<String, dynamic> timeline =
+          timeLineData.data() as Map<String, dynamic>;
+      if (!timeline.containsKey("booked_slot")) {
+        await timelines
+            .delete()
+            .then((value) => deleteSuccess = true)
+            .catchError((error) {
+          deleteSuccess = false;
+          print('Delete time line of doctor error');
+        });
+      } else
+        deleteSuccess = false;
+    }
+
     return deleteSuccess;
   }
 
@@ -375,8 +386,13 @@ class DatabaseMethods {
 
     var timeline = snapshot.data() as Map<String, dynamic>;
     List<dynamic> deleteSlot = List<dynamic>.empty(growable: true);
+    List<dynamic> bookedSlot = List<dynamic>.empty(growable: true);
     if (timeline.containsKey('delete_slot')) {
       deleteSlot = timeline['delete_slot'];
+      bookedSlot = timeline['booked_slot'];
+    }
+    if (bookedSlot.contains(index)) {
+      return false;
     }
     deleteSlot.add(index);
 

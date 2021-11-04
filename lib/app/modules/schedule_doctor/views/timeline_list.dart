@@ -86,8 +86,9 @@ class TimeLineList extends StatelessWidget {
                   return TimeLineCard(
                     timeStart: DateTimeHelpers.dateTimeToTime(
                         controller.timeSlotList[index]),
-                    timeFinish: DateTimeHelpers.dateTimeToTime(
-                        controller.timeSlotList[index + 1]),
+                    timeFinish: DateTimeHelpers.dateTimeToTime(controller
+                        .timeSlotList[index]
+                        .add(controller.restTime)),
                     onPressed: () {
                       DialogHelper.showDialog(
                         content: 'Bạn có muốn xoá khung giờ này?',

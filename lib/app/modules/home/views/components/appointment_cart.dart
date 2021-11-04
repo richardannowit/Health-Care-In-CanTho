@@ -12,19 +12,20 @@ class AppointmentCard extends StatelessWidget {
     this.time,
     this.status,
     this.height,
+    this.width,
     required this.onCancel,
     required this.onMessage,
   }) : super(key: key);
 
   final String? doctor_image, doctor_name, specialist, date, time, status;
-  final double? height;
+  final double? height, width;
   final GestureTapCallback onCancel;
   final GestureTapCallback onMessage;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 350,
+      width: width,
       height: height,
       margin: EdgeInsets.only(right: 15),
       padding: EdgeInsets.symmetric(horizontal: 22, vertical: 12),
