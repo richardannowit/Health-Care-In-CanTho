@@ -111,109 +111,109 @@ class ConversationView extends GetView<ConversationController> {
   Widget ChatMessageList() {
     return Obx(
       () => ListView.builder(
-          reverse: true,
-          itemCount: controller.messages.length,
-          itemBuilder: (context, index) {
-            int? currentIndex = controller.messages.length - index - 1;
-            var timedata = (controller.messages[currentIndex]["time"]);
-            final time = DateTime.fromMillisecondsSinceEpoch(timedata);
-            final formatTime = DateTimeHelpers.dateTimeToTime(time);
-            return Constants.myName ==
-                    controller.messages[currentIndex]["sendBy"]
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        formatTime,
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 12,
-                        ),
+        reverse: true,
+        itemCount: controller.messages.length,
+        itemBuilder: (context, index) {
+          int? currentIndex = controller.messages.length - index - 1;
+          var timedata = (controller.messages[currentIndex]["time"]);
+          final time = DateTime.fromMillisecondsSinceEpoch(timedata);
+          final formatTime = DateTimeHelpers.dateTimeToTime(time);
+          return Constants.myName == controller.messages[currentIndex]["sendBy"]
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      formatTime,
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                        fontSize: 12,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            top: 8, bottom: 8, left: 0, right: 16),
-                        alignment: Constants.myName ==
-                                controller.messages[currentIndex]["sendBy"]
-                            ? Alignment.topRight
-                            : Alignment.topLeft,
-                        child: Container(
-                            margin: EdgeInsets.only(left: 8),
-                            padding: EdgeInsets.only(
-                                top: 12, bottom: 12, left: 20, right: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(24),
-                                topLeft: Radius.circular(24),
-                                bottomLeft: Radius.circular(24),
-                                bottomRight: Radius.circular(24),
-                              ),
-                              color: primaryColor,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: 0, right: 16),
+                      alignment: Constants.myName ==
+                              controller.messages[currentIndex]["sendBy"]
+                          ? Alignment.topRight
+                          : Alignment.topLeft,
+                      child: Container(
+                          margin: EdgeInsets.only(left: 8),
+                          padding: EdgeInsets.only(
+                              top: 12, bottom: 12, left: 20, right: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(24),
+                              topLeft: Radius.circular(24),
+                              bottomLeft: Radius.circular(24),
+                              bottomRight: Radius.circular(24),
                             ),
-                            child: Text(
-                                controller.messages[currentIndex]["message"]
-                                    .toString(),
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ))),
-                      ),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/images/doctor2.png',
-                            ),
+                            color: primaryColor,
+                          ),
+                          child: Text(
+                              controller.messages[currentIndex]["message"]
+                                  .toString(),
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ))),
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/images/doctor2.png',
                           ),
                         ),
                       ),
-                      Container(
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(
+                            top: 8, bottom: 8, left: 8, right: 0),
+                        alignment: controller.sendByMe
+                            ? Alignment.topRight
+                            : Alignment.topLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(right: 8),
                           padding: EdgeInsets.only(
-                              top: 8, bottom: 8, left: 8, right: 0),
-                          alignment: controller.sendByMe
-                              ? Alignment.topRight
-                              : Alignment.topLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(right: 8),
-                            padding: EdgeInsets.only(
-                                top: 12, bottom: 12, left: 20, right: 20),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(24),
-                                  topLeft: Radius.circular(24),
-                                  bottomRight: Radius.circular(24),
-                                  bottomLeft: Radius.circular(24),
-                                ),
-                                color: Colors.white),
-                            child: Text(
-                                controller.messages[currentIndex]["message"]
-                                    .toString(),
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          )),
-                      Text(
-                        formatTime,
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 12,
-                        ),
+                              top: 12, bottom: 12, left: 20, right: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(24),
+                                topLeft: Radius.circular(24),
+                                bottomRight: Radius.circular(24),
+                                bottomLeft: Radius.circular(24),
+                              ),
+                              color: Colors.white),
+                          child: Text(
+                              controller.messages[currentIndex]["message"]
+                                  .toString(),
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        )),
+                    Text(
+                      formatTime,
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                        fontSize: 12,
                       ),
-                    ],
-                  );
-          }),
+                    ),
+                  ],
+                );
+        },
+      ),
     );
   }
 }
