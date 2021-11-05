@@ -43,4 +43,9 @@ class DateTimeHelpers {
     String dow = DateFormat('EEE').format(datetime);
     return dow;
   }
+
+  static bool isBeforeNow(DateTime date) {
+    final now = DateTime.now();
+    return date.isBefore(now);
+  }
 }

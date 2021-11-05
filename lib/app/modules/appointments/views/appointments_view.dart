@@ -23,8 +23,7 @@ class AppointmentsView extends GetView<AppointmentsController> {
           key: _scaffoldKey,
           appBar: AppBar(
               backgroundColor: Colors.white,
-              title:
-                  Text('Appointments', style: TextStyle(color: primaryColor)),
+              title: Text('Cuộc hẹn', style: TextStyle(color: primaryColor)),
               centerTitle: true,
               actions: <Widget>[
                 new IconButton(
@@ -113,7 +112,7 @@ class AppointmentsView extends GetView<AppointmentsController> {
       Container(
           // margin: const EdgeInsets.only(top: 24),
           width: 200,
-          height: 328,
+          height: 276,
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(6)),
             child: Stack(
@@ -139,19 +138,15 @@ class AppointmentsView extends GetView<AppointmentsController> {
                             ],
                           )),
                       buildMenuItem(
-                          text: 'All',
+                          text: 'Tất cả',
                           icon: Icons.all_out_outlined,
                           iconColor: Colors.red[300]),
                       buildMenuItem(
-                          text: 'Active',
+                          text: 'Đang chờ',
                           icon: Icons.fiber_manual_record,
                           iconColor: Colors.green[300]),
                       buildMenuItem(
-                          text: 'Waiting',
-                          icon: Icons.fiber_manual_record,
-                          iconColor: Colors.amber[300]),
-                      buildMenuItem(
-                          text: 'Done',
+                          text: 'Đã khám',
                           icon: Icons.fiber_manual_record,
                           iconColor: Colors.blue[300]),
                       InkWell(
@@ -200,12 +195,17 @@ class AppointmentsView extends GetView<AppointmentsController> {
       hoverColor: hoverColor,
       onTap: () {
         if (controller.statusFilter != text) {
-          if (text == "All") {
+          if (text == "Tất cả") {
             controller.less.value = "Z";
             controller.greater.value = "A";
           } else {
-            controller.less.value = text;
-            controller.greater.value = text;
+            if (text == "Đang chờ") {
+              controller.less.value = "Active";
+              controller.greater.value = "Active";
+            } else {
+              controller.less.value = "Done";
+              controller.greater.value = "Done";
+            }
           }
           controller.statusFilter = text;
         }

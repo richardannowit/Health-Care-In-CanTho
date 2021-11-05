@@ -1,7 +1,7 @@
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 
-sortAppointment(List<AppointmentModel> appointments, String statusFill) {
+sortAppointment(List<AppointmentModel> appointments) {
   List<AppointmentModel> done =
       new List<AppointmentModel>.empty(growable: true);
   List<AppointmentModel> notYet =
@@ -45,12 +45,12 @@ sortAppointment(List<AppointmentModel> appointments, String statusFill) {
     }
   }
   appointments.clear();
-  if (statusFill == "Z" || statusFill == "Active")
-    for (var appointment in notYet) {
-      appointments.add(appointment);
-    }
-  if (statusFill == "Z" || statusFill == "Done")
-    for (var appointment in done) {
-      appointments.add(appointment);
-    }
+
+  for (var appointment in notYet) {
+    appointments.add(appointment);
+  }
+
+  for (var appointment in done) {
+    appointments.add(appointment);
+  }
 }

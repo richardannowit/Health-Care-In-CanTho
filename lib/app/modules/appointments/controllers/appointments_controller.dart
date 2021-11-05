@@ -12,7 +12,7 @@ class AppointmentsController extends GetxController {
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
   RxString less = "Z".obs;
   RxString greater = "A".obs;
-  String statusFilter = "All";
+  String statusFilter = "Tất cả";
   CollectionReference<Map<String, dynamic>> dbUserRef =
       FirebaseFirestore.instance.collection('doctors');
   CollectionReference<Map<String, dynamic>> dbAppRef =
@@ -26,9 +26,10 @@ class AppointmentsController extends GetxController {
         .collection('appointments')
         // .orderBy('appointment_date')
         .where('patient', isEqualTo: userEmail)
-        .where('status', isLessThanOrEqualTo: less)
-        .where('status', isGreaterThanOrEqualTo: greater)
+        //  .where('status', isLessThanOrEqualTo: less)
+        // .where('status', isGreaterThanOrEqualTo: greater)
         .snapshots();
+
     List<AppointmentModel> appointments = [];
     await for (var appointmentSnapshot in appointmentsStream) {
       appointments.clear();
@@ -53,7 +54,7 @@ class AppointmentsController extends GetxController {
 
         appointments.add(AppointmentModel.fromJson(appointment));
       }
-      sortAppointment(appointments);
+      sortAppointment(appointments, less);
       yield appointments;
     }
   }

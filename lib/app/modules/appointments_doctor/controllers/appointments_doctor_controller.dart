@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
+import 'package:flutter_healthcare/app/modules/appointments_doctor/controllers/appointments.dart';
+
 import 'package:get/get.dart';
 
 class AppointmentsDoctorController extends GetxController {
@@ -44,6 +46,7 @@ class AppointmentsDoctorController extends GetxController {
           }
         }
         appointments.add(appointmetModel);
+        sortAppointment(appointments);
       }
       yield appointments;
     }
