@@ -104,6 +104,7 @@ class SelectAppointment extends StatelessWidget {
                   if (controller.timeSlotList.length == 0) {
                     return Center(child: Text('Bác sĩ bận rồi :('));
                   }
+
                   return GridView.count(
                     crossAxisCount: 3,
                     childAspectRatio: 2.5,
@@ -111,6 +112,8 @@ class SelectAppointment extends StatelessWidget {
                     crossAxisSpacing: 20,
                     children: List.generate(controller.timeSlotList.length - 1,
                         (index) {
+                      DateTime _timeSlot =
+                          controller.timeSlotList[index]['time'];
                       bool isValid = controller.timeSlotList[index]['valid'];
                       Color backgroundColor = Colors.white;
                       Color textColor = Color(0xff545454);
@@ -120,7 +123,7 @@ class SelectAppointment extends StatelessWidget {
                         textColor = Colors.white;
                         borderColor = Color(0xff197D84);
                       }
-                      if (!isValid) {
+                      if (!isValid || DateTimeHelpers.isBeforeNow(_timeSlot)) {
                         backgroundColor = Color(0xffD6D6D6);
                         textColor = Color(0xff747474);
                         borderColor = Color(0xffD6D6D6);
@@ -133,7 +136,8 @@ class SelectAppointment extends StatelessWidget {
                         borderColor: borderColor,
                         backgroundColor: backgroundColor,
                         onPressed: () {
-                          if (!isValid) return;
+                          if (!isValid ||
+                              DateTimeHelpers.isBeforeNow(_timeSlot)) return;
                           controller.onTimeChange(index);
                         },
                       );
@@ -150,7 +154,7 @@ class SelectAppointment extends StatelessWidget {
                 if (controller.selectedTime == -1) {
                   Get.snackbar(
                     "Đặt lịch",
-                    "Vui lòng chọn khung giờ.",
+                    "Vui lòng chọn khung giờ còn trống.",
                   );
                   return;
                 }

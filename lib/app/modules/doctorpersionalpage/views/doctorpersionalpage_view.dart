@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
+import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/notifications/notifications.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/component/ratingdialog.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/constants.dart';
@@ -142,7 +143,7 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                 child: Text(controller.doctor.name!, style: nameText),
               ),
               Text(
-                controller.doctor.specialist!,
+                "Chuyên ngành " + controller.doctor.specialist!,
                 style: TextStyle(
                   color: primaryColor,
                   fontSize: 20,
@@ -156,7 +157,7 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   RawMaterialButton(
                     onPressed: () {
-                      makeNotification();
+                      //
                     },
                     child: Icon(
                       Icons.phone,
@@ -169,7 +170,9 @@ class DoctorpersionalpageView extends GetView<DoctorpersionalpageController> {
                   ),
                   RawMaterialButton(
                     onPressed: () {
-                      cancelScheduledNotifications();
+                      CreateChatRoom().createChatroomAndStartConversation(
+                          controller.doctor.email.toString(),
+                          controller.doctor.name.toString());
                     },
                     child: Icon(
                       Icons.message,
