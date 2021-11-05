@@ -141,7 +141,7 @@ class LoginView extends GetView<LoginController> {
               onTap: () => Get.toNamed(Routes.FORGOTPASSWORD),
               child: TextButton(
                 onPressed: () {
-                  Get.offAllNamed(Routes.FORGOTPASSWORD);
+                  Get.toNamed(Routes.FORGOTPASSWORD);
                 },
                 child: Text('Quên mật khẩu?',
                     style: TextStyle(
