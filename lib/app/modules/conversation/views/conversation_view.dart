@@ -4,7 +4,6 @@ import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/data/helper/constants.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import '../controllers/conversation_controller.dart';
 
 class ConversationView extends GetView<ConversationController> {
@@ -137,27 +136,29 @@ class ConversationView extends GetView<ConversationController> {
                           ? Alignment.topRight
                           : Alignment.topLeft,
                       child: Container(
-                          margin: EdgeInsets.only(left: 8),
-                          padding: EdgeInsets.only(
-                              top: 12, bottom: 12, left: 20, right: 20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(24),
-                              topLeft: Radius.circular(24),
-                              bottomLeft: Radius.circular(24),
-                              bottomRight: Radius.circular(24),
-                            ),
-                            color: primaryColor,
+                        margin: EdgeInsets.only(left: 8),
+                        padding: EdgeInsets.only(
+                            top: 12, bottom: 12, left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(24),
+                            topLeft: Radius.circular(24),
+                            bottomLeft: Radius.circular(24),
+                            bottomRight: Radius.circular(24),
                           ),
-                          child: Text(
-                              controller.messages[currentIndex]["message"]
-                                  .toString(),
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ))),
+                          color: primaryColor,
+                        ),
+                        child: Text(
+                          controller.messages[currentIndex]["message"]
+                              .toString(),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 )
