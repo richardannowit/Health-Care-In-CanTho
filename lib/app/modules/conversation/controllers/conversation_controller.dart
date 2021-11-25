@@ -17,6 +17,7 @@ class ConversationController extends GetxController {
       .collection("chatRoom")
       .doc(Constants.chatRoomId)
       .collection("chats")
+      .orderBy("time")
       .snapshots();
 
   StreamSubscription? messageSub;

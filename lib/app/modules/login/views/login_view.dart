@@ -33,14 +33,9 @@ class LoginView extends GetView<LoginController> {
                         height: 115,
                         width: 115,
                         child: CircleAvatar(
-                          backgroundColor: Colors.grey[200],
+                          backgroundColor: Colors.white,
                           child: Center(
-                            child: Text(
-                              'LOGO',
-                              style: TextStyle(
-                                  color: Colors.grey[400],
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            child: Image.asset('assets/images/avt_doctor.png'),
                           ),
                         ),
                       ),
