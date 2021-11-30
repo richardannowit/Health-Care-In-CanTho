@@ -85,8 +85,10 @@ class LoginView extends GetView<LoginController> {
                     decoration: buildDecorationTextFormField(
                         hintText: 'Email...', icon: Icons.person),
                     validator: (value) {
-                      if (!GetUtils.isEmail(value!)) {
-                        return "Please enter a valid email";
+                      if (value!.isEmpty) {
+                        return "Email không được rỗng";
+                      } else if (!GetUtils.isEmail(value)) {
+                        return "Vui lòng nhập email hợp lệ";
                       }
                       return null;
                     },
@@ -100,8 +102,10 @@ class LoginView extends GetView<LoginController> {
                     decoration: buildDecorationTextFormField(
                         hintText: 'Mật khẩu...', icon: Icons.lock),
                     validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 6) {
-                        return 'Please enter the correct password!';
+                      if (value == null || value.isEmpty) {
+                        return 'Mật khẩu không được rỗng';
+                      } else if (value.length < 6) {
+                        return 'Vui lòng nhập chính xác mật khẩu';
                       }
                       return null;
                     },

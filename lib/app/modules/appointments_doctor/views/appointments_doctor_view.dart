@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/common/widgets/custom_appbar.dart';
-import 'package:flutter_healthcare/app/common/widgets/custom_appbar_with_actions.dart';
 import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
@@ -23,11 +22,7 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
         key: _scaffoldKey,
         appBar: CustomAppBar(
           title: 'Danh sách cuộc hẹn',
-          // function: () => _scaffoldKey.currentState!.openEndDrawer(),
-          // urlImage: 'assets/images/filter.png',
-          // scale: 1.4,
         ),
-        // endDrawer: buildDrawer(context),
         body: Stack(
           children: [
             Background(height: MediaQuery.of(context).size.height),
@@ -87,7 +82,7 @@ class AppointmentsDoctorView extends GetView<AppointmentsDoctorController> {
                             content: 'Xác nhận huỷ lịch hẹn?',
                             confirmText: 'Xác nhận',
                             onConfirm: () {
-                              // controller.cancelAppointment(index);
+                              //controller.cancelAppointment(index);
                             },
                           );
                         },

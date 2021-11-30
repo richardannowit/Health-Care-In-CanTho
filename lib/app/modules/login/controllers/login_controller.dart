@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/data/services/auth.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
@@ -102,9 +103,9 @@ class LoginController extends GetxController {
           Get.offAllNamed(Routes.HOME);
         } else {
           final snackBar = SnackBar(
-            backgroundColor: Color.fromARGB(255, 252, 217, 133),
+            backgroundColor: primaryColor,
             content: const Text(
-              'Email or Password is incorrect!',
+              'Email hoặc Mật khẩu không chính xác',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
