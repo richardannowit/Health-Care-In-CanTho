@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:get/get.dart';
 
 class ChooseroleController extends GetxController {
@@ -14,7 +15,7 @@ class ChooseroleController extends GetxController {
   bool isChoosed = false;
   bool isDoctor = false;
   var bgColor = MaterialStateProperty.all<Color>(Colors.white).obs;
-  var fgColor = MaterialStateProperty.all<Color>(Colors.blueAccent).obs;
+  var fgColor = MaterialStateProperty.all<Color>(primaryColor).obs;
   var doctorCardBoder = Border.all(color: Colors.white, width: 0).obs;
   var patientCardBoder = Border.all(color: Colors.white, width: 0).obs;
   RxInt activeIndex = 0.obs;

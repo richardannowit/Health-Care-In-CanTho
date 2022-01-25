@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_textformfield.dart';
+import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/modules/Signup/views/constants.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
@@ -19,8 +22,8 @@ class SignUpForm extends StatelessWidget {
       key: controller.signupFormKey,
       // autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-        decoration: formStyle,
+        padding: EdgeInsets.symmetric(vertical: 20),
+        // decoration: formStyle,
         child: Column(
           children: [
             buildNameFormField(),
@@ -43,7 +46,14 @@ class SignUpForm extends StatelessWidget {
             SizedBox(
               height: size.height * 0.03,
             ),
-            buildSignUpButton(size),
+            CustomButton(
+              width: size.width * 0.7,
+              height: 50,
+              onPressed: () {
+                controller.checkSignUp();
+              },
+              text: "Đăng ký",
+            ),
             SizedBox(
               height: size.height * 0.03,
             ),
@@ -51,7 +61,7 @@ class SignUpForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Already have an account? ",
+                  "Bạn đã có tài khoản? ",
                   style: TextStyle(fontSize: 14),
                 ),
                 GestureDetector(
@@ -59,8 +69,8 @@ class SignUpForm extends StatelessWidget {
                     Get.offAllNamed(Routes.LOGIN);
                   },
                   child: Text(
-                    "Login",
-                    style: TextStyle(fontSize: 14, color: Colors.blue),
+                    "Đăng nhập",
+                    style: TextStyle(fontSize: 14, color: primaryColor),
                   ),
                 ),
               ],
@@ -73,11 +83,9 @@ class SignUpForm extends StatelessWidget {
 
   TextFormField buildNameFormField() {
     return TextFormField(
-      decoration: inputStyle.copyWith(
-        hintText: 'Name',
-        prefixIcon: Icon(
-          Icons.person,
-        ),
+      decoration: buildDecorationTextFormField(
+        hintText: "Họ và tên",
+        icon: Icons.person,
       ),
       keyboardType: TextInputType.name,
       onSaved: (value) {
@@ -91,11 +99,9 @@ class SignUpForm extends StatelessWidget {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
-      decoration: inputStyle.copyWith(
-        hintText: 'Email',
-        prefixIcon: Icon(
-          Icons.email,
-        ),
+      decoration: buildDecorationTextFormField(
+        hintText: "Email",
+        icon: Icons.email,
       ),
       keyboardType: TextInputType.emailAddress,
       onSaved: (value) {
@@ -109,11 +115,9 @@ class SignUpForm extends StatelessWidget {
 
   TextFormField buildPhoneFormField() {
     return TextFormField(
-      decoration: inputStyle.copyWith(
-        hintText: 'Phone Number',
-        prefixIcon: Icon(
-          Icons.phone,
-        ),
+      decoration: buildDecorationTextFormField(
+        hintText: "Số điện thoại",
+        icon: Icons.phone,
       ),
       keyboardType: TextInputType.phone,
       onSaved: (value) {
@@ -128,11 +132,9 @@ class SignUpForm extends StatelessWidget {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       key: controller.passKey,
-      decoration: inputStyle.copyWith(
-        hintText: 'Password',
-        prefixIcon: Icon(
-          Icons.lock,
-        ),
+      decoration: buildDecorationTextFormField(
+        hintText: "Mật khẩu",
+        icon: Icons.lock,
       ),
       keyboardType: TextInputType.visiblePassword,
       onSaved: (value) {
@@ -147,11 +149,9 @@ class SignUpForm extends StatelessWidget {
 
   TextFormField buildConfirmPasswordFormField() {
     return TextFormField(
-      decoration: inputStyle.copyWith(
-        hintText: 'Confirm Password',
-        prefixIcon: Icon(
-          Icons.lock,
-        ),
+      decoration: buildDecorationTextFormField(
+        hintText: "Nhập lại mật khẩu",
+        icon: Icons.lock,
       ),
       keyboardType: TextInputType.visiblePassword,
       onSaved: (value) {
@@ -161,25 +161,6 @@ class SignUpForm extends StatelessWidget {
         return controller.validateConfirmPassword(value!);
       },
       obscureText: true,
-    );
-  }
-
-  ConstrainedBox buildSignUpButton(Size size) {
-    return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(
-        width: size.width * 0.4,
-        height: size.height * 0.05,
-      ),
-      child: ElevatedButton(
-        style: buttonStyle,
-        child: Text(
-          "SIGN UP",
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        onPressed: () {
-          controller.checkSignUp();
-        },
-      ),
     );
   }
 }

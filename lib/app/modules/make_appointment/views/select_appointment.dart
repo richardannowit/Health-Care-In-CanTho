@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
+import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/dialog.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/controllers/make_appointment_controller.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/calendar_list.dart';
-import 'package:flutter_healthcare/app/modules/make_appointment/views/components/custom_button.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/components/time_select_button.dart';
 import 'package:flutter_healthcare/app/modules/make_appointment/views/constant.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
@@ -20,43 +22,11 @@ class SelectAppointment extends StatelessWidget {
 
   final MakeAppointmentController controller = Get.find();
 
-  showDialog(
-      {String? content, String? confirmText, void Function()? onConfirm}) {
-    Get.defaultDialog(
-      confirm: TextButton(
-        onPressed: () {
-          onConfirm!();
-          Get.back();
-        },
-        child: Text(
-          confirmText ?? 'Confirm',
-          style: TextStyle(color: Colors.blue),
-        ),
-      ),
-      cancel: TextButton(
-        style: TextButton.styleFrom(
-          primary: Colors.grey,
-        ),
-        onPressed: () {
-          Get.back();
-        },
-        child: Text('Cancel'),
-      ),
-      titlePadding: EdgeInsets.only(top: 15, bottom: 15),
-      title: 'Confirmation',
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.blue,
-      radius: 14,
-      middleText: content ?? "Do you want?",
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      decoration: roundedContainer,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(left: 20, right: 20),
       child: Obx(() {
         return Column(
           children: [
@@ -67,7 +37,7 @@ class SelectAppointment extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      "Date",
+                      "Chọn ngày",
                       style: TextStyle(
                         color: Color(0xff016565),
                         fontSize: 20,
@@ -86,7 +56,7 @@ class SelectAppointment extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(
-                            "April",
+                            "Tháng " + controller.selectedDate.month.toString(),
                             style: TextStyle(
                               color: Color(0xff443BAD),
                               fontSize: 18,
@@ -113,7 +83,7 @@ class SelectAppointment extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      "Time",
+                      "Chọn giờ",
                       style: TextStyle(
                         color: Color(0xff016565),
                         fontSize: 20,
@@ -129,11 +99,12 @@ class SelectAppointment extends StatelessWidget {
               child: Container(
                 child: Obx(() {
                   if (controller.loading) {
-                    return Center(child: CircularProgressIndicator());
+                    return LoadingScreen(height: height);
                   }
                   if (controller.timeSlotList.length == 0) {
                     return Center(child: Text('Bác sĩ bận rồi :('));
                   }
+
                   return GridView.count(
                     crossAxisCount: 3,
                     childAspectRatio: 2.5,
@@ -141,6 +112,8 @@ class SelectAppointment extends StatelessWidget {
                     crossAxisSpacing: 20,
                     children: List.generate(controller.timeSlotList.length - 1,
                         (index) {
+                      DateTime _timeSlot =
+                          controller.timeSlotList[index]['time'];
                       bool isValid = controller.timeSlotList[index]['valid'];
                       Color backgroundColor = Colors.white;
                       Color textColor = Color(0xff545454);
@@ -150,7 +123,7 @@ class SelectAppointment extends StatelessWidget {
                         textColor = Colors.white;
                         borderColor = Color(0xff197D84);
                       }
-                      if (!isValid) {
+                      if (!isValid || DateTimeHelpers.isBeforeNow(_timeSlot)) {
                         backgroundColor = Color(0xffD6D6D6);
                         textColor = Color(0xff747474);
                         borderColor = Color(0xffD6D6D6);
@@ -163,7 +136,8 @@ class SelectAppointment extends StatelessWidget {
                         borderColor: borderColor,
                         backgroundColor: backgroundColor,
                         onPressed: () {
-                          if (!isValid) return;
+                          if (!isValid ||
+                              DateTimeHelpers.isBeforeNow(_timeSlot)) return;
                           controller.onTimeChange(index);
                         },
                       );
@@ -173,13 +147,21 @@ class SelectAppointment extends StatelessWidget {
               ),
             ),
             CustomButton(
-              width: width * 0.5,
-              height: 40,
+              text: "Đặt lịch hẹn",
+              width: width * 0.8,
+              height: 43,
               onPressed: () {
-                //Check chon ngay gio r moi submit duoc
-                showDialog(
-                  content: 'Do you want to booking?',
-                  confirmText: 'Confirm',
+                if (controller.selectedTime == -1) {
+                  Get.snackbar(
+                    "Đặt lịch",
+                    "Vui lòng chọn khung giờ còn trống.",
+                  );
+                  return;
+                }
+                DialogHelper.showDialog(
+                  title: "Xác nhận đặt lịch?",
+                  content: 'Lịch hẹn sẽ được đặt theo thời gian bạn đã chọn,',
+                  confirmText: 'Đồng ý',
                   onConfirm: () async {
                     bool checkBooking = await controller.bookAppointment();
                     if (checkBooking) {
@@ -187,8 +169,8 @@ class SelectAppointment extends StatelessWidget {
                       Get.toNamed(Routes.BOOKED_SUCCESS);
                     } else {
                       Get.snackbar(
-                        "Booking",
-                        "Booking fail cause conflict with others.",
+                        "Đặt lịch",
+                        "Đặt lịch lỗi do bị trùng giờ đặt với người khác.",
                         snackPosition: SnackPosition.BOTTOM,
                       );
                     }

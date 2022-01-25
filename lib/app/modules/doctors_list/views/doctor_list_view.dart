@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 import 'package:flutter_healthcare/app/common/widgets/background.dart';
 import 'package:flutter_healthcare/app/common/widgets/custom_appbar.dart';
 import 'package:flutter_healthcare/app/common/widgets/custom_appbar_with_actions.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
 import 'package:flutter_healthcare/app/data/helper/create_chatroom_helpers.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:get/get.dart';
 
@@ -17,7 +18,7 @@ class DoctorsListView extends GetView<DoctorListController> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: CustomAppBar(
-        title: 'Doctor List',
+        title: 'Danh sách bác sĩ',
       ),
       body: Stack(
         children: [
@@ -35,8 +36,8 @@ class DoctorsListView extends GetView<DoctorListController> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(4, 10, 4, 0),
-                  child: Obx(
-                      () => _buildDoctorList(controller.districtName.value)),
+                  child: Obx(() =>
+                      _buildDoctorList(context, controller.districtName.value)),
                 ),
               ),
             ],
@@ -46,14 +47,13 @@ class DoctorsListView extends GetView<DoctorListController> {
     );
   }
 
-  FutureBuilder<List<DoctorModel>> _buildDoctorList(district) {
+  FutureBuilder<List<DoctorModel>> _buildDoctorList(context, district) {
+    Size size = MediaQuery.of(context).size;
     return FutureBuilder(
       future: controller.databaseMethods.getDoctorsByDistrict(district),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return LoadingScreen(height: size.height);
         else {
           var doctors = snapshot.data as List<DoctorModel>;
           if (doctors.length == 0)
@@ -62,7 +62,10 @@ class DoctorsListView extends GetView<DoctorListController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Doctor list are empty'),
+                  Text(
+                    'Rất tiếc, không có bác sĩ nào xung quanh bạn!',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ],
               ),
             );
@@ -70,78 +73,86 @@ class DoctorsListView extends GetView<DoctorListController> {
             return ListView.builder(
               itemCount: doctors.length,
               itemBuilder: (context, index) {
-                return InkWell(
-                  borderRadius: BorderRadius.circular(8),
-                  onTap: () {
-                    Get.toNamed(Routes.DOCTORPERSIONALPAGE,
-                        arguments: doctors[index]);
-                  },
-                  child: Card(
-                    elevation: 2,
-                    child: ListTile(
-                      leading: Image.asset(
-                        'assets/images/avt_doctor.png',
-                      ),
-                      title: Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text(
-                          '${doctors[index].name}',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 20, 28, 0),
+                  child: PhysicalModel(
+                    color: Colors.white,
+                    shadowColor: Colors.grey,
+                    borderRadius: BorderRadius.circular(24),
+                    elevation: 6,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(25),
+                      onTap: () {
+                        Get.toNamed(Routes.DOCTORPERSIONALPAGE,
+                            arguments: doctors[index]);
+                      },
+                      child: Container(
+                        height: 74,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                      ),
-                      subtitle: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 6),
-                                child: Text('${doctors[index].specialist}'),
-                              ),
-                              RatingBar.builder(
-                                  itemSize: 16,
-                                  allowHalfRating: true,
-                                  initialRating: doctors[index].rating!,
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                  direction: Axis.horizontal,
-                                  itemCount: 5,
-                                  itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: ClipOval(
+                                    child: Image.asset(
+                                      'assets/images/doctor2.png',
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, top: 12),
+                                      child: Text(
+                                        '${doctors[index].name}',
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                  itemPadding:
-                                      const EdgeInsets.fromLTRB(0, 6, 6, 16)),
-                            ],
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 100, bottom: 24),
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(24),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, top: 8),
+                                      child: Text(
+                                        'Khoa ' +
+                                            '${doctors[index].specialist}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            InkWell(
                               onTap: () => CreateChatRoom()
                                   .createChatroomAndStartConversation(
                                       doctors[index].email.toString(),
                                       doctors[index].name.toString()),
-                              child: PhysicalModel(
-                                color: Colors.amber,
-                                borderRadius: BorderRadius.circular(24),
-                                elevation: 5,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Message',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 30),
+                                child: Image.asset(
+                                  'assets/images/message.png',
+                                  height: 24,
+                                  width: 24,
                                 ),
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -163,13 +174,13 @@ class DoctorsListView extends GetView<DoctorListController> {
             scrollDirection: Axis.horizontal,
             itemCount: districts.length,
             itemBuilder: (context, index) => Obx(() => InkWell(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(20),
                   onTap: () {
                     controller.currentIndex.value = index;
                     controller.changeCategories(districts[index].name);
                   },
                   child: Container(
-                    margin: EdgeInsets.only(right: 8),
+                    margin: EdgeInsets.only(left: 4, right: 4),
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Text(
                       '${districts[index].name}',
@@ -179,9 +190,9 @@ class DoctorsListView extends GetView<DoctorListController> {
                               : Colors.black),
                     ),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(20),
                         color: controller.currentIndex.value == index
-                            ? Colors.amber
+                            ? primaryColor
                             : Colors.white),
                   ),
                 )),

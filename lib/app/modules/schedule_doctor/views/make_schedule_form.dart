@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/widgets/custom_loader.dart';
+import 'package:flutter_healthcare/app/common/widgets/custombutton.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/controllers/schedule_doctor_controller.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/button.dart';
 import 'package:flutter_healthcare/app/modules/schedule_doctor/views/components/timepicker.dart';
@@ -11,6 +13,7 @@ class MakeScheduleForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,12 +63,7 @@ class MakeScheduleForm extends StatelessWidget {
         ),
         Obx(() {
           if (controller.loading) {
-            return Container(
-              margin: EdgeInsets.only(top: 40),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return LoadingScreen(height: size.height * 0.7);
           }
           return Column(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,8 +131,9 @@ class MakeScheduleForm extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(top: 30),
-                child: ButtonCustom(
-                  color: Color(0xff3668FC),
+                child: CustomButton(
+                  height: 50,
+                  width: size.width / 1.5,
                   text: "Xong",
                   onPressed: () {
                     controller.makeSchedule();

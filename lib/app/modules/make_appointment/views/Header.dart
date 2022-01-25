@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class Header extends StatelessWidget {
   Header({
     required this.height,
+    required this.name,
+    required this.specialist,
     Key? key,
   }) : super(key: key);
 
   final height;
+  final String name, specialist;
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +19,6 @@ class Header extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(Icons.arrow_back_ios)),
-                IconButton(onPressed: () {}, icon: Icon(Icons.menu))
-              ],
-            ),
             Container(
               width: 100,
               height: 100,
@@ -41,7 +32,7 @@ class Header extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Dr. Dang Khoa',
+              name,
               style: TextStyle(
                 color: Color(0xff734B10),
                 fontWeight: FontWeight.bold,
@@ -52,15 +43,12 @@ class Header extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Heart',
+              "Khoa " + specialist,
               style: TextStyle(
                 color: Color(0xff164220),
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
               ),
-            ),
-            SizedBox(
-              height: 10,
             ),
           ],
         ),

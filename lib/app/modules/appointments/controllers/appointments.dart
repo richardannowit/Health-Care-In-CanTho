@@ -1,10 +1,18 @@
-import 'appointment.dart';
+import 'package:flutter_healthcare/app/data/helper/datetime_helpers.dart';
+import 'package:flutter_healthcare/app/data/models/appointment.dart';
 
-sortAppointment(List<Appointment> appointments) {
-  List<Appointment> done = new List<Appointment>.empty(growable: true);
-  List<Appointment> notYet = new List<Appointment>.empty(growable: true);
+sortAppointment(List<AppointmentModel> appointments, String statusFill) {
+  List<AppointmentModel> done =
+      new List<AppointmentModel>.empty(growable: true);
+  List<AppointmentModel> notYet =
+      new List<AppointmentModel>.empty(growable: true);
 
   for (var appointment in appointments) {
+    DateTime appointmentDate =
+        DateTimeHelpers.timestampsToDateTime(appointment.appointment_date!);
+    if (DateTimeHelpers.isBeforeNow(appointmentDate)) {
+      appointment.status = 'Done';
+    }
     if (appointment.status == 'Done') {
       done.add(appointment);
     } else {
@@ -13,26 +21,36 @@ sortAppointment(List<Appointment> appointments) {
   }
 
   int i, j;
-  Appointment temp;
+  AppointmentModel temp;
   for (i = 0; i < notYet.length - 1; i++) {
     for (j = i + 1; j < notYet.length; j++) {
-      dynamic dj = new DateTime.fromMicrosecondsSinceEpoch(
-          notYet[j].dateTime.microsecondsSinceEpoch);
-      dynamic di = new DateTime.fromMicrosecondsSinceEpoch(
-          notYet[i].dateTime.microsecondsSinceEpoch);
-      if (di.isAfter(dj)) {
+      dynamic dj = notYet[j].appointment_date!;
+      dynamic di = notYet[i].appointment_date!;
+      if (di.compareTo(dj) < 0) {
         temp = notYet[j];
         notYet[j] = notYet[i];
         notYet[i] = temp;
       }
     }
   }
+  for (i = 0; i < done.length - 1; i++) {
+    for (j = i + 1; j < done.length; j++) {
+      dynamic dj = done[j].appointment_date!;
+      dynamic di = done[i].appointment_date!;
+      if (di.compareTo(dj) < 0) {
+        temp = done[j];
+        done[j] = done[i];
+        done[i] = temp;
+      }
+    }
+  }
   appointments.clear();
-  for (var appointment in notYet) {
-    appointments.add(appointment);
-  }
-
-  for (var appointment in done) {
-    appointments.add(appointment);
-  }
+  if (statusFill == "Z" || statusFill == "Active")
+    for (var appointment in notYet) {
+      appointments.add(appointment);
+    }
+  if (statusFill == "Z" || statusFill == "Done")
+    for (var appointment in done) {
+      appointments.add(appointment);
+    }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_healthcare/app/common/constant.dart';
 
 class DoctorCard extends StatelessWidget {
   DoctorCard({
@@ -20,21 +21,32 @@ class DoctorCard extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         height: 90,
-        // width: size.width,
-        margin: EdgeInsets.only(top: 10),
+        width: size.width,
+        margin: EdgeInsets.only(top: 10, bottom: 10, right: 20, left: 20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 5),
+              blurRadius: 10,
+              color: Colors.grey.withOpacity(0.23),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               margin: EdgeInsets.only(left: 20),
-              height: 90,
-              width: 50,
-              child: Image.asset(img),
+              width: 60,
+              height: 60,
+              child: CircleAvatar(
+                child: Image(
+                  image: AssetImage('assets/images/avt_patient.png'),
+                ),
+              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 10),
@@ -47,7 +59,7 @@ class DoctorCard extends StatelessWidget {
                     child: Text(
                       name,
                       style: TextStyle(
-                        color: Color(0xff363636),
+                        color: Color(0xff7B7171),
                         fontSize: 17,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.w700,
@@ -56,10 +68,12 @@ class DoctorCard extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 10),
+                    width: size.width * 0.5,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          speciality,
+                          "Khoa " + speciality.toLowerCase(),
                           style: TextStyle(
                             color: Color(0xffababab),
                             fontFamily: 'Roboto',
@@ -67,15 +81,13 @@ class DoctorCard extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          margin:
-                              EdgeInsets.only(top: 3, left: size.width * 0.25),
                           child: Row(
                             children: [
                               Container(
                                 child: Text(
                                   "Rating: ",
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: primaryColor,
                                     fontSize: 12,
                                     fontFamily: 'Roboto',
                                   ),
@@ -85,7 +97,7 @@ class DoctorCard extends StatelessWidget {
                                 child: Text(
                                   rating,
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: primaryColor,
                                     fontSize: 12,
                                     fontFamily: 'Roboto',
                                   ),

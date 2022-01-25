@@ -38,4 +38,14 @@ class DateTimeHelpers {
   static Timestamp dateTimeToTimestamp(DateTime datetime) {
     return Timestamp.fromDate(datetime);
   }
+
+  static String dateTimeToDateOfWeek(DateTime datetime) {
+    String dow = DateFormat('EEE').format(datetime);
+    return dow;
+  }
+
+  static bool isBeforeNow(DateTime date) {
+    final now = DateTime.now();
+    return date.isBefore(now);
+  }
 }

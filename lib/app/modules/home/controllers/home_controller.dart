@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_healthcare/app/data/helper/calculate_helpers.dart';
+import 'package:flutter_healthcare/app/data/helper/constants.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
@@ -89,6 +90,8 @@ class HomeController extends GetxController {
   Future loadData() async {
     loading = true;
     user = _auth.currentUser;
+    Constants.myName =
+        (await HelperFunctions.getUserEmailSharedPreference()) ?? '';
     var doctorSnap = await FirebaseFirestore.instance
         .collection('doctors')
         .doc(user!.uid)
@@ -96,7 +99,7 @@ class HomeController extends GetxController {
     if (doctorSnap.exists) {
       var doctor = doctorSnap.data() as Map<String, dynamic>;
       if (!doctor.containsKey('address')) {
-        Get.offAllNamed(Routes.DOCTORINFORMATION, arguments: "isFirst");
+        Get.toNamed(Routes.DOCTORINFORMATION);
         return;
       } else {
         await Get.offAllNamed(Routes.HOME_DOCTOR);
@@ -110,11 +113,11 @@ class HomeController extends GetxController {
       if (userSnap.exists) {
         var user = userSnap.data() as Map<String, dynamic>;
         if (!user.containsKey('address')) {
-          Get.offAllNamed(Routes.USERINFORMATION, arguments: "isFirst");
+          Get.toNamed(Routes.USERINFORMATION);
           return;
         }
       } else {
-        Get.offAllNamed(Routes.CHOOSEROLE);
+        Get.toNamed(Routes.CHOOSEROLE);
         return;
       }
     }

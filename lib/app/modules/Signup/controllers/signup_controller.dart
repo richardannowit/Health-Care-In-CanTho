@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
 import 'package:flutter_healthcare/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -103,6 +104,7 @@ class SignupController extends GetxController {
           .set(userData)
           .then((value) => Get.offAllNamed(Routes.HOME));
       print("Sign up successfully");
+      HelperFunctions.saveUserEmailSharedPreference(this.email);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Get.snackbar("Sign up error!", "The password provided is too weak.",

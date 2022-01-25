@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_healthcare/app/data/helper/storge_helperfunctions.dart';
+import 'package:flutter_healthcare/app/data/models/appointment.dart';
 import 'package:flutter_healthcare/app/data/models/doctor.dart';
 import 'package:flutter_healthcare/app/data/services/auth.dart';
 import 'package:flutter_healthcare/app/data/services/database.dart';
@@ -18,12 +19,21 @@ class HomeDoctorController extends GetxController {
   DoctorModel get doctorProfile => _doctorProfile.value;
   set doctorProfile(value) => _doctorProfile.value = value;
 
+  RxList<AppointmentModel> _appointmentList =
+      new List<AppointmentModel>.empty(growable: true).obs;
+  List<AppointmentModel> get appointmentList => _appointmentList;
+  set appointmentList(value) => _appointmentList.value = value;
+
   Future<DoctorModel> getDoctorProfile() async {
     if (user != null) {
       DoctorModel data = await DatabaseMethods.getDoctorProfiles(user!.uid);
       return data;
     }
     return new DoctorModel();
+  }
+
+  Future<List<AppointmentModel>> getAppointmentList() async {
+    return DatabaseMethods.getAppointmentsOfDoctor(doctorProfile.reference!);
   }
 
   void signOut() {
@@ -36,6 +46,7 @@ class HomeDoctorController extends GetxController {
     loading = true;
     user = _auth.currentUser;
     doctorProfile = await getDoctorProfile();
+    appointmentList = await getAppointmentList();
     loading = false;
   }
 

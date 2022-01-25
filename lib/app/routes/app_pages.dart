@@ -1,3 +1,4 @@
+import 'package:flutter_healthcare/app/modules/doctorinformation/views/doctorinformation_view.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_healthcare/app/modules/Signup/bindings/signup_binding.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_healthcare/app/modules/chooserole/views/chooserole_view.
 import 'package:flutter_healthcare/app/modules/conversation/bindings/conversation_binding.dart';
 import 'package:flutter_healthcare/app/modules/conversation/views/conversation_view.dart';
 import 'package:flutter_healthcare/app/modules/doctorinformation/bindings/doctorinformation_binding.dart';
-import 'package:flutter_healthcare/app/modules/doctorinformation/views/doctorinformation_view.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/bindings/doctorpersionalpage_binding.dart';
 import 'package:flutter_healthcare/app/modules/doctorpersionalpage/views/doctorpersionalpage_view.dart';
 import 'package:flutter_healthcare/app/modules/doctors_list/bindings/doctor_list_binding.dart';
@@ -115,7 +115,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DOCTORINFORMATION,
-      page: () => DoctorinformationView(),
+      page: () => DoctorInformationView(),
       binding: DoctorinformationBinding(),
     ),
     GetPage(
